@@ -100,7 +100,8 @@
  "Dein Projekt hier?": "Your project here?",
  "Du baust etwas Neues und suchst jemanden, der mit anpackt? Lass uns darüber sprechen.": "Building something new and looking for someone to get stuck in? Let’s talk about it.",
  "Das nächste Kapitel": "The next chapter",
- "Es wächst bereits etwas Neues. Bald mehr dazu an dieser Stelle.": "Something new is already growing. More about it here soon."
+ "Es wächst bereits etwas Neues. Bald mehr dazu an dieser Stelle.": "Something new is already growing. More about it here soon.",
+ "Auf LinkedIn vernetzen": "Connect on LinkedIn"
 };
   var META = {
     de: { title: document.title, desc: (document.querySelector('meta[name=description]') || {}).content },

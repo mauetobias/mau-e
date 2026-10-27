@@ -92,6 +92,37 @@
     }
   }
   window.mauDiscover = discover;
+
+  /* Übersicht der gefundenen Geheimnisse (Klick auf den Zähler unten) */
+  var ORDER = ['dot', 'photo', 'logo', 'theme', 'konami', 'console', 'quiz'];
+  var panel = document.createElement('dialog');
+  panel.className = 'egg-panel';
+  panel.setAttribute('aria-labelledby', 'egg-panel-title');
+  document.body.appendChild(panel);
+  function openPanel() {
+    var n = Object.keys(found).length, en = lang() === 'en';
+    var html = '<button type="button" class="egg-close" aria-label="' + (en ? 'Close' : 'Schließen') + '">×</button>' +
+      '<p class="egg-kicker">🌱 ' + n + '/' + TOTAL + '</p>' +
+      '<h3 id="egg-panel-title">' + (en ? 'Your discoveries' : 'Deine Entdeckungen') + '</h3><ul class="egg-list">';
+    ORDER.forEach(function (id) {
+      if (found[id]) {
+        var tx = t(EGGS[id]);
+        html += '<li class="got"><span class="egg-mark" aria-hidden="true">✓</span><div><b></b><p></p></div></li>'.replace('<b></b>', '<b>' + tx[0] + '</b>').replace('<p></p>', '<p>' + tx[1] + '</p>');
+      } else {
+        html += '<li class="locked"><span class="egg-mark" aria-hidden="true">?</span><div><b>' + (en ? 'Not discovered yet' : 'Noch nicht entdeckt') + '</b><p>' + (en ? 'Keep looking. It is somewhere on this page.' : 'Such weiter. Es ist irgendwo auf dieser Seite.') + '</p></div></li>';
+      }
+    });
+    html += '</ul>' + (n === TOTAL ? '<p class="egg-done">' + (en ? 'All found. Respect!' : 'Alles gefunden. Respekt!') + '</p>' : '');
+    panel.innerHTML = html;
+    panel.querySelector('.egg-close').addEventListener('click', function () { panel.close(); });
+    if (panel.showModal) panel.showModal(); else panel.setAttribute('open', '');
+  }
+  panel.addEventListener('click', function (e) { if (e.target === panel) panel.close(); });
+  if (counter) {
+    counter.setAttribute('role', 'button'); counter.setAttribute('tabindex', '0');
+    counter.addEventListener('click', openPanel);
+    counter.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPanel(); } });
+  }
   document.addEventListener('langchange', updateCounter);
   updateCounter();
 

@@ -518,7 +518,28 @@
     .toast-icon { font-size: 1.3rem; line-height: 1.2; }
     .toast strong { display: block; font-size: .98rem; } .toast p { font-size: .88rem; color: var(--light-sage); margin-top: 2px; }
     .leaf-rain { position: fixed; inset: 0; z-index: 150; pointer-events: none; }
-    .egg-counter { font-size: .85rem; color: var(--clay); }
+    .egg-counter { font-size: .85rem; color: var(--clay); cursor: pointer; padding: 4px 10px; border-radius: 999px; transition: background .2s; }
+    .egg-counter:hover, .egg-counter:focus-visible { background: rgba(212,145,63,.14); outline: none; }
+    .egg-panel { margin: auto; border: 0; border-radius: 22px; padding: 30px 28px 26px; width: calc(100% - 32px); max-width: 460px; max-height: 85vh; overflow: auto;
+      background: var(--offwhite); color: var(--charcoal); box-shadow: 0 40px 80px -30px rgba(0,0,0,.6); }
+    .egg-panel::backdrop { background: rgba(31,35,33,.6); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+    .egg-close { position: absolute; top: 12px; right: 16px; background: none; border: 0; font-size: 1.8rem; line-height: 1; color: var(--graphite); cursor: pointer; }
+    .egg-kicker { font-weight: 800; color: var(--clay-deep); letter-spacing: .06em; }
+    .egg-panel h3 { font-family: var(--serif); font-size: 1.6rem; margin: 2px 0 16px; }
+    .egg-list { list-style: none; display: grid; gap: 10px; }
+    .egg-list li { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 14px; background: #fff; }
+    .egg-list b { font-size: .98rem; } .egg-list p { font-size: .86rem; color: var(--graphite); margin-top: 2px; }
+    .egg-mark { flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: .85rem; background: var(--clay); color: var(--charcoal); }
+    .egg-list li.locked { background: transparent; border: 1.5px dashed #D3CBBE; }
+    .egg-list li.locked .egg-mark { background: #E6E0D5; color: var(--graphite); }
+    .egg-list li.locked b { color: var(--graphite); }
+    .egg-done { margin-top: 16px; font-weight: 700; color: var(--clay-deep); text-align: center; }
+    [data-theme="dark"] .egg-panel { background: var(--surf); color: var(--ink); }
+    [data-theme="dark"] .egg-list li { background: var(--bg); } [data-theme="dark"] .egg-list p, [data-theme="dark"] .egg-close { color: var(--soft); }
+    [data-theme="dark"] .egg-list li.locked { background: transparent; border-color: var(--line); }
+    [data-theme="dark"] .egg-list li.locked .egg-mark { background: var(--line); color: var(--soft); }
+    [data-theme="dark"] .egg-list li.locked b { color: var(--soft); }
+    [data-theme="dark"] .egg-kicker, [data-theme="dark"] .egg-done { color: var(--amber); }
     .egg-counter.all { font-weight: 700; }
     footer .wrap { align-items: center; }
 
@@ -930,7 +951,7 @@
   <footer>
     <div class="wrap">
       <span>© 2026 Tobias Maue</span>
-      <span class="egg-counter" id="egg-counter" hidden title="Auf dieser Seite sind Geheimnisse versteckt"><span aria-hidden="true">🌱</span> <b class="egg-n">0/7</b> <span class="egg-l">Geheimnisse gefunden</span></span>
+      <span class="egg-counter" id="egg-counter" hidden title="Antippen: deine Entdeckungen anzeigen"><span aria-hidden="true">🌱</span> <b class="egg-n">0/7</b> <span class="egg-l">Geheimnisse gefunden</span></span>
       <span class="legal"><a href="datenschutz.html">Datenschutz</a></span>
     </div>
   </footer>
@@ -1200,6 +1221,6 @@
       show(); document.addEventListener('langchange', show);
     })();
   </script>
-  <script src="games.js?v=4"></script>
+  <script src="games.js?v=5"></script>
 </body>
 </html>

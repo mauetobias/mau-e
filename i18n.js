@@ -118,13 +118,32 @@
  "Raum Berlin": "Berlin area",
  "Raum Hamburg": "Hamburg area",
  "Kurze Pause?": "Quick break?",
- "Teste, wie gut du mich nach dem Lesen kennst. Wer gut abschneidet, bekommt einen kleinen Vorteil.": "See how well you know me after reading. Do well and you get a small perk."
+ "Teste, wie gut du mich nach dem Lesen kennst. Wer gut abschneidet, bekommt einen kleinen Vorteil.": "See how well you know me after reading. Do well and you get a small perk.",
+ "Mehr": "More",
+ "Stärken": "Strengths",
+ "Was ich richtig gut kann, und wo sich das gezeigt hat.": "What I am genuinely good at, and where it showed.",
+ "Bedienungsanleitung": "User manual",
+ "Eigenarten, Macken und wie man am besten mit mir zusammenarbeitet.": "Quirks, habits and how to work with me best.",
+ "Privat": "Personal",
+ "Hobbys, Sport und was mir Energie gibt.": "Hobbies, sports and what gives me energy.",
+ "Ziele": "Goals",
+ "Woran ich wachsen will, beruflich und persönlich.": "Where I want to grow, at work and in life.",
+ "Bald": "Soon",
+ "Hier wächst noch was.": "Still growing.",
+ "Diese Seite ist nicht fertig, und das ist Absicht. Nach und nach kommt hier mehr dazu: kleine Projekte, Gedanken und ein paar Dinge über mich, die in keinem Lebenslauf stehen.": "This page is not finished, and that is on purpose. More will be added over time: small projects, thoughts and a few things about me you will not find in any CV.",
+ "Bald mehr über mich": "More about me soon",
+ "Geldfluss im Blick": "Money flow at a glance",
+ "Ein kleines Android-Widget, entstanden aus eigenem Bedarf: damit ich immer weiß, wo ich finanziell gerade stehe, auch wenn Geld zwischen Konten wandert und Abbuchungen erst später kommen.": "A small Android widget, built out of my own need: so I always know where I stand financially, even when money moves between accounts and charges only show up later.",
+ "Download folgt bald": "Download coming soon",
+ "Das nächste Side Project": "The next side project",
+ "Liegt schon im Kopf bereit.": "Already taking shape in my head.",
+ "Zuletzt gewachsen:": "Last grown:"
 };
   var META = {
     de: { title: document.title, desc: (document.querySelector('meta[name=description]') || {}).content },
     en: { title: document.title.replace('Datenschutz', 'Privacy'), desc: 'Tobias Maue. Mechanical engineer, co-founder and builder. Creating something from nothing that moves all of us forward.' }
   };
-  var SEL = 'h1,h2,h3,p,li,a,span,em,button,summary,strong,.section-label,.when,.eyebrow';
+  var SEL = 'h1,h2,h3,h4,p,li,a,span,em,button,summary,strong,.section-label,.when,.eyebrow';
   function apply(lang) {
     document.querySelectorAll(SEL).forEach(function (el) {
       if (el.closest('svg,script,style')) return;

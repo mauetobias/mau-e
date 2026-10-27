@@ -15,6 +15,8 @@
                Tobias
 
                P.S. Ja, die Seite ist von Hand gebaut. Kein Baukasten.
+               P.P.S. Auf der Seite sind 7 Geheimnisse versteckt.
+                      Eines davon hast du gerade fast gefunden: Öffne die Konsole.
 
 -->
 <html lang="de">
@@ -445,6 +447,69 @@
     [data-theme="dark"] .topbar.scrolled { background: rgba(31, 35, 33, .9); }
     @media (max-width: 760px) { [data-theme="dark"] nav ul { background: rgba(31, 35, 33, .97); } }
 
+
+    /* ---------- Quiz ---------- */
+    .quiz { background: var(--offwhite-light); }
+    .quiz-wrap { display: grid; grid-template-columns: 1fr 1.3fr; gap: 56px; align-items: center; }
+    .quiz-intro p { margin-top: 16px; color: var(--graphite); max-width: 380px; }
+    .quiz-box { background: #fff; border-radius: 24px; padding: 30px; min-height: 330px; box-shadow: 0 30px 60px -36px rgba(62,67,65,.55); display: flex; flex-direction: column; justify-content: center; }
+    .quiz-box h3 { font-family: var(--serif); font-size: 1.5rem; line-height: 1.25; color: var(--charcoal); }
+    .quiz-box p { color: var(--graphite); margin-top: 10px; }
+    .quiz-kicker { font-size: .78rem !important; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--clay-deep) !important; margin: 0 0 6px !important; }
+    .quiz-box .btn { margin-top: 22px; align-self: flex-start; background: var(--clay); color: var(--charcoal); border: 0; cursor: pointer; font: inherit; font-weight: 700; }
+    .quiz-box .btn:hover { background: #e3a457; }
+    .quiz-passed { font-weight: 700; color: var(--clay-deep) !important; }
+    .quiz-top { display: flex; justify-content: space-between; font-size: .85rem; font-weight: 700; color: var(--graphite); }
+    .quiz-bar { height: 6px; border-radius: 6px; background: #EEE8DE; margin: 10px 0 20px; overflow: hidden; }
+    .quiz-bar i { display: block; height: 100%; background: var(--clay); border-radius: 6px; transition: width .4s; }
+    .quiz-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+    .quiz-opt { font: inherit; font-weight: 600; text-align: left; padding: 14px 16px; border-radius: 14px; border: 2px solid #E8E2D7; background: var(--offwhite); color: var(--charcoal); cursor: pointer; transition: border-color .2s, background .2s, transform .2s; }
+    .quiz-opt:hover { border-color: var(--clay); transform: translateY(-2px); }
+    .quiz-opt.right { background: #DCE8D3; border-color: #6E9A5B; }
+    .quiz-opt.wrong { background: #F3D9D2; border-color: #C0675A; animation: shake .35s; }
+    @keyframes shake { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+    .quiz-result { text-align: center; }
+    .quiz-result .btn { align-self: center; display: inline-block; text-decoration: none; }
+    .quiz-score { font-family: var(--serif); color: var(--charcoal); }
+    .quiz-score b { font-size: 4.2rem; line-height: 1; } .quiz-score span { font-size: 1.6rem; color: var(--graphite); }
+    .quiz-pct { margin-top: 0 !important; font-weight: 700; color: var(--clay-deep) !important; }
+    .fastlane-card { margin-top: 18px; padding: 14px 16px; border-radius: 14px; background: var(--clay-soft); color: var(--charcoal); text-align: left; }
+    .fastlane-badge { margin-bottom: 16px; padding: 10px 14px; border-radius: 12px; background: var(--clay-soft); color: var(--charcoal); font-weight: 600; font-size: .92rem; }
+    @media (max-width: 820px) {
+      .quiz-wrap { grid-template-columns: 1fr; gap: 28px; text-align: center; }
+      .quiz-intro p { margin-left: auto; margin-right: auto; }
+      .quiz-box { text-align: left; padding: 22px; }
+      .quiz-opts { grid-template-columns: 1fr; }
+    }
+    [data-theme="dark"] .quiz { background: #232926; }
+    [data-theme="dark"] .quiz-intro p, [data-theme="dark"] .quiz-box p, [data-theme="dark"] .quiz-top { color: var(--soft); }
+    [data-theme="dark"] .quiz-box { background: var(--surf); box-shadow: none; }
+    [data-theme="dark"] .quiz-box h3, [data-theme="dark"] .quiz-score { color: var(--ink); }
+    [data-theme="dark"] .quiz-opt { background: var(--bg); border-color: var(--line); color: var(--ink); }
+    [data-theme="dark"] .quiz-opt.right { background: #2F4429; border-color: #6E9A5B; }
+    [data-theme="dark"] .quiz-opt.wrong { background: #4A2B26; border-color: #C0675A; }
+    [data-theme="dark"] .quiz-bar { background: var(--line); }
+    [data-theme="dark"] .fastlane-card, [data-theme="dark"] .fastlane-badge { background: rgba(212,145,63,.16); color: var(--ink); }
+
+    /* ---------- Geheimnisse ---------- */
+    h1 .dot { display: inline-block; transition: transform .25s cubic-bezier(.3,1.6,.5,1); }
+    h1 .dot.sprouted { color: var(--clay); width: .5em; vertical-align: baseline; }
+    h1 .dot.sprouted svg { width: .55em; height: .55em; animation: grow .8s cubic-bezier(.3,1.6,.5,1); transform-origin: bottom; }
+    @keyframes grow { from { transform: scale(0); } }
+    .portrait { cursor: pointer; }
+    .portrait.wiggle { animation: wiggle .5s; }
+    @keyframes wiggle { 20% { transform: rotate(-3deg); } 40% { transform: rotate(3deg); } 60% { transform: rotate(-2deg); } 80% { transform: rotate(1deg); } }
+    .toasts { position: fixed; right: 18px; bottom: 18px; z-index: 200; display: flex; flex-direction: column; gap: 10px; max-width: min(360px, calc(100vw - 36px)); pointer-events: none; }
+    .toast { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 16px; background: var(--charcoal); color: var(--offwhite);
+      box-shadow: 0 20px 40px -18px rgba(0,0,0,.6); border-left: 4px solid var(--clay); transform: translateY(20px); opacity: 0; transition: transform .4s cubic-bezier(.2,.8,.2,1), opacity .4s; }
+    .toast.show { transform: none; opacity: 1; }
+    .toast-icon { font-size: 1.3rem; line-height: 1.2; }
+    .toast strong { display: block; font-size: .98rem; } .toast p { font-size: .88rem; color: var(--light-sage); margin-top: 2px; }
+    .leaf-rain { position: fixed; inset: 0; z-index: 150; pointer-events: none; }
+    .egg-counter { font-size: .85rem; color: var(--clay); }
+    .egg-counter.all { font-weight: 700; }
+    footer .wrap { align-items: center; }
+
     /* Platzhalter sichtbar markieren (vor dem Livegang entfernen) */
     .ph { background: rgba(127, 143, 122, .22); border-bottom: 2px dashed var(--sage); padding: 0 4px; border-radius: 4px; }
     .contact .ph { background: rgba(243, 238, 230, .15); border-color: var(--light-sage); }
@@ -700,6 +765,17 @@
       </div>
     </section>
 
+    <section id="quiz" class="quiz">
+      <div class="wrap quiz-wrap">
+        <div class="quiz-intro">
+          <div class="section-label reveal">Quiz</div>
+          <h2>Kurze Pause?</h2>
+          <p>Teste, wie gut du mich nach dem Lesen kennst. Wer gut abschneidet, bekommt einen kleinen Vorteil.</p>
+        </div>
+        <div class="quiz-box reveal" id="quiz-box"></div>
+      </div>
+    </section>
+
     <section id="contact" class="contact">
       <div class="wrap">
         <div class="intro">
@@ -733,6 +809,7 @@
   <footer>
     <div class="wrap">
       <span>© 2026 Tobias Maue</span>
+      <span class="egg-counter" id="egg-counter" hidden title="Auf dieser Seite sind Geheimnisse versteckt"><span aria-hidden="true">🌱</span> <b class="egg-n">0/7</b> <span class="egg-l">Geheimnisse gefunden</span></span>
       <span class="legal"><a href="datenschutz.html">Datenschutz</a></span>
     </div>
   </footer>
@@ -989,6 +1066,7 @@
       els.forEach(function (e, i) { e.style.transitionDelay = (e.classList.contains('card') || e.classList.contains('stat') ? (i % 4) * 90 : 0) + 'ms'; io.observe(e); });
     })();
   </script>
-  <script src="i18n.js?v=6"></script>
+  <script src="i18n.js?v=7"></script>
+  <script src="games.js?v=1"></script>
 </body>
 </html>

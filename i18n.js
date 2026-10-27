@@ -116,7 +116,9 @@
  "Südhessen": "Southern Hesse",
  "Mainz &amp; Wiesbaden": "Mainz &amp; Wiesbaden",
  "Raum Berlin": "Berlin area",
- "Raum Hamburg": "Hamburg area"
+ "Raum Hamburg": "Hamburg area",
+ "Kurze Pause?": "Quick break?",
+ "Teste, wie gut du mich nach dem Lesen kennst. Wer gut abschneidet, bekommt einen kleinen Vorteil.": "See how well you know me after reading. Do well and you get a small perk."
 };
   var META = {
     de: { title: document.title, desc: (document.querySelector('meta[name=description]') || {}).content },

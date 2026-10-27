@@ -1,0 +1,1 @@
+{ "name": "Tobias Maue", "short_name": "mau-e", "icons": [ { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }, { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" } ], "theme_color": "#5F6F63", "background_color": "#F3EEE6", "display": "browser" }

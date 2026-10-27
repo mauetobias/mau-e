@@ -22,7 +22,7 @@
     el.querySelector('p').textContent = text;
     toastBox.appendChild(el);
     requestAnimationFrame(function () { el.classList.add('show'); });
-    setTimeout(function () { el.classList.remove('show'); setTimeout(function () { el.remove(); }, 500); }, 5200);
+    setTimeout(function () { el.classList.remove('show'); setTimeout(function () { el.remove(); }, 500); }, Math.max(5200, text.length * 55));
   }
 
   /* ---------------- Blätterregen ---------------- */
@@ -57,7 +57,7 @@
   var EGGS = {
     dot:    { de: ['Aus einem Punkt wird etwas', 'So fängt alles an: klein, unscheinbar und dann wächst es.'], en: ['A dot becomes something', 'That is how it starts: small, easy to miss, and then it grows.'] },
     photo:  { de: ['Ertappt', 'Ja, das bin wirklich ich. Und ja, ich lache meistens so.'], en: ['Caught', 'Yes, that is really me. And yes, I usually laugh like that.'] },
-    logo:   { de: ['mau-e entschlüsselt', 'Ganz einfach: mein Nachname Maue, mit einem Bindestrich für die Optik.'], en: ['mau-e decoded', 'Simple: my last name Maue, with a hyphen for looks.'] },
+    logo:   { de: ['mau-e entschlüsselt', 'Eigentlich heiße ich Maué: ein französischer Name, bei dem das é am Ende betont wird. In meiner Geburtsurkunde wurde der Akzent vergessen. Der Bindestrich in mau-e holt ihn sich zurück.'], en: ['mau-e decoded', 'My name is actually Maué: a French name with a stressed é at the end. The accent got lost on my birth certificate. The hyphen in mau-e brings it back.'] },
     theme:  { de: ['Hell, dunkel, hell …', 'Entscheidungsfreude ist eine Stärke. Meistens.'], en: ['Light, dark, light …', 'Decisiveness is a strength. Most of the time.'] },
     konami: { de: ['Old School!', 'Wer den Konami Code kennt, hat Geschichte. Respekt.'], en: ['Old school!', 'If you know the Konami Code, you have history. Respect.'] },
     console:{ de: ['Hallo zurück', 'Du hast die Konsole gefunden. Ich mag Leute, die unter die Haube schauen.'], en: ['Hello back', 'You found the console. I like people who look under the hood.'] },

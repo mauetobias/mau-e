@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tobias Maue – Operations &amp; Strategy</title>
+  <title>Tobias Maue</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <meta name="description" content="Tobias Maue – Operations &amp; Strategy. Klarheit, Struktur und langfristiges Denken für sinnvolle Entscheidungen und nachhaltige Projekte.">
+  <meta name="description" content="Tobias Maue – Maschinenbauer, Mitgründer und Aufbauer. Aus dem Nichts etwas schaffen, das uns alle ein Stück weiterbringt.">
   <style>
     :root {
       --offwhite: #F3EEE6;
@@ -48,18 +48,30 @@
     }
     .waves path { filter: drop-shadow(0 -10px 14px rgba(62, 67, 65, .22)); }
 
-    nav {
-      position: relative; z-index: 2;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 26px 0;
-      color: var(--offwhite-light);
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      transition: background .3s, box-shadow .3s, backdrop-filter .3s;
     }
+    .topbar.scrolled {
+      background: rgba(94, 98, 96, .88);
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      box-shadow: 0 6px 24px -12px rgba(62, 67, 65, .6);
+    }
+    nav {
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      padding: 22px 0;
+      color: var(--offwhite-light);
+      transition: padding .3s;
+    }
+    .topbar.scrolled nav { padding: 12px 0; }
+    nav a.active { opacity: 1; box-shadow: 0 2px 0 var(--light-sage); }
+    section { scroll-margin-top: 64px; }
     .logo { font-family: var(--serif); font-weight: 600; font-size: 1.25rem; text-decoration: none; letter-spacing: -.01em; }
     nav ul { list-style: none; display: flex; gap: 28px; }
     nav a { text-decoration: none; font-size: .95rem; font-weight: 500; opacity: .85; transition: opacity .2s; }
     nav a:hover { opacity: 1; }
 
-    .hero-content { position: relative; z-index: 2; padding-top: 110px; max-width: 760px; }
+    .hero-content { position: relative; z-index: 2; padding-top: 190px; max-width: 760px; }
     .eyebrow {
       display: inline-block;
       font-size: .8rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
@@ -111,12 +123,13 @@
 
     .about-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; margin-top: 44px; }
     .portrait {
-      aspect-ratio: 4 / 5; border-radius: var(--radius);
+      aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; margin: 0;
       background: linear-gradient(160deg, var(--light-sage), var(--muted-sage));
       display: grid; place-items: center;
       color: var(--offwhite); font-family: var(--serif); font-size: 4.5rem; font-weight: 600;
       box-shadow: 0 30px 60px -30px rgba(62, 67, 65, .45);
     }
+    .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .about-text p + p { margin-top: 18px; }
 
     .work { background: var(--light-sage); }
@@ -193,23 +206,29 @@
       .waves { height: 170px; }
       .timeline li { grid-template-columns: 1fr; gap: 4px; }
       nav ul { gap: 18px; }
-      .hero-content { padding-top: 64px; }
+      .hero-content { padding-top: 150px; }
       .about-grid { grid-template-columns: 1fr; gap: 36px; }
       .portrait { max-width: 320px; }
       .cards { grid-template-columns: 1fr; }
       section { padding: 72px 0; }
     }
-    @media (max-width: 480px) {
-      nav ul li:not(:last-child) { display: none; }
+    @media (max-width: 560px) {
+      nav { flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px 0; }
+      .topbar.scrolled nav { padding: 8px 0; }
+      nav ul { gap: 16px; overflow-x: auto; max-width: 100%; scrollbar-width: none; }
+      nav ul::-webkit-scrollbar { display: none; }
+      nav a { font-size: .9rem; white-space: nowrap; }
+      .hero-content { padding-top: 150px; }
+      section { scroll-margin-top: 84px; }
     }
   </style>
 </head>
 <body>
 
-  <header class="hero">
+  <div class="topbar" id="topbar">
     <div class="wrap">
       <nav>
-        <a href="#" class="logo">mau-e</a>
+        <a href="#top" class="logo">mau-e</a>
         <ul>
           <li><a href="#about">Über mich</a></li>
           <li><a href="#work">Schwerpunkte</a></li>
@@ -217,10 +236,15 @@
           <li><a href="#contact">Kontakt</a></li>
         </ul>
       </nav>
+    </div>
+  </div>
+
+  <header class="hero" id="top">
+    <div class="wrap">
       <div class="hero-content">
-        <span class="eyebrow">Operations &amp; Strategy · Berlin</span>
+        <span class="eyebrow">Neues aufbauen · Berlin</span>
         <h1>Tobias Maue<span class="dot">.</span></h1>
-        <p class="lead">Klarheit, Struktur und langfristiges Denken – für sinnvolle Entscheidungen und nachhaltige Projekte.</p>
+        <p class="lead">Aus dem Nichts etwas schaffen, das uns alle ein Stück weiterbringt – mit Klarheit, Struktur und langfristigem Denken.</p>
         <div class="cta">
           <a href="#contact" class="btn btn-primary">Kontakt aufnehmen</a>
           <a href="#about" class="btn btn-ghost">Mehr über mich</a>
@@ -239,13 +263,18 @@
     <section id="about">
       <div class="wrap">
         <div class="section-label">Über mich</div>
-        <h2>Ich arbeite dort, wo Dinge konkret werden.</h2>
+        <h2>Ich baue gern Dinge auf, die es vorher nicht gab.</h2>
         <div class="about-grid">
-          <div class="portrait" aria-hidden="true">TM</div>
+          <figure class="portrait">
+            <picture>
+              <source srcset="img/tobias-maue.webp" type="image/webp">
+              <img src="img/tobias-maue.jpg" alt="Tobias Maue" width="1280" height="1600" loading="lazy">
+            </picture>
+          </figure>
           <div class="about-text">
-            <p>Ich bin ein operativer Allrounder mit unternehmerischem Blick – geprägt durch mehrere Jahre in dynamischen, schnell wachsenden Umfeldern. Meine Erfahrung reicht von Operations, Strukturaufbau und Führung bis zur geschäftsnahen Umsetzung in unterschiedlichen Branchen und Reifegraden.</p>
-            <p>Mir sind Substanz, saubere Grundlagen und nachhaltige Umsetzung wichtig. Fortschritt entsteht für mich weniger durch maximale Geschwindigkeit als durch klare Prioritäten und bewusste Entscheidungen.</p>
-            <p>Heute bin ich Mitgründer und geschäftsführender Gesellschafter von CardCircle. Mich interessieren Aufgaben, Projekte und Kooperationen, bei denen Operatives, Business und unternehmerisches Denken sinnvoll zusammenkommen.</p>
+            <p>Angefangen habe ich als Ingenieur: Meinen Bachelor in Maschinenbau habe ich an der DHBW Mannheim gemacht. Danach hat es mich in junge, schnell wachsende Unternehmen gezogen – dorthin, wo Standorte, Teams und Abläufe erst noch entstehen mussten.</p>
+            <p>Genau das ist bis heute mein Ding: aus einer Idee etwas Echtes machen. Strukturen schaffen, Menschen mitnehmen und Schritt für Schritt etwas aufbauen, das trägt. Mich reizt dabei weniger der große, eingefahrene Konzern als das Neue – Projekte, die etwas bewegen und uns alle ein Stück weiterbringen.</p>
+            <p>Gerade bin ich ein bisschen im Wandel und schaue bewusst, wohin es als Nächstes geht. Parallel habe ich CardCircle mitgegründet, ein Event- und Community-Unternehmen rund um Sammelkartenspiele. Wenn du an etwas Neuem baust und jemanden suchst, der anpackt: Lass uns reden.</p>
           </div>
         </div>
       </div>
@@ -254,22 +283,22 @@
     <section id="work" class="work">
       <div class="wrap">
         <div class="section-label">Schwerpunkte</div>
-        <h2>Was ich mitbringe.</h2>
+        <h2>Was mich antreibt.</h2>
         <div class="cards">
           <article class="card">
             <div class="num">01</div>
-            <h3>Operations &amp; Prozesse</h3>
-            <p>Abläufe aufbauen, strukturieren und verbessern – damit das Tagesgeschäft stabil und effizient läuft.</p>
+            <h3>Neues aufbauen</h3>
+            <p>Von der Idee zum funktionierenden Ganzen: neue Standorte, Teams und Projekte an den Start bringen – oft dort, wo es noch keine Vorlage gibt.</p>
           </article>
           <article class="card">
             <div class="num">02</div>
-            <h3>Aufbau &amp; Führung</h3>
-            <p>Neue Standorte und Teams aufbauen, Menschen entwickeln und Verantwortung für regionale Performance übernehmen.</p>
+            <h3>Strukturen schaffen</h3>
+            <p>Klare Abläufe und saubere Grundlagen, damit etwas Neues nicht nur startet, sondern auch langfristig trägt.</p>
           </article>
           <article class="card">
             <div class="num">03</div>
-            <h3>Strategie &amp; Partnerschaften</h3>
-            <p>Datenbasierte Planung, tragfähige Geschäftsmodelle und verlässliche Beziehungen zu Partnern, Städten und Dienstleistern.</p>
+            <h3>Menschen mitnehmen</h3>
+            <p>Teams aufbauen und entwickeln, Partner gewinnen und auf Augenhöhe zusammenarbeiten – denn nichts Gutes entsteht allein.</p>
           </article>
         </div>
       </div>
@@ -278,7 +307,7 @@
     <section id="stations">
       <div class="wrap">
         <div class="section-label">Stationen</div>
-        <h2>Wo ich bisher gewirkt habe.</h2>
+        <h2>Mein Weg bisher.</h2>
         <ol class="timeline">
           <li>
             <span class="when">seit 2025</span>
@@ -312,6 +341,14 @@
               <p>Vom Standortaufbau in Kaiserslautern über die Region Frankfurt bis zur Verantwortung für die regionale Performance im Rhein-Main-Gebiet.</p>
             </div>
           </li>
+          <li>
+            <span class="when">Studium</span>
+            <div>
+              <h3>DHBW Mannheim</h3>
+              <p class="role">Bachelor Maschinenbau</p>
+              <p>Das technische Fundament: analytisch denken, Probleme strukturiert lösen, Dinge zu Ende bauen.</p>
+            </div>
+          </li>
         </ol>
       </div>
     </section>
@@ -320,7 +357,7 @@
       <div class="wrap">
         <div class="section-label">Kontakt</div>
         <h2>Lass uns sprechen.</h2>
-        <p>Für Jobangebote, Projekte oder einfach einen Austausch über Operations und Aufbauarbeit – schreib mir eine Nachricht.</p>
+        <p>Ob spannende neue Aufgabe, ein Projekt im Aufbau oder einfach ein Austausch – schreib mir eine Nachricht.</p>
 
         <form id="contact-form" class="contact-form" action="https://formspree.io/f/maeeokzq" method="POST">
           <div class="row">
@@ -348,6 +385,24 @@
   </footer>
 
   <script>
+    (function () {
+      var bar = document.getElementById('topbar');
+      var onScroll = function () { bar.classList.toggle('scrolled', window.scrollY > 40); };
+      window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+      if ('IntersectionObserver' in window) {
+        var links = {};
+        document.querySelectorAll('nav ul a').forEach(function (a) { links[a.getAttribute('href').slice(1)] = a; });
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting && links[e.target.id]) {
+              Object.values(links).forEach(function (l) { l.classList.remove('active'); });
+              links[e.target.id].classList.add('active');
+            }
+          });
+        }, { rootMargin: '-45% 0px -50% 0px' });
+        document.querySelectorAll('main section').forEach(function (sec) { io.observe(sec); });
+      }
+    })();
     (function () {
       var form = document.getElementById('contact-form');
       if (!form) return;

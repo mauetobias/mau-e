@@ -79,13 +79,27 @@
  "Datenübertragbarkeit (Art. 20 DSGVO)": "Data portability (Art. 20 GDPR)",
  "Widerspruch gegen die Verarbeitung (Art. 21 DSGVO)": "Object to processing (Art. 21 GDPR)",
  "Außerdem können Sie sich bei einer Datenschutz-Aufsichtsbehörde beschweren, zum Beispiel bei der Behörde Ihres Wohnorts.": "You can also lodge a complaint with a data protection supervisory authority, for example the authority where you live.",
- "Stand: Oktober 2026": "Last updated: October 2026"
+ "Stand: Oktober 2026": "Last updated: October 2026",
+ "Gestartet als Maschinenbauer an der DHBW Mannheim, dann ab in junge, schnell wachsende Unternehmen. Dorthin, wo Standorte, Teams und Abläufe erst noch entstehen mussten.": "Trained as a mechanical engineer at DHBW Mannheim, then straight into young, fast growing companies. To the places where locations, teams and processes still had to be built.",
+ "Mein Ding: aus einer Idee etwas Echtes machen. Lieber das Neue als der eingefahrene Konzern. Gerade bin ich im Wandel und schaue bewusst, wohin es als Nächstes geht.": "My thing: turning an idea into something real. The new rather than the established corporation. Right now I am in a phase of change and taking a deliberate look at what comes next.",
+ "Du baust an etwas Neuem und suchst jemanden, der anpackt? <a href=\"#contact\">Lass uns reden.</a>": "Building something new and looking for someone who gets things done? <a href=\"#contact\">Let’s talk.</a>",
+ "Lass uns reden.": "Let’s talk.",
+ "Jahre in Startups und Scale-ups": "years in startups and scale-ups",
+ "Unternehmen mit aufgebaut": "companies helped build",
+ "Regionen verantwortet": "regions led",
+ "Unternehmen mitgegründet": "company co-founded",
+ "Verantwortung": "Ownership",
+ "Klarheit": "Clarity",
+ "Langfristig denken": "Long term thinking",
+ "Magic: The Gathering Events in Mannheim, Heidelberg und der Rhein-Neckar-Region: Drafts, Turniere, Prereleases und Community-Abende. Dazu ein eigener Shop für Karten und Booster.": "Magic: The Gathering events in Mannheim, Heidelberg and the Rhine-Neckar region: drafts, tournaments, prereleases and community nights. Plus our own shop for cards and boosters.",
+ "Meine Aufgaben": "My role",
+ "Ingenieurwesen": "Engineering"
 };
   var META = {
     de: { title: document.title, desc: (document.querySelector('meta[name=description]') || {}).content },
     en: { title: document.title.replace('Datenschutz', 'Privacy'), desc: 'Tobias Maue. Mechanical engineer, co-founder and builder. Creating something from nothing that moves all of us forward.' }
   };
-  var SEL = 'h1,h2,h3,p,li,a,span,button,.section-label,.when,.eyebrow';
+  var SEL = 'h1,h2,h3,p,li,a,span,button,summary,.section-label,.when,.eyebrow';
   function apply(lang) {
     document.querySelectorAll(SEL).forEach(function (el) {
       if (el.closest('svg,script,style')) return;

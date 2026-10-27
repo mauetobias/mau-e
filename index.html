@@ -16,6 +16,9 @@
       --deep-sage: #5F6F63;
       --graphite: #5E6260;
       --charcoal: #3E4341;
+      --clay: #C4744E;
+      --clay-deep: #A85D3A;
+      --clay-soft: #F1DCCD;
       --radius: 22px;
       --max: 1080px;
       --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
@@ -32,6 +35,7 @@
       -webkit-font-smoothing: antialiased;
     }
     a { color: inherit; }
+    html, body { overflow-x: clip; }
     .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
 
     /* ---------- Hero: Graphite oben, Wellen in Sage, darunter Off-White ---------- */
@@ -64,7 +68,7 @@
       transition: padding .3s;
     }
     .topbar.scrolled nav { padding: 12px 0; }
-    nav a.active { opacity: 1; box-shadow: 0 2px 0 var(--light-sage); }
+    nav a.active { opacity: 1; box-shadow: 0 2px 0 var(--clay); }
     section { scroll-margin-top: 64px; }
     .logo { font-family: var(--serif); font-weight: 600; font-size: 1.25rem; text-decoration: none; letter-spacing: -.01em; }
     nav ul { list-style: none; display: flex; gap: 28px; }
@@ -89,7 +93,7 @@
       color: #fff;
       text-shadow: 0 2px 30px rgba(62, 67, 65, .18);
     }
-    h1 .dot { color: var(--offwhite-light); opacity: .7; }
+    h1 .dot { color: var(--clay); }
     .lead {
       margin-top: 26px;
       font-size: clamp(1.1rem, 2.2vw, 1.35rem);
@@ -114,7 +118,7 @@
     .about { padding: 72px 0; }
     .section-label {
       font-size: .8rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
-      color: var(--deep-sage); margin-bottom: 14px;
+      color: var(--clay-deep); margin-bottom: 14px;
     }
     h2 {
       font-family: var(--serif); font-weight: 600;
@@ -136,8 +140,10 @@
     }
     .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .about-text p + p { margin-top: 18px; }
+    .callout { margin-top: 26px !important; padding: 18px 22px; border-radius: 16px; background: var(--clay-soft); color: var(--charcoal); font-weight: 500; border-left: 4px solid var(--clay); }
+    .callout a { color: var(--clay-deep); font-weight: 700; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 
-    .work { background: var(--light-sage); }
+    .work { background: var(--light-sage); padding-bottom: 120px; }
     .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 48px; }
     .card {
       background: var(--offwhite); border-radius: var(--radius);
@@ -174,7 +180,7 @@
       width: 14px; height: 14px; border-radius: 50%;
       background: var(--offwhite); border: 3px solid var(--sage);
     }
-    .timeline li:first-child::before { background: var(--deep-sage); border-color: var(--deep-sage); }
+    .timeline li:first-child::before { background: var(--clay); border-color: var(--clay); box-shadow: 0 0 0 6px rgba(196,116,78,.18); }
     .timeline .when { font-size: .9rem; font-weight: 600; color: var(--deep-sage); padding-top: 2px; }
     .timeline h3 { font-family: var(--serif); font-size: 1.35rem; color: var(--charcoal); line-height: 1.3; }
     .timeline .role { font-weight: 600; color: var(--graphite); margin: 2px 0 8px; font-size: .97rem; }
@@ -205,7 +211,7 @@
 
     [hidden] { display: none !important; }
     /* ---------- Unternehmen / Logo-Laufband ---------- */
-    .ventures { background: var(--offwhite-light); }
+    .ventures { background: var(--offwhite-light); padding-top: 120px; }
     .ventures-intro { margin-top: 14px; color: var(--graphite); max-width: 560px; }
     .marquee { margin-top: 44px; overflow: hidden; padding: 12px 0;
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
@@ -242,7 +248,7 @@
     .vd-actions { display: flex; align-items: center; gap: 20px; margin-top: 24px; flex-wrap: wrap; }
     .vd-insta { color: var(--deep-sage); font-weight: 600; }
     .timeline .links { margin-top: 10px; font-weight: 600; }
-    .timeline .links a { color: var(--deep-sage); }
+    .timeline .links a { color: var(--clay-deep); }
     .venture-dialog .btn { margin-top: 0; background: var(--deep-sage); color: var(--offwhite); }
     .venture-dialog .btn:hover { background: var(--charcoal); }
     .timeline .facts { margin: 10px 0 0 18px; color: var(--graphite); }
@@ -275,6 +281,46 @@
       section { padding: 64px 0; }
       .about { padding: 56px 0; }
       footer .wrap { justify-content: center; text-align: center; }
+    }
+
+
+    /* ---------- Zahlen ---------- */
+    .stats { background: var(--deep-sage); padding: 56px 0; color: var(--offwhite); }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center; }
+    .stat-num, .stat-plus { font-family: var(--serif); font-size: clamp(2.6rem, 6vw, 3.6rem); font-weight: 600; line-height: 1; color: var(--clay-soft); }
+    .stat-plus { color: var(--clay); }
+    .stat p { margin-top: 10px; font-size: .95rem; color: var(--light-sage); }
+    @media (max-width: 700px) { .stats-grid { grid-template-columns: 1fr 1fr; gap: 32px 16px; } }
+
+    /* ---------- Karten mit Icons ---------- */
+    .icon { width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; background: var(--clay-soft); color: var(--clay-deep); transition: transform .3s, background .3s, color .3s; }
+    .icon svg { width: 28px; height: 28px; }
+    .card:hover .icon { transform: rotate(-6deg) scale(1.06); background: var(--clay); color: var(--offwhite); }
+    .card h3 { margin-top: 18px; }
+    @media (max-width: 700px) { .icon { margin: 0 auto; } }
+
+    /* ---------- Schlagwort-Laufband ---------- */
+    .ticker { background: var(--clay); color: var(--offwhite); overflow: hidden; padding: 22px 0; transform: rotate(-1.2deg); margin: -14px -10px; position: relative; z-index: 3; box-shadow: 0 12px 30px -18px rgba(62,67,65,.6); }
+    .ticker-track { display: flex; width: max-content; animation: marquee 38s linear infinite; }
+    .ticker-set { display: flex; align-items: center; }
+    .ticker .tw { font-family: var(--serif); font-style: italic; font-size: clamp(1.3rem, 3vw, 1.9rem); white-space: nowrap; padding: 0 22px; }
+    .ticker .sep { color: var(--clay-soft); font-size: 1.1rem; }
+
+    /* ---------- Chips + Details im Werdegang ---------- */
+    .chip { display: inline-block; font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: var(--light-sage); color: var(--charcoal); margin: 4px 0 6px; }
+    .chip.hot { background: var(--clay); color: var(--offwhite); }
+    .timeline details { margin-top: 10px; }
+    .timeline summary { cursor: pointer; font-weight: 600; color: var(--clay-deep); list-style: none; display: inline-flex; align-items: center; gap: 6px; }
+    .timeline summary::-webkit-details-marker { display: none; }
+    .timeline summary::before { content: "+"; display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--clay-soft); font-weight: 700; transition: transform .25s; }
+    .timeline details[open] summary::before { transform: rotate(45deg); }
+
+    /* ---------- Einblenden beim Scrollen ---------- */
+    .js .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+    .js .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .js .reveal { opacity: 1; transform: none; transition: none; }
+      .ticker-track { animation: none; }
     }
 
     /* Platzhalter sichtbar markieren (vor dem Livegang entfernen) */
@@ -382,40 +428,49 @@
     <section id="about" class="about">
       <div class="wrap">
         <div class="about-grid">
-          <figure class="portrait">
+          <figure class="portrait reveal">
             <picture>
               <source srcset="img/tobias-maue.webp?v=4" type="image/webp">
               <img src="img/tobias-maue.jpg?v=4" alt="Tobias Maue" width="1280" height="1600" loading="lazy">
             </picture>
           </figure>
           <div class="about-text">
-            <div class="section-label">Über mich</div>
+            <div class="section-label reveal">Über mich</div>
             <h2>Ich baue gern Dinge auf, die es vorher nicht gab.</h2>
-            <p>Angefangen habe ich als Ingenieur: Meinen Bachelor in Maschinenbau habe ich an der DHBW Mannheim gemacht. Danach hat es mich in junge, schnell wachsende Unternehmen gezogen. Dorthin, wo Standorte, Teams und Abläufe erst noch entstehen mussten.</p>
-            <p>Genau das ist bis heute mein Ding: aus einer Idee etwas Echtes machen. Strukturen schaffen, Menschen mitnehmen und Schritt für Schritt etwas aufbauen, das trägt. Mich reizt dabei weniger der große, eingefahrene Konzern als das Neue: Projekte, die etwas bewegen und uns alle ein Stück weiterbringen.</p>
-            <p>Gerade bin ich ein bisschen im Wandel und schaue bewusst, wohin es als Nächstes geht. Parallel habe ich CardCircle mitgegründet, ein Event- und Community-Unternehmen rund um Sammelkartenspiele. Wenn du an etwas Neuem baust und jemanden suchst, der anpackt: Lass uns reden.</p>
+            <p>Gestartet als Maschinenbauer an der DHBW Mannheim, dann ab in junge, schnell wachsende Unternehmen. Dorthin, wo Standorte, Teams und Abläufe erst noch entstehen mussten.</p>
+            <p>Mein Ding: aus einer Idee etwas Echtes machen. Lieber das Neue als der eingefahrene Konzern. Gerade bin ich im Wandel und schaue bewusst, wohin es als Nächstes geht.</p>
+            <p class="callout">Du baust an etwas Neuem und suchst jemanden, der anpackt? <a href="#contact">Lass uns reden.</a></p>
           </div>
         </div>
       </div>
     </section>
 
+    <section class="stats" aria-label="Kurz in Zahlen">
+      <div class="wrap stats-grid">
+        <div class="stat reveal"><span class="stat-num" data-count="7">7</span><span class="stat-plus">+</span><p>Jahre in Startups und Scale-ups</p></div>
+        <div class="stat reveal"><span class="stat-num" data-count="4">4</span><p>Unternehmen mit aufgebaut</p></div>
+        <div class="stat reveal"><span class="stat-num" data-count="3">3</span><p>Regionen verantwortet</p></div>
+        <div class="stat reveal"><span class="stat-num" data-count="1">1</span><p>Unternehmen mitgegründet</p></div>
+      </div>
+    </section>
+
     <section id="work" class="work">
       <div class="wrap">
-        <div class="section-label">Schwerpunkte</div>
+        <div class="section-label reveal">Schwerpunkte</div>
         <h2>Was mich antreibt.</h2>
         <div class="cards">
-          <article class="card">
-            <div class="num">01</div>
+          <article class="card reveal">
+            <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-8"/><path d="M12 13c0-4 3-7 8-7 0 5-3 8-8 7Z"/><path d="M12 15c0-3-2.5-5.5-7-5.5 0 4 2.5 6 7 5.5Z"/><path d="M8 21h8"/></svg></div>
             <h3>Neues aufbauen</h3>
             <p>Von der Idee zum funktionierenden Ganzen: neue Standorte, Teams und Projekte an den Start bringen. Oft dort, wo es noch keine Vorlage gibt.</p>
           </article>
-          <article class="card">
-            <div class="num">02</div>
+          <article class="card reveal">
+            <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 17.5h7M17.5 14v7"/></svg></div>
             <h3>Strukturen schaffen</h3>
             <p>Klare Abläufe und saubere Grundlagen, damit etwas Neues nicht nur startet, sondern auch langfristig trägt.</p>
           </article>
-          <article class="card">
-            <div class="num">03</div>
+          <article class="card reveal">
+            <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.2c2.9.4 5 2.8 5 5.8"/></svg></div>
             <h3>Menschen mitnehmen</h3>
             <p>Teams aufbauen und entwickeln, Partner gewinnen und auf Augenhöhe zusammenarbeiten. Denn nichts Gutes entsteht allein.</p>
           </article>
@@ -423,9 +478,13 @@
       </div>
     </section>
 
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track"><div class="ticker-set"><span class="tw">Neues aufbauen</span><span class="sep">✦</span><span class="tw">Strukturen schaffen</span><span class="sep">✦</span><span class="tw">Teams</span><span class="sep">✦</span><span class="tw">Community</span><span class="sep">✦</span><span class="tw">Verantwortung</span><span class="sep">✦</span><span class="tw">Klarheit</span><span class="sep">✦</span><span class="tw">Langfristig denken</span><span class="sep">✦</span></div><div class="ticker-set"><span class="tw">Neues aufbauen</span><span class="sep">✦</span><span class="tw">Strukturen schaffen</span><span class="sep">✦</span><span class="tw">Teams</span><span class="sep">✦</span><span class="tw">Community</span><span class="sep">✦</span><span class="tw">Verantwortung</span><span class="sep">✦</span><span class="tw">Klarheit</span><span class="sep">✦</span><span class="tw">Langfristig denken</span><span class="sep">✦</span></div></div>
+    </div>
+
     <section id="ventures" class="ventures">
       <div class="wrap">
-        <div class="section-label">Unternehmen</div>
+        <div class="section-label reveal">Unternehmen</div>
         <h2>Woran ich mitbaue.</h2>
         <p class="ventures-intro">Unternehmen und Projekte, bei denen ich gerade dabei bin. Klick auf ein Logo, um mehr zu erfahren.</p>
       </div>
@@ -448,51 +507,59 @@
 
     <section id="stations">
       <div class="wrap">
-        <div class="section-label">Stationen</div>
+        <div class="section-label reveal">Stationen</div>
         <h2>Mein Weg bisher.</h2>
         <ol class="timeline">
-          <li>
+          <li class="reveal">
             <span class="when">seit 2025</span>
             <div>
+              <span class="chip hot">Community &amp; Events</span>
               <h3>CardCircle</h3>
               <p class="role">Mitgründer &amp; geschäftsführender Gesellschafter</p>
-              <p>CardCircle bringt die Magic: The Gathering Community in Mannheim, Heidelberg und der Rhein-Neckar-Region an einen Tisch. Wir veranstalten Booster Drafts, Sealed-Turniere, Prereleases, Pop-up-Drafts und Community-Abende an wechselnden Orten wie dem Kombinat in Mannheim. Dazu kommt ein eigener Shop für Einzelkarten, Booster und Sealed-Produkte.</p>
+              <p>Magic: The Gathering Events in Mannheim, Heidelberg und der Rhein-Neckar-Region: Drafts, Turniere, Prereleases und Community-Abende. Dazu ein eigener Shop für Karten und Booster.</p>
+              <details>
+                <summary>Meine Aufgaben</summary>
               <ul class="facts">
                 <li>Organisation, Verwaltung und alles Geschäftliche im Hintergrund</li>
                 <li>Partnerschaften mit Locations und Kontakte in die Szene aufbauen und pflegen</li>
                 <li>Neue Events und Formate entwickeln und umsetzen</li>
                 <li>Strukturen schaffen, auf die sich Team und Community verlassen können</li>
               </ul>
+              </details>
               <p class="links"><a href="https://cardcircle.eu" rel="noopener" target="_blank">cardcircle.eu</a> · <a href="https://www.instagram.com/cardcircle" rel="noopener" target="_blank">Instagram</a></p>
             </div>
           </li>
-          <li>
+          <li class="reveal">
             <span class="when">2025 bis 2026</span>
             <div>
+              <span class="chip">Tech</span>
               <h3>Quantune Technologies</h3>
               <p class="role">Office &amp; Operations Manager</p>
               <p>Aufbau interner Office- und Operationsprozesse in einem technologiegetriebenen Wachstumsumfeld.</p>
             </div>
           </li>
-          <li>
+          <li class="reveal">
             <span class="when">2024 bis 2025</span>
             <div>
+              <span class="chip">Climate Tech</span>
               <h3>VARM</h3>
               <p class="role">Operations Manager, Climate Tech</p>
               <p>Mitwirkung beim Aufbau neuer Standorte, Koordination von Baustellen, Lager und Kunden.</p>
             </div>
           </li>
-          <li>
+          <li class="reveal">
             <span class="when">2019 bis 2024</span>
             <div>
+              <span class="chip">Mobility</span>
               <h3>TIER Mobility</h3>
               <p class="role">Operations Manager → Regional Operations Manager Rhein-Main</p>
               <p>Vom Standortaufbau in Kaiserslautern über die Region Frankfurt bis zur Verantwortung für die regionale Performance im Rhein-Main-Gebiet.</p>
             </div>
           </li>
-          <li>
+          <li class="reveal">
             <span class="when">Studium</span>
             <div>
+              <span class="chip">Ingenieurwesen</span>
               <h3>DHBW Mannheim</h3>
               <p class="role">Bachelor Maschinenbau</p>
               <p>Das technische Fundament: analytisch denken, Probleme strukturiert lösen, Dinge zu Ende bauen.</p>
@@ -504,7 +571,7 @@
 
     <section id="contact" class="contact">
       <div class="wrap">
-        <div class="section-label">Kontakt</div>
+        <div class="section-label reveal">Kontakt</div>
         <h2>Lass uns sprechen.</h2>
         <p>Ob spannende neue Aufgabe, ein Projekt im Aufbau oder einfach ein Austausch: Schreib mir eine Nachricht.</p>
 
@@ -646,6 +713,30 @@
       });
     })();
   </script>
-  <script src="i18n.js?v=1"></script>
+  <script>
+    /* Einblenden beim Scrollen + Zahlen hochzählen */
+    (function () {
+      document.documentElement.classList.add('js');
+      var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function countUp(el) {
+        var target = +el.dataset.count, start = null, dur = 1200;
+        if (reduce || target <= 1) { el.textContent = target; return; }
+        function step(t) { if (!start) start = t; var p = Math.min((t - start) / dur, 1); el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); }
+        el.textContent = 0; requestAnimationFrame(step);
+      }
+      var els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('in'); }); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          e.target.classList.add('in');
+          var n = e.target.querySelector('[data-count]'); if (n) countUp(n);
+          io.unobserve(e.target);
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: .12 });
+      els.forEach(function (e, i) { e.style.transitionDelay = (e.classList.contains('card') || e.classList.contains('stat') ? (i % 4) * 90 : 0) + 'ms'; io.observe(e); });
+    })();
+  </script>
+  <script src="i18n.js?v=2"></script>
 </body>
 </html>

@@ -1,7 +1,32 @@
 <!doctype html>
+<!--
+
+        ,
+       /|      Oh, hallo!
+      / |
+     /__|      Verrückt, dass du es bis hierhin geschafft hast.
+        |      Die meisten schauen sich nur die Seite an. Du schaust darunter.
+        |
+    ~~~~~~~~   Genau solche Leute möchte ich kennenlernen.
+
+               Schreib mir einfach über das Kontaktformular auf mau-e.com
+               oder auf LinkedIn: linkedin.com/in/tobiasmaue
+
+               Tobias
+
+               P.S. Ja, die Seite ist von Hand gebaut. Kein Baukasten.
+
+-->
 <html lang="de">
 <head>
   <meta charset="utf-8">
+  <script>
+    (function () {
+      var t = null; try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (!t) t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tobias Maue</title>
   <link rel="icon" href="favicon.svg?v=2" type="image/svg+xml">
@@ -362,6 +387,64 @@
       .js .reveal { opacity: 1; transform: none; transition: none; }
     }
 
+
+    /* ---------- Hell / Dunkel Schalter ---------- */
+    .theme-switch { width: 34px; height: 30px; display: grid; place-items: center; padding: 0; cursor: pointer;
+      color: var(--offwhite); background: rgba(243, 238, 230, .14); border: 1.5px solid rgba(243, 238, 230, .45); border-radius: 999px; transition: background .2s; }
+    .theme-switch:hover { background: rgba(243, 238, 230, .28); }
+    .theme-switch svg { width: 15px; height: 15px; }
+    .theme-switch .sun { display: none; color: var(--clay); }
+    [data-theme="dark"] .theme-switch .moon { display: none; }
+    [data-theme="dark"] .theme-switch .sun { display: block; }
+    .theme-anim, .theme-anim * { transition: background-color .5s ease, color .5s ease, border-color .5s ease, box-shadow .5s ease !important; }
+
+    /* ---------- Dunkles Design ---------- */
+    [data-theme="dark"] { color-scheme: dark; --ink: #ECE7DE; --soft: #B6BEB2; --bg: #1F2321; --surf: #2A302D; --line: #3A433E; --amber: #E2A65A; }
+    [data-theme="dark"] body { background: var(--bg); color: var(--ink); }
+    [data-theme="dark"] .hero { background: linear-gradient(180deg, #252A28 0%, #2A3330 45%, #2F3A34 100%); }
+    [data-theme="dark"] .about { background: var(--bg); box-shadow: 0 -26px 50px -28px rgba(0, 0, 0, calc(var(--p) * .9)); }
+    [data-theme="dark"] h2, [data-theme="dark"] h3, [data-theme="dark"] .timeline h3 { color: var(--ink); }
+    [data-theme="dark"] .about-text p, [data-theme="dark"] .timeline p, [data-theme="dark"] .card p, [data-theme="dark"] .ventures-intro { color: var(--soft); }
+    [data-theme="dark"] .section-label, [data-theme="dark"] .v-role, [data-theme="dark"] .ne-label, [data-theme="dark"] .timeline .cities em { color: var(--amber); }
+    [data-theme="dark"] .callout { background: rgba(212, 145, 63, .13); color: var(--ink); }
+    [data-theme="dark"] .callout a { color: var(--amber); }
+    [data-theme="dark"] .portrait { box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .8); }
+    [data-theme="dark"] .stats { background: #26302A; }
+    [data-theme="dark"] .work { background: #262D29; }
+    [data-theme="dark"] .card { background: var(--surf); box-shadow: none; }
+    [data-theme="dark"] .card h3 { color: var(--ink); }
+    [data-theme="dark"] .icon { background: rgba(212, 145, 63, .16); color: var(--amber); }
+    [data-theme="dark"] .ventures { background: radial-gradient(120% 140% at 85% 0%, #3A4A40 0%, #2A362F 55%, #232D27 100%); }
+    [data-theme="dark"] .venture.main { box-shadow: 0 30px 60px -30px rgba(0,0,0,.8); }
+    [data-theme="dark"] .venture.main { background: var(--surf); color: var(--ink); }
+    [data-theme="dark"] .v-text { color: var(--soft); }
+    [data-theme="dark"] .v-links a { color: var(--soft); }
+    [data-theme="dark"] .next-event { background: rgba(212, 145, 63, .14); }
+    [data-theme="dark"] .ne-title { color: var(--ink); }
+    [data-theme="dark"] .ne-meta { color: var(--soft); }
+    [data-theme="dark"] .ne-btn { background: var(--ink); color: var(--bg); }
+    [data-theme="dark"] .timeline { border-left-color: var(--line); }
+    [data-theme="dark"] .timeline li::before { background: var(--bg); border-color: #6F7E70; }
+    [data-theme="dark"] .timeline li:first-child::before { background: var(--clay); border-color: var(--clay); }
+    [data-theme="dark"] .timeline .when { color: #9FB09C; }
+    [data-theme="dark"] .timeline .role { color: #CDD3C9; }
+    [data-theme="dark"] .chip { background: var(--line); color: #DCE2D6; }
+    [data-theme="dark"] .chip.hot { background: var(--clay); color: #1F2321; }
+    [data-theme="dark"] .timeline .cities span { background: var(--surf); color: #CDD3C9; box-shadow: inset 0 0 0 1px var(--line); }
+    [data-theme="dark"] .timeline summary, [data-theme="dark"] .timeline .links a { color: var(--amber); }
+    [data-theme="dark"] .timeline summary::before { background: rgba(212, 145, 63, .18); }
+    [data-theme="dark"] .timeline .facts { color: var(--soft); }
+    [data-theme="dark"] .contact { background: radial-gradient(60% 70% at 90% 10%, rgba(212,145,63,.16) 0%, transparent 60%), linear-gradient(165deg, #252D28 0%, #1D2220 55%, #161918 100%); }
+    [data-theme="dark"] .night .n1 path { fill: #121514; } [data-theme="dark"] .night .n2 path { fill: #0F1211; }
+    [data-theme="dark"] .contact-card { background: var(--surf); color: var(--ink); }
+    [data-theme="dark"] .contact-form label { color: var(--soft); }
+    [data-theme="dark"] .contact-form input, [data-theme="dark"] .contact-form textarea { background: var(--bg); border-color: var(--line); color: var(--ink); }
+    [data-theme="dark"] .contact-form .form-note { color: var(--soft); }
+    [data-theme="dark"] .contact-form .form-note a { color: var(--amber); }
+    [data-theme="dark"] footer { background: #141716; }
+    [data-theme="dark"] .topbar.scrolled { background: rgba(31, 35, 33, .9); }
+    @media (max-width: 760px) { [data-theme="dark"] nav ul { background: rgba(31, 35, 33, .97); } }
+
     /* Platzhalter sichtbar markieren (vor dem Livegang entfernen) */
     .ph { background: rgba(127, 143, 122, .22); border-bottom: 2px dashed var(--sage); padding: 0 4px; border-radius: 4px; }
     .contact .ph { background: rgba(243, 238, 230, .15); border-color: var(--light-sage); }
@@ -425,6 +508,10 @@
           <li><a href="#contact">Kontakt</a></li>
         </ul>
         <div class="nav-tools">
+          <button type="button" class="theme-switch" id="theme-switch" aria-label="Dunkles Design">
+            <svg class="moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1Z"/></svg>
+            <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor" stroke="none"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg>
+          </button>
           <button type="button" class="lang-switch" id="lang-switch" aria-label="Switch to English">EN</button>
           <button type="button" class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav-links" aria-label="Menü öffnen">
             <span></span><span></span><span></span>
@@ -759,12 +846,19 @@
       var L = [
         { c: '183,192,177', a: .30, y: .62, amp: 34, wl: 900, v: 6,  z: .10 },
         { c: '142,155,140', a: .45, y: .68, amp: 30, wl: 760, v: 11, z: .25 },
-        { c: '127,143,122', a: .65, y: .80, amp: 28, wl: 640, v: 18, z: .42 },
-        { c: '95,111,99',   a: .85, y: .74, amp: 26, wl: 560, v: 28, z: .60 },
+        { c: '127,143,122', a: .65, y: .74, amp: 28, wl: 640, v: 18, z: .42 },
+        { c: '95,111,99',   a: .85, y: .80, amp: 26, wl: 560, v: 28, z: .60 },
         { c: '183,192,177', a: 1,   y: .86, amp: 22, wl: 500, v: 40, z: .78 },
         { c: '239,234,225', a: 1,   y: .915, amp: 18, wl: 460, v: 55, z: .90 },
         { c: '243,238,230', a: 1,   y: .96, amp: 12, wl: 420, v: 72, z: 1   }
       ];
+      var LIGHT = L.map(function (l) { return [l.c, l.a]; });
+      var DARK = [['96,110,100', .28], ['82,96,86', .42], ['70,84,75', .6], ['58,70,63', .8], ['46,55,50', 1], ['37,43,40', 1], ['31,35,33', 1]];
+      function palette() {
+        var d = document.documentElement.getAttribute('data-theme') === 'dark' ? DARK : LIGHT;
+        L.forEach(function (l, i) { l.c = d[i][0]; l.a = d[i][1]; });
+      }
+      palette(); document.addEventListener('themechange', function () { palette(); draw(); });
       L.forEach(function (l, i) { l.p1 = i * 1.7; l.p2 = i * 2.9; });
       var dots = [];
       for (var i = 0; i < 46; i++) dots.push({ x: Math.random(), y: .05 + Math.random() * .78, z: Math.pow(Math.random(), 1.6), ph: Math.random() * 6.3 });
@@ -849,6 +943,26 @@
         requestAnimationFrame(step);
       }
       requestAnimationFrame(step);
+    })();
+  </script>
+  <script>
+    /* Hell / Dunkel umschalten */
+    (function () {
+      var btn = document.getElementById('theme-switch'); if (!btn) return;
+      function label() {
+        var dark = document.documentElement.getAttribute('data-theme') === 'dark', en = window.LANG === 'en';
+        btn.setAttribute('aria-label', dark ? (en ? 'Light mode' : 'Helles Design') : (en ? 'Dark mode' : 'Dunkles Design'));
+        var m = document.querySelector('meta[name=theme-color]'); if (m) m.content = dark ? '#1F2321' : '#5F6F63';
+      }
+      btn.addEventListener('click', function () {
+        var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.classList.add('theme-anim');
+        document.documentElement.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        document.dispatchEvent(new CustomEvent('themechange'));
+        label(); setTimeout(function () { document.documentElement.classList.remove('theme-anim'); }, 600);
+      });
+      document.addEventListener('langchange', label); label();
     })();
   </script>
   <script>

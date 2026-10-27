@@ -78,7 +78,13 @@
       overflow: hidden;
     }
     .hero { min-height: 100vh; min-height: 100svh; padding-bottom: 0; display: flex; flex-direction: column; }
-    .hero > .wrap { position: relative; z-index: 3; flex: 1; width: 100%; }
+    .hero > .wrap { position: relative; z-index: 3; flex: 1; width: 100%; display: flex; flex-direction: column; justify-content: center; padding-top: 70px; padding-bottom: 90px; }
+    .scroll-hint { position: absolute; left: 50%; bottom: 7%; z-index: 3; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: var(--offwhite); text-decoration: none; font-size: .72rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; opacity: .75; transition: opacity .2s; }
+    .scroll-hint:hover { opacity: 1; }
+    .scroll-hint .mouse { width: 24px; height: 38px; border: 2px solid currentColor; border-radius: 14px; position: relative; }
+    .scroll-hint .mouse::after { content: ""; position: absolute; left: 50%; top: 7px; width: 4px; height: 8px; margin-left: -2px; border-radius: 2px; background: var(--clay); animation: wheel 1.8s ease-in-out infinite; }
+    @keyframes wheel { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(12px); opacity: 0; } 100% { opacity: 0; } }
     /* Lebendiger Hintergrund: weiche Farbflächen aus der Palette, die langsam ineinanderfließen */
     #depth { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; pointer-events: none; }
     .hero-fade { position: absolute; left: 0; right: 0; bottom: 0; height: 18%; z-index: 2; pointer-events: none;
@@ -117,7 +123,7 @@
     nav a { text-decoration: none; font-size: .95rem; font-weight: 500; opacity: .85; transition: opacity .2s; }
     nav a:hover { opacity: 1; }
 
-    .hero-content { position: relative; z-index: 3; padding-top: 22vh; max-width: 760px; }
+    .hero-content { position: relative; z-index: 3; max-width: 760px; }
     .eyebrow {
       display: inline-flex; align-items: center; gap: 12px;
       font-family: var(--serif); font-style: italic; font-size: clamp(1.15rem, 2.4vw, 1.45rem);
@@ -215,6 +221,8 @@
     .night .ridge { --rh: 100%; }
     .night .n1 { --dur: 240s; opacity: .35; } .night .n2 { --dur: 160s; opacity: .6; }
     @media (max-width: 820px) {
+      .contact { padding: 72px 0 64px; }
+      .night { display: none; }
       .contact .wrap { grid-template-columns: 1fr; gap: 32px; text-align: center; }
       .contact .intro p { margin-left: auto; margin-right: auto; }
       .contact-card { text-align: left; padding: 22px; }
@@ -324,6 +332,13 @@
 
     /* ---------- Handy: zentriert und aufgeräumt ---------- */
     @media (max-width: 700px) {
+      .hero { min-height: 92svh; }
+      .hero > .wrap { padding-top: 64px; padding-bottom: 110px; }
+      .eyebrow { margin-bottom: 6px; }
+      h1 { font-size: clamp(3rem, 13vw, 4rem); }
+      .lead { margin-top: 18px; }
+      .cta { margin-top: 30px; flex-direction: column; align-items: center; gap: 12px; }
+      .scroll-hint { bottom: 5%; }
       body { font-size: 16px; }
       .wrap { padding: 0 20px; }
       nav { align-items: center; }
@@ -344,7 +359,8 @@
       .timeline li { padding-left: 24px; }
       section { padding: 64px 0; }
       .about { padding: 56px 0; }
-      footer .wrap { justify-content: center; text-align: center; }
+      footer .wrap { flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 6px; }
+      footer { padding: 22px 0 28px; }
     }
 
 
@@ -567,7 +583,6 @@
 
       .timeline li { grid-template-columns: 1fr; gap: 4px; }
       nav ul { gap: 18px; }
-      .hero-content { padding-top: 150px; }
       .about-grid { grid-template-columns: 1fr; gap: 36px; }
       .portrait { width: min(300px, 78vw); margin: 0 auto; }
       .cards { grid-template-columns: 1fr; }
@@ -603,7 +618,6 @@
       nav ul.open { display: flex; }
       nav ul a { display: block; padding: 12px 24px; font-size: 1.05rem; }
       nav a.active { box-shadow: none; text-decoration: underline; text-underline-offset: 6px; }
-      .hero-content { padding-top: 140px; }
       section { scroll-margin-top: 64px; }
     }
   </style>
@@ -651,6 +665,7 @@
         </div>
       </div>
     </div>
+    <a href="#about" class="scroll-hint" aria-label="Nach unten scrollen"><span class="mouse" aria-hidden="true"></span><span>Scroll</span></a>
   </header>
 
   <main>
@@ -1130,6 +1145,31 @@
         label(); setTimeout(function () { document.documentElement.classList.remove('theme-anim'); }, 600);
       });
       document.addEventListener('langchange', label); label();
+    })();
+  </script>
+  <script>
+    /* Laufband: fährt nach links, beim Hochscrollen bremst es weich ab und fährt nach rechts */
+    (function () {
+      var tr = document.querySelector('.ticker-track'); if (!tr) return;
+      tr.style.animation = 'none';
+      var SPEED = 45, x = 0, v = -SPEED, dir = -1, lastY = window.scrollY, last = 0;
+      function onScroll() {
+        var y = window.scrollY, dy = y - lastY; lastY = y;
+        if (dy > 2) dir = -1; else if (dy < -2) dir = 1;
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('touchmove', onScroll, { passive: true });
+      function step(now) {
+        var dt = last ? Math.min((now - last) / 1000, .05) : 0; last = now;
+        var target = dir * SPEED, maxChange = SPEED * 0.9 * dt;   /* ca. 2 Sekunden für einen Richtungswechsel */
+        v += Math.max(-maxChange, Math.min(maxChange, target - v));
+        x += v * dt;
+        var half = tr.scrollWidth / 2;
+        if (half) { while (x <= -half) x += half; while (x > 0) x -= half; }
+        tr.style.transform = 'translate3d(' + x.toFixed(1) + 'px,0,0)';
+        requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
     })();
   </script>
   <script>

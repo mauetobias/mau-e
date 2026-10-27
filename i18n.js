@@ -93,13 +93,20 @@
  "Langfristig denken": "Long term thinking",
  "Magic: The Gathering Events in Mannheim, Heidelberg und der Rhein-Neckar-Region: Drafts, Turniere, Prereleases und Community-Abende. Dazu ein eigener Shop für Karten und Booster.": "Magic: The Gathering events in Mannheim, Heidelberg and the Rhine-Neckar region: drafts, tournaments, prereleases and community nights. Plus our own shop for cards and boosters.",
  "Meine Aufgaben": "My role",
- "Ingenieurwesen": "Engineering"
+ "Ingenieurwesen": "Engineering",
+ "Unternehmen und Projekte, bei denen ich gerade dabei bin.": "Companies and projects I am currently involved in.",
+ "Magic: The Gathering Events und Community in der Rhein-Neckar-Region.": "Magic: The Gathering events and community in the Rhine-Neckar region.",
+ "Nächstes Event": "Next event",
+ "Dein Projekt hier?": "Your project here?",
+ "Du baust etwas Neues und suchst jemanden, der mit anpackt? Lass uns darüber sprechen.": "Building something new and looking for someone to get stuck in? Let’s talk about it.",
+ "Das nächste Kapitel": "The next chapter",
+ "Es wächst bereits etwas Neues. Bald mehr dazu an dieser Stelle.": "Something new is already growing. More about it here soon."
 };
   var META = {
     de: { title: document.title, desc: (document.querySelector('meta[name=description]') || {}).content },
     en: { title: document.title.replace('Datenschutz', 'Privacy'), desc: 'Tobias Maue. Mechanical engineer, co-founder and builder. Creating something from nothing that moves all of us forward.' }
   };
-  var SEL = 'h1,h2,h3,p,li,a,span,button,summary,.section-label,.when,.eyebrow';
+  var SEL = 'h1,h2,h3,p,li,a,span,button,summary,strong,.section-label,.when,.eyebrow';
   function apply(lang) {
     document.querySelectorAll(SEL).forEach(function (el) {
       if (el.closest('svg,script,style')) return;

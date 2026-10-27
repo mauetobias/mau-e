@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tobias Maue</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <meta name="description" content="Tobias Maue – Maschinenbauer, Mitgründer und Aufbauer. Aus dem Nichts etwas schaffen, das uns alle ein Stück weiterbringt.">
+  <meta name="description" content="Tobias Maue. Maschinenbauer, Mitgründer und Aufbauer. Aus dem Nichts etwas schaffen, das uns alle ein Stück weiterbringt.">
   <style>
     :root {
       --offwhite: #F3EEE6;
@@ -197,6 +197,53 @@
     .contact .alt { margin-top: 40px; font-size: .95rem; }
     @media (max-width: 600px) { .contact-form .row { grid-template-columns: 1fr; gap: 0; } }
 
+
+    [hidden] { display: none !important; }
+    /* ---------- Unternehmen / Logo-Laufband ---------- */
+    .ventures { background: var(--offwhite-light); }
+    .ventures-intro { margin-top: 14px; color: var(--graphite); max-width: 560px; }
+    .marquee { margin-top: 44px; overflow: hidden; padding: 12px 0;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+              mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+    .marquee-track { display: flex; gap: 22px; width: max-content; }
+    .marquee.static .marquee-track { width: auto; justify-content: center; flex-wrap: wrap; padding: 0 24px; }
+    .marquee.moving .marquee-track { animation: marquee var(--marquee-dur, 40s) linear infinite; }
+    .marquee.moving:hover .marquee-track { animation-play-state: paused; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+    .logo-tile {
+      flex: 0 0 auto; width: 230px; height: 120px;
+      display: grid; place-items: center; padding: 22px;
+      background: var(--offwhite); border: 0; border-radius: var(--radius); cursor: pointer;
+      font: inherit; color: var(--charcoal);
+      box-shadow: 0 10px 30px -22px rgba(62, 67, 65, .6);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .logo-tile:hover, .logo-tile:focus-visible { transform: translateY(-4px); box-shadow: 0 20px 40px -24px rgba(62, 67, 65, .7); outline: none; }
+    .logo-tile img { max-width: 100%; max-height: 64px; object-fit: contain; filter: grayscale(1) opacity(.75); transition: filter .25s; }
+    .logo-tile:hover img { filter: none; }
+    .logo-tile .wordmark { font-family: var(--serif); font-weight: 600; font-size: 1.5rem; letter-spacing: -.01em; color: var(--deep-sage); }
+    .venture-dialog {
+      margin: auto; border: 0; border-radius: var(--radius); padding: 40px 36px 36px; max-width: 520px; width: calc(100% - 32px);
+      background: var(--offwhite); color: var(--charcoal);
+      box-shadow: 0 40px 80px -30px rgba(62, 67, 65, .6);
+    }
+    .venture-dialog::backdrop { background: rgba(62, 67, 65, .55); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+    .vd-close { position: absolute; top: 14px; right: 18px; background: none; border: 0; font-size: 1.8rem; line-height: 1; color: var(--graphite); cursor: pointer; }
+    .vd-logo { margin-bottom: 18px; }
+    .vd-logo img { max-height: 56px; max-width: 200px; }
+    .vd-logo .wordmark { font-family: var(--serif); font-weight: 600; font-size: 1.6rem; color: var(--deep-sage); }
+    .venture-dialog h3 { font-family: var(--serif); font-size: 1.6rem; }
+    .vd-role { font-weight: 600; color: var(--sage); margin: 2px 0 14px; }
+    .venture-dialog p { color: var(--graphite); }
+    .venture-dialog .btn { margin-top: 24px; background: var(--deep-sage); color: var(--offwhite); }
+    .venture-dialog .btn:hover { background: var(--charcoal); }
+    .timeline .facts { margin: 10px 0 0 18px; color: var(--graphite); }
+    .timeline .facts li { padding: 0; display: list-item; margin-bottom: 4px; }
+    .timeline .facts li::before { content: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .marquee.moving .marquee-track { animation: none; }
+    }
+
     /* Platzhalter sichtbar markieren (vor dem Livegang entfernen) */
     .ph { background: rgba(127, 143, 122, .22); border-bottom: 2px dashed var(--sage); padding: 0 4px; border-radius: 4px; }
     .contact .ph { background: rgba(243, 238, 230, .15); border-color: var(--light-sage); }
@@ -232,6 +279,7 @@
         <ul>
           <li><a href="#about">Über mich</a></li>
           <li><a href="#work">Schwerpunkte</a></li>
+          <li><a href="#ventures">Unternehmen</a></li>
           <li><a href="#stations">Stationen</a></li>
           <li><a href="#contact">Kontakt</a></li>
         </ul>
@@ -244,18 +292,26 @@
       <div class="hero-content">
         <span class="eyebrow">Neues aufbauen · Berlin</span>
         <h1>Tobias Maue<span class="dot">.</span></h1>
-        <p class="lead">Aus dem Nichts etwas schaffen, das uns alle ein Stück weiterbringt – mit Klarheit, Struktur und langfristigem Denken.</p>
+        <p class="lead">Aus dem Nichts etwas schaffen, das uns alle ein Stück weiterbringt. Mit Klarheit, Struktur und langfristigem Denken.</p>
         <div class="cta">
           <a href="#contact" class="btn btn-primary">Kontakt aufnehmen</a>
           <a href="#about" class="btn btn-ghost">Mehr über mich</a>
         </div>
       </div>
     </div>
-    <svg class="waves" viewBox="0 0 1440 340" preserveAspectRatio="none" aria-hidden="true">
-      <path fill="#8E9B8C" d="M0,120 C180,40 360,30 560,90 C760,150 900,60 1080,40 C1240,22 1350,70 1440,90 L1440,340 L0,340 Z"/>
-      <path fill="#B7C0B1" d="M0,170 C160,120 330,110 520,160 C720,212 880,140 1060,110 C1230,82 1350,130 1440,150 L1440,340 L0,340 Z"/>
-      <path fill="#EFEAE1" d="M0,240 C200,190 380,200 580,240 C780,280 940,220 1120,200 C1270,184 1370,215 1440,230 L1440,340 L0,340 Z"/>
-      <path fill="#F3EEE6" d="M0,295 C220,265 420,275 640,300 C860,325 1040,285 1220,280 C1330,277 1400,288 1440,295 L1440,340 L0,340 Z"/>
+    <svg class="waves" id="waves" viewBox="0 0 1440 340" preserveAspectRatio="none" aria-hidden="true">
+      <path fill="#8E9B8C" d="M0,120 C180,40 360,30 560,90 C760,150 900,60 1080,40 C1240,22 1350,70 1440,90 L1440,340 L0,340 Z">
+        <animate attributeName="d" dur="19s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.33;0.66;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1" values="M0,120 C180,40 360,30 560,90 C760,150 900,60 1080,40 C1240,22 1350,70 1440,90 L1440,340 L0,340 Z;M0,100 C200,60 380,50 580,105 C770,155 920,80 1100,55 C1250,38 1360,60 1440,80 L1440,340 L0,340 Z;M0,135 C170,55 350,45 545,80 C750,135 890,50 1065,30 C1230,15 1340,80 1440,100 L1440,340 L0,340 Z;M0,120 C180,40 360,30 560,90 C760,150 900,60 1080,40 C1240,22 1350,70 1440,90 L1440,340 L0,340 Z"/>
+      </path>
+      <path fill="#B7C0B1" d="M0,170 C160,120 330,110 520,160 C720,212 880,140 1060,110 C1230,82 1350,130 1440,150 L1440,340 L0,340 Z">
+        <animate attributeName="d" dur="15s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.33;0.66;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1" values="M0,170 C160,120 330,110 520,160 C720,212 880,140 1060,110 C1230,82 1350,130 1440,150 L1440,340 L0,340 Z;M0,160 C180,130 350,125 540,170 C730,215 900,155 1080,125 C1240,100 1360,120 1440,140 L1440,340 L0,340 Z;M0,180 C150,110 320,100 505,150 C710,205 865,130 1045,100 C1220,70 1340,140 1440,160 L1440,340 L0,340 Z;M0,170 C160,120 330,110 520,160 C720,212 880,140 1060,110 C1230,82 1350,130 1440,150 L1440,340 L0,340 Z"/>
+      </path>
+      <path fill="#EFEAE1" d="M0,240 C200,190 380,200 580,240 C780,280 940,220 1120,200 C1270,184 1370,215 1440,230 L1440,340 L0,340 Z">
+        <animate attributeName="d" dur="12s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.33;0.66;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1" values="M0,240 C200,190 380,200 580,240 C780,280 940,220 1120,200 C1270,184 1370,215 1440,230 L1440,340 L0,340 Z;M0,232 C210,200 400,210 600,248 C790,282 955,232 1135,212 C1280,196 1375,210 1440,222 L1440,340 L0,340 Z;M0,248 C190,182 365,192 565,232 C770,276 925,210 1105,190 C1260,174 1365,222 1440,238 L1440,340 L0,340 Z;M0,240 C200,190 380,200 580,240 C780,280 940,220 1120,200 C1270,184 1370,215 1440,230 L1440,340 L0,340 Z"/>
+      </path>
+      <path fill="#F3EEE6" d="M0,295 C220,265 420,275 640,300 C860,325 1040,285 1220,280 C1330,277 1400,288 1440,295 L1440,340 L0,340 Z">
+        <animate attributeName="d" dur="10s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.33;0.66;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1" values="M0,295 C220,265 420,275 640,300 C860,325 1040,285 1220,280 C1330,277 1400,288 1440,295 L1440,340 L0,340 Z;M0,292 C230,270 430,280 650,302 C870,324 1050,290 1230,284 C1335,281 1402,289 1440,293 L1440,340 L0,340 Z;M0,298 C210,262 410,270 630,297 C850,324 1030,282 1210,276 C1325,273 1398,286 1440,297 L1440,340 L0,340 Z;M0,295 C220,265 420,275 640,300 C860,325 1040,285 1220,280 C1330,277 1400,288 1440,295 L1440,340 L0,340 Z"/>
+      </path>
     </svg>
   </header>
 
@@ -272,8 +328,8 @@
             </picture>
           </figure>
           <div class="about-text">
-            <p>Angefangen habe ich als Ingenieur: Meinen Bachelor in Maschinenbau habe ich an der DHBW Mannheim gemacht. Danach hat es mich in junge, schnell wachsende Unternehmen gezogen – dorthin, wo Standorte, Teams und Abläufe erst noch entstehen mussten.</p>
-            <p>Genau das ist bis heute mein Ding: aus einer Idee etwas Echtes machen. Strukturen schaffen, Menschen mitnehmen und Schritt für Schritt etwas aufbauen, das trägt. Mich reizt dabei weniger der große, eingefahrene Konzern als das Neue – Projekte, die etwas bewegen und uns alle ein Stück weiterbringen.</p>
+            <p>Angefangen habe ich als Ingenieur: Meinen Bachelor in Maschinenbau habe ich an der DHBW Mannheim gemacht. Danach hat es mich in junge, schnell wachsende Unternehmen gezogen. Dorthin, wo Standorte, Teams und Abläufe erst noch entstehen mussten.</p>
+            <p>Genau das ist bis heute mein Ding: aus einer Idee etwas Echtes machen. Strukturen schaffen, Menschen mitnehmen und Schritt für Schritt etwas aufbauen, das trägt. Mich reizt dabei weniger der große, eingefahrene Konzern als das Neue: Projekte, die etwas bewegen und uns alle ein Stück weiterbringen.</p>
             <p>Gerade bin ich ein bisschen im Wandel und schaue bewusst, wohin es als Nächstes geht. Parallel habe ich CardCircle mitgegründet, ein Event- und Community-Unternehmen rund um Sammelkartenspiele. Wenn du an etwas Neuem baust und jemanden suchst, der anpackt: Lass uns reden.</p>
           </div>
         </div>
@@ -288,7 +344,7 @@
           <article class="card">
             <div class="num">01</div>
             <h3>Neues aufbauen</h3>
-            <p>Von der Idee zum funktionierenden Ganzen: neue Standorte, Teams und Projekte an den Start bringen – oft dort, wo es noch keine Vorlage gibt.</p>
+            <p>Von der Idee zum funktionierenden Ganzen: neue Standorte, Teams und Projekte an den Start bringen. Oft dort, wo es noch keine Vorlage gibt.</p>
           </article>
           <article class="card">
             <div class="num">02</div>
@@ -298,11 +354,31 @@
           <article class="card">
             <div class="num">03</div>
             <h3>Menschen mitnehmen</h3>
-            <p>Teams aufbauen und entwickeln, Partner gewinnen und auf Augenhöhe zusammenarbeiten – denn nichts Gutes entsteht allein.</p>
+            <p>Teams aufbauen und entwickeln, Partner gewinnen und auf Augenhöhe zusammenarbeiten. Denn nichts Gutes entsteht allein.</p>
           </article>
         </div>
       </div>
     </section>
+
+    <section id="ventures" class="ventures">
+      <div class="wrap">
+        <div class="section-label">Unternehmen</div>
+        <h2>Woran ich mitbaue.</h2>
+        <p class="ventures-intro">Unternehmen und Projekte, bei denen ich gerade dabei bin. Klick auf ein Logo, um mehr zu erfahren.</p>
+      </div>
+      <div class="marquee" id="marquee">
+        <div class="marquee-track" id="marquee-track"></div>
+      </div>
+    </section>
+
+    <dialog class="venture-dialog" id="venture-dialog" aria-labelledby="vd-name">
+      <button class="vd-close" type="button" aria-label="Schließen">×</button>
+      <div class="vd-logo" id="vd-logo"></div>
+      <h3 id="vd-name"></h3>
+      <p class="vd-role" id="vd-role"></p>
+      <p id="vd-text"></p>
+      <a class="btn btn-primary" id="vd-link" target="_blank" rel="noopener">Zur Website</a>
+    </dialog>
 
     <section id="stations">
       <div class="wrap">
@@ -314,11 +390,17 @@
             <div>
               <h3>CardCircle</h3>
               <p class="role">Mitgründer &amp; geschäftsführender Gesellschafter</p>
-              <p>TCG-Event- und Community-Unternehmen. Verantwortlich für Organisation, Partnerschaften und geschäftsnahe Themen.</p>
+              <p>CardCircle bringt Menschen rund um Sammelkartenspiele zusammen: mit Events, Turnieren und einer Community, die über einzelne Spieltage hinaus trägt. Ich habe das Unternehmen mitgegründet und baue es seitdem Schritt für Schritt mit auf.</p>
+              <ul class="facts">
+                <li>Organisation, Verwaltung und alles Geschäftliche im Hintergrund</li>
+                <li>Partnerschaften und Kontakte aufbauen und pflegen</li>
+                <li>Neue Events und Formate entwickeln und umsetzen</li>
+                <li>Strukturen schaffen, auf die sich Team und Community verlassen können</li>
+              </ul>
             </div>
           </li>
           <li>
-            <span class="when">2025 – 2026</span>
+            <span class="when">2025 bis 2026</span>
             <div>
               <h3>Quantune Technologies</h3>
               <p class="role">Office &amp; Operations Manager</p>
@@ -326,15 +408,15 @@
             </div>
           </li>
           <li>
-            <span class="when">2024 – 2025</span>
+            <span class="when">2024 bis 2025</span>
             <div>
               <h3>VARM</h3>
-              <p class="role">Operations Manager – Climate Tech</p>
+              <p class="role">Operations Manager, Climate Tech</p>
               <p>Mitwirkung beim Aufbau neuer Standorte, Koordination von Baustellen, Lager und Kunden.</p>
             </div>
           </li>
           <li>
-            <span class="when">2019 – 2024</span>
+            <span class="when">2019 bis 2024</span>
             <div>
               <h3>TIER Mobility</h3>
               <p class="role">Operations Manager → Regional Operations Manager Rhein-Main</p>
@@ -357,7 +439,7 @@
       <div class="wrap">
         <div class="section-label">Kontakt</div>
         <h2>Lass uns sprechen.</h2>
-        <p>Ob spannende neue Aufgabe, ein Projekt im Aufbau oder einfach ein Austausch – schreib mir eine Nachricht.</p>
+        <p>Ob spannende neue Aufgabe, ein Projekt im Aufbau oder einfach ein Austausch: Schreib mir eine Nachricht.</p>
 
         <form id="contact-form" class="contact-form" action="https://formspree.io/f/maeeokzq" method="POST">
           <div class="row">
@@ -384,6 +466,63 @@
     </div>
   </footer>
 
+  <script>
+    /* Unternehmen: hier neue Einträge ergänzen (logo = Bilddatei in img/, sonst wird der Name als Schriftzug gezeigt) */
+    var VENTURES = [
+      {
+        name: 'CardCircle',
+        logo: '',
+        role: 'Mitgründer & geschäftsführender Gesellschafter, seit 2025',
+        text: 'CardCircle bringt Menschen rund um Sammelkartenspiele zusammen: mit Events, Turnieren und einer Community, die über einzelne Spieltage hinaus trägt. Ich kümmere mich um Organisation, Partnerschaften und die Entwicklung neuer Formate.',
+        url: ''
+      }
+    ];
+
+    (function () {
+      var marquee = document.getElementById('marquee');
+      var track = document.getElementById('marquee-track');
+      var dialog = document.getElementById('venture-dialog');
+      if (!track) return;
+      function mark(v, cls) {
+        return v.logo ? '<img src="' + v.logo + '" alt="' + v.name + '">' : '<span class="wordmark ' + (cls || '') + '">' + v.name + '</span>';
+      }
+      function tiles() {
+        return VENTURES.map(function (v, i) {
+          return '<button type="button" class="logo-tile" data-i="' + i + '" aria-label="Mehr über ' + v.name + '">' + mark(v) + '</button>';
+        }).join('');
+      }
+      var moving = VENTURES.length >= 4;
+      if (moving) {
+        var set = tiles();
+        track.innerHTML = set + set; // doppelt für nahtlose Endlosschleife
+        track.lastElementChild && Array.prototype.slice.call(track.children, VENTURES.length).forEach(function (b) { b.setAttribute('tabindex', '-1'); b.setAttribute('aria-hidden', 'true'); });
+        marquee.style.setProperty('--marquee-dur', (VENTURES.length * 7) + 's');
+        marquee.classList.add('moving');
+      } else {
+        track.innerHTML = tiles();
+        marquee.classList.add('static');
+      }
+      track.addEventListener('click', function (e) {
+        var b = e.target.closest('.logo-tile'); if (!b) return;
+        var v = VENTURES[+b.dataset.i];
+        document.getElementById('vd-logo').innerHTML = v.logo ? mark(v) : '';
+        document.getElementById('vd-name').textContent = v.name;
+        document.getElementById('vd-role').textContent = v.role || '';
+        document.getElementById('vd-text').textContent = v.text || '';
+        var link = document.getElementById('vd-link');
+        if (v.url) { link.href = v.url; link.hidden = false; } else { link.hidden = true; }
+        if (dialog.showModal) dialog.showModal(); else dialog.setAttribute('open', '');
+      });
+      dialog.querySelector('.vd-close').addEventListener('click', function () { dialog.close(); });
+      dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });
+    })();
+
+    /* Wellen anhalten, wenn im System „Bewegung reduzieren“ aktiv ist */
+    (function () {
+      var w = document.getElementById('waves');
+      if (w && window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches && w.pauseAnimations) w.pauseAnimations();
+    })();
+  </script>
   <script>
     (function () {
       var bar = document.getElementById('topbar');

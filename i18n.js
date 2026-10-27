@@ -105,13 +105,24 @@
  "Städte verantwortet": "cities led",
  "Gestartet mit dem Aufbau in Kaiserslautern, dann Schritt für Schritt mehr Verantwortung: Frankfurt und Darmstadt, die Eröffnung von Rüsselsheim und als Regionalleiter zusätzlich Mainz und Wiesbaden.": "Started by building up Kaiserslautern, then took on more step by step: Frankfurt and Darmstadt, the launch of Rüsselsheim and, as regional lead, Mainz and Wiesbaden as well.",
  "Verantwortlich für Berlin und für die Eröffnung des neuen Standorts Hamburg. Als nächster Schritt war die Expansion in den ganzen DACH-Raum geplant.": "Responsible for Berlin and for opening the new Hamburg location. The next step was planned expansion across the DACH region.",
- "Magic: The Gathering Events in Mannheim und der Rhein-Neckar-Region: Drafts, Turniere, Prereleases und Community-Abende. Dazu ein eigener Shop für Karten und Booster. Gerade schauen wir, wohin wir als Nächstes wachsen.": "Magic: The Gathering events in Mannheim and the Rhine-Neckar region: drafts, tournaments, prereleases and community nights. Plus our own shop for cards and boosters. Right now we are exploring where to grow next."
+ "Magic: The Gathering Events in Mannheim und der Rhein-Neckar-Region: Drafts, Turniere, Prereleases und Community-Abende. Dazu ein eigener Shop für Karten und Booster. Gerade schauen wir, wohin wir als Nächstes wachsen.": "Magic: The Gathering events in Mannheim and the Rhine-Neckar region: drafts, tournaments, prereleases and community nights. Plus our own shop for cards and boosters. Right now we are exploring where to grow next.",
+ "Hallo, ich bin": "Hi, I’m",
+ "Bundesländer, in denen ich gewirkt habe": "German states I have worked in",
+ "Gestartet in Kaiserslautern, dann Schritt für Schritt mehr Verantwortung im Rhein-Main-Gebiet, inklusive einer Standorteröffnung und zuletzt als Regionalleiter.": "Started in Kaiserslautern, then took on more and more responsibility across the Rhine-Main area, including a new launch and finally as regional lead.",
+ "Verantwortlich für den Raum Berlin und den Start in Hamburg. Als nächster Schritt war die Expansion in den ganzen DACH-Raum geplant.": "Responsible for the Berlin area and the launch in Hamburg. The next step was planned expansion across the DACH region.",
+ "Unterwegs in": "Active in",
+ "Westpfalz": "Western Palatinate",
+ "Raum Karlsruhe": "Karlsruhe area",
+ "Südhessen": "Southern Hesse",
+ "Mainz &amp; Wiesbaden": "Mainz &amp; Wiesbaden",
+ "Raum Berlin": "Berlin area",
+ "Raum Hamburg": "Hamburg area"
 };
   var META = {
     de: { title: document.title, desc: (document.querySelector('meta[name=description]') || {}).content },
     en: { title: document.title.replace('Datenschutz', 'Privacy'), desc: 'Tobias Maue. Mechanical engineer, co-founder and builder. Creating something from nothing that moves all of us forward.' }
   };
-  var SEL = 'h1,h2,h3,p,li,a,span,button,summary,strong,.section-label,.when,.eyebrow';
+  var SEL = 'h1,h2,h3,p,li,a,span,em,button,summary,strong,.section-label,.when,.eyebrow';
   function apply(lang) {
     document.querySelectorAll(SEL).forEach(function (el) {
       if (el.closest('svg,script,style')) return;

@@ -137,7 +137,10 @@
  "Download folgt bald": "Download coming soon",
  "Das nächste Side Project": "The next side project",
  "Liegt schon im Kopf bereit.": "Already taking shape in my head.",
- "Zuletzt gewachsen:": "Last grown:"
+ "Zuletzt gewachsen:": "Last grown:",
+ "Events und Community für Sammelkartenspiele in der Rhein-Neckar-Region. Magic: The Gathering und bald Lorcana, Riftbound, Pokémon und Co.": "Events and community for trading card games in the Rhine-Neckar region. Magic: The Gathering and soon Lorcana, Riftbound, Pokémon and more.",
+ "Events und Community für Sammelkartenspiele in Mannheim und der Rhein-Neckar-Region: Drafts, Turniere, Prereleases und Community-Abende, dazu ein eigener Shop. Aktuell mit Fokus auf Magic: The Gathering, bald auch Lorcana, Riftbound, Pokémon und Co. Gerade schauen wir, wohin wir als Nächstes wachsen.": "Events and community for trading card games in Mannheim and the Rhine-Neckar region: drafts, tournaments, prereleases and community nights, plus our own shop. Currently focused on Magic: The Gathering, soon also Lorcana, Riftbound, Pokémon and more. Right now we are exploring where to grow next.",
+ "cardcircle.cc": "cardcircle.cc"
 };
   var META = {
     de: { title: document.title, desc: (document.querySelector('meta[name=description]') || {}).content },

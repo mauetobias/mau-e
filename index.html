@@ -235,7 +235,11 @@
     .venture-dialog h3 { font-family: var(--serif); font-size: 1.6rem; }
     .vd-role { font-weight: 600; color: var(--sage); margin: 2px 0 14px; }
     .venture-dialog p { color: var(--graphite); }
-    .venture-dialog .btn { margin-top: 24px; background: var(--deep-sage); color: var(--offwhite); }
+    .vd-actions { display: flex; align-items: center; gap: 20px; margin-top: 24px; flex-wrap: wrap; }
+    .vd-insta { color: var(--deep-sage); font-weight: 600; }
+    .timeline .links { margin-top: 10px; font-weight: 600; }
+    .timeline .links a { color: var(--deep-sage); }
+    .venture-dialog .btn { margin-top: 0; background: var(--deep-sage); color: var(--offwhite); }
     .venture-dialog .btn:hover { background: var(--charcoal); }
     .timeline .facts { margin: 10px 0 0 18px; color: var(--graphite); }
     .timeline .facts li { padding: 0; display: list-item; margin-bottom: 4px; }
@@ -377,7 +381,10 @@
       <h3 id="vd-name"></h3>
       <p class="vd-role" id="vd-role"></p>
       <p id="vd-text"></p>
-      <a class="btn btn-primary" id="vd-link" target="_blank" rel="noopener">Zur Website</a>
+      <div class="vd-actions">
+        <a class="btn btn-primary" id="vd-link" target="_blank" rel="noopener">Zur Website</a>
+        <a class="vd-insta" id="vd-insta" target="_blank" rel="noopener">Instagram</a>
+      </div>
     </dialog>
 
     <section id="stations">
@@ -390,13 +397,14 @@
             <div>
               <h3>CardCircle</h3>
               <p class="role">Mitgründer &amp; geschäftsführender Gesellschafter</p>
-              <p>CardCircle bringt Menschen rund um Sammelkartenspiele zusammen: mit Events, Turnieren und einer Community, die über einzelne Spieltage hinaus trägt. Ich habe das Unternehmen mitgegründet und baue es seitdem Schritt für Schritt mit auf.</p>
+              <p>CardCircle bringt die Magic: The Gathering Community in Mannheim, Heidelberg und der Rhein-Neckar-Region an einen Tisch. Wir veranstalten Booster Drafts, Sealed-Turniere, Prereleases, Pop-up-Drafts und Community-Abende an wechselnden Orten wie dem Kombinat in Mannheim. Dazu kommt ein eigener Shop für Einzelkarten, Booster und Sealed-Produkte.</p>
               <ul class="facts">
                 <li>Organisation, Verwaltung und alles Geschäftliche im Hintergrund</li>
-                <li>Partnerschaften und Kontakte aufbauen und pflegen</li>
+                <li>Partnerschaften mit Locations und Kontakte in die Szene aufbauen und pflegen</li>
                 <li>Neue Events und Formate entwickeln und umsetzen</li>
                 <li>Strukturen schaffen, auf die sich Team und Community verlassen können</li>
               </ul>
+              <p class="links"><a href="https://cardcircle.eu" rel="noopener" target="_blank">cardcircle.eu</a> · <a href="https://www.instagram.com/cardcircle" rel="noopener" target="_blank">Instagram</a></p>
             </div>
           </li>
           <li>
@@ -471,10 +479,11 @@
     var VENTURES = [
       {
         name: 'CardCircle',
-        logo: '',
+        logo: 'img/cardcircle.svg',
         role: 'Mitgründer & geschäftsführender Gesellschafter, seit 2025',
-        text: 'CardCircle bringt Menschen rund um Sammelkartenspiele zusammen: mit Events, Turnieren und einer Community, die über einzelne Spieltage hinaus trägt. Ich kümmere mich um Organisation, Partnerschaften und die Entwicklung neuer Formate.',
-        url: ''
+        text: 'Magic: The Gathering Events in Mannheim, Heidelberg und der Rhein-Neckar-Region: Booster Drafts, Sealed-Turniere, Prereleases und Community-Abende, dazu ein Shop für Einzelkarten und Booster. Ich kümmere mich um Organisation, Partnerschaften und die Entwicklung neuer Formate.',
+        url: 'https://cardcircle.eu',
+        instagram: 'https://www.instagram.com/cardcircle'
       }
     ];
 
@@ -511,6 +520,8 @@
         document.getElementById('vd-text').textContent = v.text || '';
         var link = document.getElementById('vd-link');
         if (v.url) { link.href = v.url; link.hidden = false; } else { link.hidden = true; }
+        var ig = document.getElementById('vd-insta');
+        if (v.instagram) { ig.href = v.instagram; ig.hidden = false; } else { ig.hidden = true; }
         if (dialog.showModal) dialog.showModal(); else dialog.setAttribute('open', '');
       });
       dialog.querySelector('.vd-close').addEventListener('click', function () { dialog.close(); });

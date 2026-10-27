@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tobias Maue – Operations &amp; Strategy</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <meta name="description" content="Tobias Maue – Operations &amp; Strategy. Klarheit, Struktur und langfristiges Denken für sinnvolle Entscheidungen und nachhaltige Projekte.">
   <style>
     :root {
@@ -33,29 +34,19 @@
     a { color: inherit; }
     .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
 
-    /* ---------- Hero: Graphite oben, fließend über Sage ins Off-White ---------- */
+    /* ---------- Hero: Graphite oben, Wellen in Sage, darunter Off-White ---------- */
     .hero {
       position: relative;
-      background:
-        linear-gradient(180deg,
-          var(--graphite) 0%,
-          var(--deep-sage) 14%,
-          var(--muted-sage) 34%,
-          var(--light-sage) 62%,
-          var(--offwhite) 100%);
-      padding-bottom: 120px;
+      background: linear-gradient(180deg, var(--graphite) 0%, var(--deep-sage) 38%, var(--sage) 75%, var(--muted-sage) 100%);
+      padding-bottom: 300px;
       overflow: hidden;
     }
-    .hero::before, .hero::after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(70px);
-      opacity: .45;
+    .waves {
+      position: absolute; left: 0; right: 0; bottom: -1px;
+      width: 100%; height: 340px; display: block;
       pointer-events: none;
     }
-    .hero::before { width: 520px; height: 520px; background: var(--sage); top: 80px; right: -140px; }
-    .hero::after  { width: 420px; height: 420px; background: var(--offwhite-light); bottom: -160px; left: -120px; opacity: .6; }
+    .waves path { filter: drop-shadow(0 -10px 14px rgba(62, 67, 65, .22)); }
 
     nav {
       position: relative; z-index: 2;
@@ -90,7 +81,7 @@
     .lead {
       margin-top: 26px;
       font-size: clamp(1.1rem, 2.2vw, 1.35rem);
-      color: var(--charcoal);
+      color: var(--offwhite-light);
       max-width: 560px;
     }
     .cta { margin-top: 38px; display: flex; gap: 14px; flex-wrap: wrap; }
@@ -101,9 +92,10 @@
       transition: transform .2s, background .2s;
     }
     .btn:hover { transform: translateY(-2px); }
-    .btn-primary { background: var(--deep-sage); color: var(--offwhite); }
-    .btn-primary:hover { background: var(--charcoal); }
-    .btn-ghost { background: rgba(243, 238, 230, .55); color: var(--charcoal); backdrop-filter: blur(6px); }
+    .btn-primary { background: var(--offwhite); color: var(--charcoal); }
+    .btn-primary:hover { background: #fff; }
+    .btn-ghost { background: rgba(243, 238, 230, .14); color: var(--offwhite); box-shadow: inset 0 0 0 1.5px rgba(243, 238, 230, .45); }
+    .btn-ghost:hover { background: rgba(243, 238, 230, .24); }
 
     /* ---------- Sektionen ---------- */
     section { padding: 96px 0; }
@@ -175,6 +167,8 @@
     .contact .ph { background: rgba(243, 238, 230, .15); border-color: var(--light-sage); }
 
     @media (max-width: 820px) {
+      .hero { padding-bottom: 170px; }
+      .waves { height: 170px; }
       .timeline li { grid-template-columns: 1fr; gap: 4px; }
       nav ul { gap: 18px; }
       .hero-content { padding-top: 64px; }
@@ -211,6 +205,12 @@
         </div>
       </div>
     </div>
+    <svg class="waves" viewBox="0 0 1440 340" preserveAspectRatio="none" aria-hidden="true">
+      <path fill="#8E9B8C" d="M0,120 C180,40 360,30 560,90 C760,150 900,60 1080,40 C1240,22 1350,70 1440,90 L1440,340 L0,340 Z"/>
+      <path fill="#B7C0B1" d="M0,170 C160,120 330,110 520,160 C720,212 880,140 1060,110 C1230,82 1350,130 1440,150 L1440,340 L0,340 Z"/>
+      <path fill="#EFEAE1" d="M0,240 C200,190 380,200 580,240 C780,280 940,220 1120,200 C1270,184 1370,215 1440,230 L1440,340 L0,340 Z"/>
+      <path fill="#F3EEE6" d="M0,295 C220,265 420,275 640,300 C860,325 1040,285 1220,280 C1330,277 1400,288 1440,295 L1440,340 L0,340 Z"/>
+    </svg>
   </header>
 
   <main>
@@ -307,7 +307,7 @@
   <footer>
     <div class="wrap">
       <span>© 2026 Tobias Maue</span>
-      <a href="https://www.linkedin.com/in/tobiasmaue" rel="noopener">LinkedIn</a>
+      <span class="legal"><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></span>
     </div>
   </footer>
 

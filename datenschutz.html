@@ -35,17 +35,19 @@
   <header><div class="wrap"><a href="./">← Zurück zur Startseite</a><h1>Datenschutz</h1></div></header>
   <main><div class="wrap">
     <h2>1. Verantwortlicher</h2>
-    <p>Verantwortlich für die Datenverarbeitung auf dieser Website ist Tobias Maue. Die Kontaktdaten finden Sie im <a href="impressum.html">Impressum</a>.</p>
+    <p>Diese Website ist eine private Vorstellungsseite von Tobias Maue. Verantwortlich für die Datenverarbeitung ist:</p>
+    <p>Tobias Maue<br>E-Mail: <span class="mail" data-u="EMAIL_USER" data-d="gmail.com">EMAIL_USER [at] gmail [punkt] com</span></p>
 
     <h2>2. Das Wichtigste in Kürze</h2>
-    <p>Diese Website setzt keine Cookies, verwendet kein Tracking, keine Analyse-Tools und lädt keine Inhalte von Drittanbietern wie Google Fonts. Es gibt keine Formulare und kein Benutzerkonto.</p>
+    <p>Diese Website setzt keine Cookies, verwendet kein Tracking, keine Analyse-Tools und lädt keine Inhalte von Drittanbietern wie Google Fonts. Einzige Ausnahme ist das freiwillige Kontaktformular (siehe Punkt 4).</p>
 
     <h2>3. Hosting über GitHub Pages</h2>
     <p>Diese Website wird über GitHub Pages bereitgestellt, einen Dienst der GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA. Beim Aufruf der Seite verarbeitet GitHub technisch notwendige Daten, insbesondere Ihre IP-Adresse, Datum und Uhrzeit des Abrufs sowie Angaben zu Browser und Betriebssystem. Diese Daten sind erforderlich, um die Website auszuliefern und ihre Sicherheit zu gewährleisten.</p>
     <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Mein berechtigtes Interesse liegt in der sicheren und zuverlässigen Bereitstellung dieser Website. Dabei können Daten in die USA übermittelt werden. GitHub stützt solche Übermittlungen nach eigenen Angaben auf das EU-U.S. Data Privacy Framework bzw. auf Standardvertragsklauseln der EU-Kommission. Weitere Informationen finden Sie in der <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">Datenschutzerklärung von GitHub</a>.</p>
 
-    <h2>4. Kontakt per E-Mail</h2>
-    <p>Wenn Sie mir eine E-Mail schreiben, verarbeite ich Ihre Angaben ausschließlich, um Ihre Anfrage zu beantworten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b bzw. lit. f DSGVO. Die Daten werden gelöscht, sobald sie dafür nicht mehr benötigt werden und keine gesetzlichen Aufbewahrungspflichten entgegenstehen.</p>
+    <h2>4. Kontaktformular (Formspree)</h2>
+    <p>Wenn Sie das Kontaktformular nutzen, werden Ihr Name, Ihre E-Mail-Adresse und Ihre Nachricht an den Dienst Formspree (Formspree, Inc., USA) übermittelt, der sie per E-Mail an mich weiterleitet. Formspree prüft eingehende Nachrichten außerdem automatisch auf Spam. Dabei können Daten in die USA übermittelt werden. Weitere Informationen finden Sie in der <a href="https://formspree.io/legal/privacy-policy" rel="noopener">Datenschutzerklärung von Formspree</a>.</p>
+    <p>Ich nutze Ihre Angaben ausschließlich, um Ihre Anfrage zu beantworten. Rechtsgrundlage ist Ihre Einwilligung durch das Absenden (Art. 6 Abs. 1 lit. a DSGVO), die Sie jederzeit per E-Mail widerrufen können. Die Daten werden gelöscht, sobald sie für die Beantwortung nicht mehr benötigt werden.</p>
 
     <h2>5. Links zu LinkedIn</h2>
     <p>Diese Seite enthält einfache Links zu meinem LinkedIn-Profil. Dabei werden keine Daten an LinkedIn übertragen, solange Sie den Link nicht anklicken. Erst nach dem Klick gelten die Datenschutzbestimmungen von LinkedIn.</p>
@@ -63,6 +65,14 @@
 
     <p style="margin-top:36px;font-size:.9rem;">Stand: Oktober 2026</p>
   </div></main>
-  <footer><div class="wrap"><span>© 2026 Tobias Maue</span><span><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></span></div></footer>
+  <footer><div class="wrap"><span>© 2026 Tobias Maue</span><a href="datenschutz.html">Datenschutz</a></div></footer>
+  <script>
+    document.querySelectorAll('.mail').forEach(function (el) {
+      var a = el.dataset.u + '@' + el.dataset.d;
+      var link = document.createElement('a');
+      link.href = 'mailto:' + a; link.textContent = a;
+      el.replaceWith(link);
+    });
+  </script>
 </body>
 </html>

@@ -101,7 +101,11 @@
  "Du baust etwas Neues und suchst jemanden, der mit anpackt? Lass uns darüber sprechen.": "Building something new and looking for someone to get stuck in? Let’s talk about it.",
  "Das nächste Kapitel": "The next chapter",
  "Es wächst bereits etwas Neues. Bald mehr dazu an dieser Stelle.": "Something new is already growing. More about it here soon.",
- "Auf LinkedIn vernetzen": "Connect on LinkedIn"
+ "Auf LinkedIn vernetzen": "Connect on LinkedIn",
+ "Städte verantwortet": "cities led",
+ "Gestartet mit dem Aufbau in Kaiserslautern, dann Schritt für Schritt mehr Verantwortung: Frankfurt und Darmstadt, die Eröffnung von Rüsselsheim und als Regionalleiter zusätzlich Mainz und Wiesbaden.": "Started by building up Kaiserslautern, then took on more step by step: Frankfurt and Darmstadt, the launch of Rüsselsheim and, as regional lead, Mainz and Wiesbaden as well.",
+ "Verantwortlich für Berlin und für die Eröffnung des neuen Standorts Hamburg. Als nächster Schritt war die Expansion in den ganzen DACH-Raum geplant.": "Responsible for Berlin and for opening the new Hamburg location. The next step was planned expansion across the DACH region.",
+ "Magic: The Gathering Events in Mannheim und der Rhein-Neckar-Region: Drafts, Turniere, Prereleases und Community-Abende. Dazu ein eigener Shop für Karten und Booster. Gerade schauen wir, wohin wir als Nächstes wachsen.": "Magic: The Gathering events in Mannheim and the Rhine-Neckar region: drafts, tournaments, prereleases and community nights. Plus our own shop for cards and boosters. Right now we are exploring where to grow next."
 };
   var META = {
     de: { title: document.title, desc: (document.querySelector('meta[name=description]') || {}).content },

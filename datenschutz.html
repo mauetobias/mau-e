@@ -16,6 +16,8 @@
     .wrap { max-width:760px; margin:0 auto; padding:0 24px; }
     header a { color:var(--offwhite); text-decoration:none; opacity:.85; font-size:.95rem; }
     header a:hover { opacity:1; }
+    .top { display:flex; justify-content:space-between; align-items:center; }
+    .lang-switch { font:inherit; font-size:.8rem; font-weight:700; letter-spacing:.08em; color:var(--offwhite); background:rgba(243,238,230,.14); border:1.5px solid rgba(243,238,230,.45); border-radius:999px; padding:5px 12px; cursor:pointer; }
     h1 { font-family:var(--serif); font-size:clamp(2.2rem,6vw,3.2rem); letter-spacing:-.02em; margin-top:40px; line-height:1.1; }
     main { padding:56px 0 80px; }
     h2 { font-family:var(--serif); font-size:1.35rem; margin:36px 0 8px; color:var(--deep-sage); }
@@ -32,7 +34,7 @@
   </style>
 </head>
 <body>
-  <header><div class="wrap"><a href="./">← Zurück zur Startseite</a><h1>Datenschutz</h1></div></header>
+  <header><div class="wrap"><div class="top"><a href="./">← Zurück zur Startseite</a><button type="button" class="lang-switch" id="lang-switch" aria-label="Switch to English">EN</button></div><h1>Datenschutz</h1></div></header>
   <main><div class="wrap">
     <h2>1. Verantwortlicher</h2>
     <p>Diese Website ist eine private Vorstellungsseite von Tobias Maue. Verantwortlich für die Datenverarbeitung ist:</p>
@@ -74,5 +76,6 @@
       el.replaceWith(link);
     });
   </script>
+  <script src="i18n.js?v=1"></script>
 </body>
 </html>

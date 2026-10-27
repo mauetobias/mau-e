@@ -111,6 +111,7 @@
 
     /* ---------- Sektionen ---------- */
     section { padding: 96px 0; }
+    .about { padding: 72px 0; }
     .section-label {
       font-size: .8rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
       color: var(--deep-sage); margin-bottom: 14px;
@@ -121,8 +122,12 @@
       color: var(--charcoal); max-width: 720px;
     }
 
-    .about-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; margin-top: 44px; }
+    .about-grid { display: grid; grid-template-columns: auto 1fr; gap: 64px; align-items: center; }
+    .about-text h2 { margin-bottom: 26px; }
     .portrait {
+      /* Foto passt komplett in den Bildschirm: Höhe max. Fensterhöhe minus Leiste und Abstände */
+      width: min(400px, calc((100vh - 180px) * 0.8));
+      width: min(400px, calc((100svh - 180px) * 0.8));
       aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; margin: 0;
       background: linear-gradient(160deg, var(--light-sage), var(--muted-sage));
       display: grid; place-items: center;
@@ -247,6 +252,31 @@
       .marquee.moving .marquee-track { animation: none; }
     }
 
+
+    /* ---------- Handy: zentriert und aufgeräumt ---------- */
+    @media (max-width: 700px) {
+      body { font-size: 16px; }
+      .wrap { padding: 0 20px; }
+      nav { align-items: center; }
+      nav ul { justify-content: center; }
+      .hero-content { text-align: center; margin: 0 auto; }
+      .lead { margin-left: auto; margin-right: auto; }
+      .cta { justify-content: center; }
+      .cta .btn { min-width: 220px; text-align: center; }
+      .section-label, h2 { text-align: center; margin-left: auto; margin-right: auto; }
+      .about-text h2 { margin-bottom: 20px; }
+      .about-text p { text-align: left; }
+      .card { text-align: center; padding: 28px 22px; }
+      .contact-form .btn { display: block; margin: 0 auto; }
+      .form-status, .contact-form .form-note { text-align: center; }
+      .ventures-intro { text-align: center; margin-left: auto; margin-right: auto; }
+      .timeline { margin-top: 36px; }
+      .timeline li { padding-left: 24px; }
+      section { padding: 64px 0; }
+      .about { padding: 56px 0; }
+      footer .wrap { justify-content: center; text-align: center; }
+    }
+
     /* Platzhalter sichtbar markieren (vor dem Livegang entfernen) */
     .ph { background: rgba(127, 143, 122, .22); border-bottom: 2px dashed var(--sage); padding: 0 4px; border-radius: 4px; }
     .contact .ph { background: rgba(243, 238, 230, .15); border-color: var(--light-sage); }
@@ -258,18 +288,42 @@
       nav ul { gap: 18px; }
       .hero-content { padding-top: 150px; }
       .about-grid { grid-template-columns: 1fr; gap: 36px; }
-      .portrait { max-width: 320px; }
+      .portrait { width: min(300px, 78vw); margin: 0 auto; }
       .cards { grid-template-columns: 1fr; }
       section { padding: 72px 0; }
     }
-    @media (max-width: 560px) {
-      nav { flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px 0; }
+    /* Sprachumschalter + Menü-Button */
+    nav ul { margin-left: auto; }
+    .nav-tools { display: flex; align-items: center; gap: 10px; }
+    .lang-switch {
+      font: inherit; font-size: .8rem; font-weight: 700; letter-spacing: .08em;
+      color: var(--offwhite); background: rgba(243, 238, 230, .14);
+      border: 1.5px solid rgba(243, 238, 230, .45); border-radius: 999px;
+      padding: 5px 12px; cursor: pointer; transition: background .2s;
+    }
+    .lang-switch:hover { background: rgba(243, 238, 230, .28); }
+    .menu-btn { display: none; width: 40px; height: 40px; border: 0; background: none; cursor: pointer; padding: 10px 8px; }
+    .menu-btn span { display: block; height: 2px; background: var(--offwhite); border-radius: 2px; margin: 4px 0; transition: transform .25s, opacity .25s; }
+    .menu-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .menu-btn[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .menu-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+    @media (max-width: 760px) {
+      nav { padding: 14px 0; }
       .topbar.scrolled nav { padding: 8px 0; }
-      nav ul { gap: 16px; overflow-x: auto; max-width: 100%; scrollbar-width: none; }
-      nav ul::-webkit-scrollbar { display: none; }
-      nav a { font-size: .9rem; white-space: nowrap; }
-      .hero-content { padding-top: 150px; }
-      section { scroll-margin-top: 84px; }
+      .menu-btn { display: block; }
+      nav ul {
+        position: absolute; top: 100%; left: 0; right: 0; margin: 0;
+        flex-direction: column; align-items: center; gap: 0;
+        background: rgba(94, 98, 96, .97); padding: 8px 0 18px;
+        -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+        box-shadow: 0 16px 30px -18px rgba(62, 67, 65, .7);
+        display: none;
+      }
+      nav ul.open { display: flex; }
+      nav ul a { display: block; padding: 12px 24px; font-size: 1.05rem; }
+      nav a.active { box-shadow: none; text-decoration: underline; text-underline-offset: 6px; }
+      .hero-content { padding-top: 140px; }
+      section { scroll-margin-top: 64px; }
     }
   </style>
 </head>
@@ -279,13 +333,19 @@
     <div class="wrap">
       <nav>
         <a href="#top" class="logo">mau-e</a>
-        <ul>
+        <ul id="nav-links">
           <li><a href="#about">Über mich</a></li>
           <li><a href="#work">Schwerpunkte</a></li>
           <li><a href="#ventures">Unternehmen</a></li>
           <li><a href="#stations">Stationen</a></li>
           <li><a href="#contact">Kontakt</a></li>
         </ul>
+        <div class="nav-tools">
+          <button type="button" class="lang-switch" id="lang-switch" aria-label="Switch to English">EN</button>
+          <button type="button" class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav-links" aria-label="Menü öffnen">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
       </nav>
     </div>
   </div>
@@ -319,18 +379,18 @@
   </header>
 
   <main>
-    <section id="about">
+    <section id="about" class="about">
       <div class="wrap">
-        <div class="section-label">Über mich</div>
-        <h2>Ich baue gern Dinge auf, die es vorher nicht gab.</h2>
         <div class="about-grid">
           <figure class="portrait">
             <picture>
-              <source srcset="img/tobias-maue.webp" type="image/webp">
-              <img src="img/tobias-maue.jpg" alt="Tobias Maue" width="1280" height="1600" loading="lazy">
+              <source srcset="img/tobias-maue.webp?v=4" type="image/webp">
+              <img src="img/tobias-maue.jpg?v=4" alt="Tobias Maue" width="1280" height="1600" loading="lazy">
             </picture>
           </figure>
           <div class="about-text">
+            <div class="section-label">Über mich</div>
+            <h2>Ich baue gern Dinge auf, die es vorher nicht gab.</h2>
             <p>Angefangen habe ich als Ingenieur: Meinen Bachelor in Maschinenbau habe ich an der DHBW Mannheim gemacht. Danach hat es mich in junge, schnell wachsende Unternehmen gezogen. Dorthin, wo Standorte, Teams und Abläufe erst noch entstehen mussten.</p>
             <p>Genau das ist bis heute mein Ding: aus einer Idee etwas Echtes machen. Strukturen schaffen, Menschen mitnehmen und Schritt für Schritt etwas aufbauen, das trägt. Mich reizt dabei weniger der große, eingefahrene Konzern als das Neue: Projekte, die etwas bewegen und uns alle ein Stück weiterbringen.</p>
             <p>Gerade bin ich ein bisschen im Wandel und schaue bewusst, wohin es als Nächstes geht. Parallel habe ich CardCircle mitgegründet, ein Event- und Community-Unternehmen rund um Sammelkartenspiele. Wenn du an etwas Neuem baust und jemanden suchst, der anpackt: Lass uns reden.</p>
@@ -450,10 +510,10 @@
 
         <form id="contact-form" class="contact-form" action="https://formspree.io/f/maeeokzq" method="POST">
           <div class="row">
-            <label>Name<input type="text" name="name" required autocomplete="name"></label>
-            <label>E-Mail<input type="email" name="email" required autocomplete="email"></label>
+            <label><span>Name</span><input type="text" name="name" required autocomplete="name"></label>
+            <label><span>E-Mail</span><input type="email" name="email" required autocomplete="email"></label>
           </div>
-          <label>Nachricht<textarea name="message" rows="5" required></textarea></label>
+          <label><span>Nachricht</span><textarea name="message" rows="5" required></textarea></label>
           <!-- Spam-Falle: für Menschen unsichtbar -->
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
           <p class="form-note">Mit dem Absenden werden deine Angaben über Formspree an mich weitergeleitet. Mehr dazu im <a href="datenschutz.html">Datenschutz</a>.</p>
@@ -478,8 +538,10 @@
     var VENTURES = [
       {
         name: 'CardCircle',
-        logo: 'img/cardcircle.svg',
+        logo: 'img/cardcircle.svg?v=2',
         role: 'Mitgründer & geschäftsführender Gesellschafter, seit 2025',
+        role_en: 'Co-founder & Managing Partner, since 2025',
+        text_en: 'Magic: The Gathering events in Mannheim, Heidelberg and the Rhine-Neckar region: booster drafts, sealed tournaments, prereleases and community nights, plus a shop for singles and boosters. I take care of organisation, partnerships and developing new formats.',
         text: 'Magic: The Gathering Events in Mannheim, Heidelberg und der Rhein-Neckar-Region: Booster Drafts, Sealed-Turniere, Prereleases und Community-Abende, dazu ein Shop für Einzelkarten und Booster. Ich kümmere mich um Organisation, Partnerschaften und die Entwicklung neuer Formate.',
         url: 'https://cardcircle.eu',
         instagram: 'https://www.instagram.com/cardcircle'
@@ -515,9 +577,11 @@
         var v = VENTURES[+b.dataset.i];
         document.getElementById('vd-logo').innerHTML = v.logo ? mark(v) : '';
         document.getElementById('vd-name').textContent = v.name;
-        document.getElementById('vd-role').textContent = v.role || '';
-        document.getElementById('vd-text').textContent = v.text || '';
+        var en = window.LANG === 'en';
+        document.getElementById('vd-role').textContent = (en && v.role_en) || v.role || '';
+        document.getElementById('vd-text').textContent = (en && v.text_en) || v.text || '';
         var link = document.getElementById('vd-link');
+        link.textContent = en ? 'Visit website' : 'Zur Website';
         if (v.url) { link.href = v.url; link.hidden = false; } else { link.hidden = true; }
         var ig = document.getElementById('vd-insta');
         if (v.instagram) { ig.href = v.instagram; ig.hidden = false; } else { ig.hidden = true; }
@@ -536,6 +600,14 @@
   <script>
     (function () {
       var bar = document.getElementById('topbar');
+      var menuBtn = document.getElementById('menu-btn'), navList = document.getElementById('nav-links');
+      function setMenu(open) {
+        navList.classList.toggle('open', open);
+        menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (open) bar.classList.add('scrolled'); else bar.classList.toggle('scrolled', window.scrollY > 40);
+      }
+      menuBtn.addEventListener('click', function () { setMenu(!navList.classList.contains('open')); });
+      navList.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
       var onScroll = function () { bar.classList.toggle('scrolled', window.scrollY > 40); };
       window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
       if ('IntersectionObserver' in window) {
@@ -560,19 +632,20 @@
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         button.disabled = true;
-        status.textContent = 'Wird gesendet …';
+        status.textContent = window.LANG === 'en' ? 'Sending …' : 'Wird gesendet …';
         fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
           .then(function (r) {
             if (!r.ok) throw new Error();
             form.reset();
-            status.textContent = 'Danke! Deine Nachricht ist angekommen, ich melde mich.';
+            status.textContent = window.LANG === 'en' ? 'Thank you! Your message has arrived, I will get back to you.' : 'Danke! Deine Nachricht ist angekommen, ich melde mich.';
           })
           .catch(function () {
-            status.textContent = 'Das hat leider nicht geklappt. Versuch es bitte später noch einmal oder schreib mir auf LinkedIn.';
+            status.textContent = window.LANG === 'en' ? 'Sorry, that did not work. Please try again later or message me on LinkedIn.' : 'Das hat leider nicht geklappt. Versuch es bitte später noch einmal oder schreib mir auf LinkedIn.';
           })
           .finally(function () { button.disabled = false; });
       });
     })();
   </script>
+  <script src="i18n.js?v=1"></script>
 </body>
 </html>

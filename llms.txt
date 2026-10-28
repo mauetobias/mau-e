@@ -1,0 +1,41 @@
+# Tobias Maue
+
+> Persönliche Webseite von Tobias Maue (mau-e.com). Tobias ist Maschinenbauer, Mitgründer von CardCircle und baut am liebsten Dinge auf, die es vorher nicht gab: Standorte, Teams, Strukturen und Unternehmen. Sein Leitsatz: Aus dem Nichts etwas schaffen, das uns alle ein Stück weiterbringt.
+
+Diese Datei fasst die Inhalte der Webseite für KI-Systeme und Suchmaschinen zusammen. Stand: Oktober 2026. Die Seite gibt es auf Deutsch und Englisch.
+
+## Kurzprofil
+
+- Name: Tobias Maue
+- Ausbildung: Bachelor Maschinenbau, DHBW Mannheim
+- Aktuell: Mitgründer und geschäftsführender Gesellschafter von CardCircle (seit 2025)
+- Schwerpunkte: Neues aufbauen, Strukturen schaffen, Menschen mitnehmen
+- Arbeitsweise: lieber junge, wachsende Unternehmen und neue Projekte als große, eingefahrene Konzerne
+- Sprachen: Deutsch, Englisch
+- Gewirkt in fünf Bundesländern: Rheinland-Pfalz, Baden-Württemberg, Hessen, Berlin, Hamburg
+
+## Werdegang
+
+- **CardCircle** (seit 2025): Mitgründer und geschäftsführender Gesellschafter. Events und Community für Sammelkartenspiele in Mannheim und der Rhein-Neckar-Region: Drafts, Turniere, Prereleases, Community-Abende und ein eigener Shop. Aktuell mit Fokus auf Magic: The Gathering, künftig auch Lorcana, Riftbound, Pokémon und weitere. Verantwortlich für Organisation, Partnerschaften und die Entwicklung neuer Formate. Website: https://cardcircle.cc
+- **Quantune Technologies** (2025 bis 2026): Office & Operations Manager. Aufbau interner Office- und Operationsprozesse in einem technologiegetriebenen Wachstumsumfeld.
+- **VARM** (2024 bis 2025): Operations Manager im Bereich Climate Tech. Verantwortlich für den Raum Berlin und den Start in Hamburg; als nächster Schritt war die Expansion in den DACH-Raum geplant.
+- **TIER Mobility** (2019 bis 2024): Vom Operations Manager zum Regional Operations Manager Rhein-Main. Gestartet in Kaiserslautern, danach schrittweise mehr Verantwortung im Rhein-Main-Gebiet, inklusive einer Standorteröffnung und zuletzt als Regionalleiter. Regionen: Westpfalz, Raum Karlsruhe, Rhein-Main, Südhessen, Mainz und Wiesbaden.
+- **Studium**: Bachelor Maschinenbau an der DHBW Mannheim.
+
+## Side Projects
+
+- **Geldfluss im Blick**: ein eigenes Android-Widget, entstanden aus eigenem Bedarf, um den finanziellen Überblick zu behalten, wenn Geld zwischen Konten wandert und Abbuchungen erst später kommen. Download auf der Webseite in Vorbereitung.
+
+## Kontakt
+
+- Kontaktformular: https://mau-e.com/#contact
+- LinkedIn: https://www.linkedin.com/in/tobiasmaue
+
+## Seiten
+
+- [Startseite](https://mau-e.com/): Vorstellung, Schwerpunkte, Unternehmen, Werdegang, Side Projects, Quiz und Kontakt
+- [Datenschutz](https://mau-e.com/datenschutz.html): Datenschutzerklärung
+
+## English summary
+
+Tobias Maue is a mechanical engineer (Bachelor, DHBW Mannheim) and co-founder and managing partner of CardCircle, a trading card game events and community company in the Rhine-Neckar region of Germany. Before that he built locations and teams in operations roles at TIER Mobility (2019 to 2024, up to Regional Operations Manager Rhine-Main), VARM (climate tech, Berlin area and the Hamburg launch) and Quantune Technologies. He enjoys building new things from scratch rather than working in large, established corporations. Contact: https://mau-e.com/#contact or https://www.linkedin.com/in/tobiasmaue

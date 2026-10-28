@@ -682,7 +682,10 @@
     .more .section-label { color: var(--clay); }
     .more-intro { margin-top: 14px; color: var(--light-sage); max-width: 620px; }
     .more-sub { font-family: var(--sans); font-size: .8rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--light-sage); margin: 44px 0 16px; }
-    .side-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 16px; }
+    .side-grid { display: grid; grid-template-columns: 2.2fr 1fr; gap: 16px; }
+    .side-body { flex: 1; min-width: 0; }
+    .side-video { flex: 0 0 210px; }
+    .side-video video { display: block; width: 210px; aspect-ratio: 9 / 16; border-radius: 22px; background: #2F3833; box-shadow: 0 20px 40px -20px rgba(0,0,0,.6); object-fit: cover; }
     .side-card { display: flex; gap: 20px; align-items: flex-start; background: var(--offwhite); color: var(--charcoal); border-radius: 20px; padding: 24px; box-shadow: 0 24px 50px -30px rgba(0,0,0,.6); }
     .side-ic { flex: 0 0 auto; width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; background: var(--deep-sage); color: var(--clay); }
     .side-ic svg { width: 30px; height: 30px; }
@@ -710,7 +713,7 @@
     .soon-tag { position: absolute; top: 16px; right: 16px; font-size: .7rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; background: var(--clay); color: var(--charcoal); }
     .grown { margin-top: 28px; font-size: .88rem; color: var(--light-sage); }
     @media (max-width: 900px) { .soon-grid { grid-template-columns: 1fr 1fr; } .side-grid { grid-template-columns: 1fr; } }
-    @media (max-width: 560px) { .more::before { top: 18px; right: 16px; } .soon-grid { grid-template-columns: 1fr; } .side-card { flex-direction: column; } .more-sub { text-align: center; } .more-intro, .grown { text-align: center; margin-left: auto; margin-right: auto; } }
+    @media (max-width: 560px) { .side-video { flex-basis: auto; align-self: center; } .side-video video { width: min(260px, 70vw); } .more::before { top: 18px; right: 16px; } .soon-grid { grid-template-columns: 1fr; } .side-card { flex-direction: column; } .more-sub { text-align: center; } .more-intro, .grown { text-align: center; margin-left: auto; margin-right: auto; } }
     [data-theme="dark"] .more { background-color: #233029; background-image: radial-gradient(rgba(226,232,220,.10) 1.2px, transparent 1.4px), radial-gradient(70% 60% at 85% 0%, rgba(212,145,63,.12), transparent 70%), linear-gradient(170deg, #2B3A31 0%, #223029 60%, #1D2822 100%); }
     [data-theme="dark"] .side-card:not(.side-next) { background: var(--surf); color: var(--ink); }
     [data-theme="dark"] .side-card:not(.side-next) h4 { color: var(--ink); } [data-theme="dark"] .side-card:not(.side-next) p { color: var(--soft); }
@@ -988,6 +991,9 @@
               <h4>Geldfluss im Blick</h4>
               <p>Ein kleines Android-Widget, entstanden aus eigenem Bedarf: damit ich immer weiß, wo ich finanziell gerade stehe, auch wenn Geld zwischen Konten wandert und Abbuchungen erst später kommen.</p>
               <span class="btn side-btn is-soon" aria-disabled="true">Download folgt bald</span>
+            </div>
+            <div class="side-video">
+              <video src="media/geldfluss-im-blick.mp4?v=1" poster="media/geldfluss-poster.jpg?v=1" autoplay muted loop playsinline preload="metadata" aria-label="Kurzes Video: So funktioniert Geldfluss im Blick"></video>
             </div>
           </article>
           <div class="side-card side-next reveal">

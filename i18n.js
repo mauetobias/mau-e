@@ -199,6 +199,7 @@
   var btn = document.getElementById('lang-switch');
   if (btn) btn.addEventListener('click', function () {
     var next = window.LANG === 'en' ? 'de' : 'en';
+    if (window.mauTrack) window.mauTrack('Sprache gewechselt', { sprache: next });
     try { localStorage.setItem('lang', next); } catch (e) {}
     apply(next);
   });

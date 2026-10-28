@@ -79,6 +79,7 @@
   function discover(id) {
     var e = EGGS[id]; if (!e) return;
     var fresh = !found[id];
+    if (!found[id] && window.mauTrack) window.mauTrack('Geheimnis gefunden', { geheimnis: id });
     found[id] = 1; store('eggs', JSON.stringify(found));
     var txt = t(e);
     toast(txt[0], txt[1] + (fresh ? (lang() === 'en' ? '  (' : '  (') + Object.keys(found).length + '/' + TOTAL + ')' : ''));
@@ -270,6 +271,7 @@
       '</div>';
     var r = box.querySelector('.quiz-retry');
     if (r) r.addEventListener('click', function () { idx = 0; score = 0; order = shuffle(Q.length); question(); });
+    if (window.mauTrack) window.mauTrack('Quiz beendet', { punkte: score, bestanden: pass });
     if (pass) {
       store('fastlane', '1'); store('fastlane-score', String(score));
       leafRain(110); discover('quiz'); enableFastLane();

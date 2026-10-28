@@ -110,7 +110,7 @@
       "familyName": "Maue",
       "url": "https://mau-e.com/",
       "image": "https://mau-e.com/img/tobias-maue.jpg",
-      "jobTitle": "Mitgründer und geschäftsführender Gesellschafter",
+      "jobTitle": "Co-Founder & CEO, CardCircle",
       "description": "Maschinenbauer und Mitgründer, der gern Neues aufbaut: Standorte, Teams, Strukturen und Unternehmen.",
       "worksFor": {
         "@id": "https://mau-e.com/#cardcircle"
@@ -418,7 +418,7 @@
     .g-track figure.on { opacity: 1; }
     .g-track img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.06); transition: transform 4.5s ease-out; }
     .g-track figure.on img { transform: scale(1); }
-    .g-track figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 14px 30px; font-size: .78rem; color: #F3EEE6; background: linear-gradient(180deg, transparent, rgba(0,0,0,.6)); }
+    .v-gallery::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 44px; background: linear-gradient(180deg, transparent, rgba(0,0,0,.35)); pointer-events: none; }
     .g-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 34px; height: 34px; border-radius: 50%; border: 0; cursor: pointer;
       background: rgba(243,238,230,.85); color: #3E4341; font-size: 1.3rem; line-height: 1; opacity: 0; transition: opacity .2s; }
     .v-gallery:hover .g-nav, .g-nav:focus-visible { opacity: 1; }
@@ -896,7 +896,7 @@
         <article class="venture main reveal">
           <a class="v-logo" href="https://cardcircle.cc" target="_blank" rel="noopener" aria-label="CardCircle Website"><img src="img/cardcircle.svg?v=2" alt="CardCircle"></a>
           <div class="v-body">
-            <p class="v-role">Mitgründer &amp; geschäftsführender Gesellschafter</p>
+            <p class="v-role">Co-Founder &amp; CEO</p>
             <h3>CardCircle</h3>
             <p class="v-text">Events und Community für Sammelkartenspiele in der Rhein-Neckar-Region. Magic: The Gathering und bald Lorcana, Riftbound, Pokémon und Co.</p>
             <div class="next-event" id="next-event" hidden>
@@ -941,7 +941,7 @@
             <div>
               <span class="chip hot">Community &amp; Events</span>
               <h3>CardCircle</h3>
-              <p class="role">Mitgründer &amp; geschäftsführender Gesellschafter</p>
+              <p class="role">Co-Founder &amp; CEO</p>
               <p>Events und Community für Sammelkartenspiele in Mannheim und der Rhein-Neckar-Region: Drafts, Turniere, Prereleases und Community-Abende, dazu ein eigener Shop. Aktuell mit Fokus auf Magic: The Gathering, bald auch Lorcana, Riftbound, Pokémon und Co. Gerade schauen wir, wohin wir als Nächstes wachsen.</p>
               <details>
                 <summary>Meine Aufgaben</summary>
@@ -1121,9 +1121,8 @@
         var track = g.querySelector('.g-track'), dots = g.querySelector('.g-dots'), i = 0, timer;
         imgs.forEach(function (im, k) {
           var f = document.createElement('figure');
-          f.innerHTML = '<img loading="lazy" decoding="async" alt=""><figcaption></figcaption>';
+          f.innerHTML = '<img loading="lazy" decoding="async" alt="">';
           f.querySelector('img').src = im.src; f.querySelector('img').alt = im.alt || 'CardCircle';
-          f.querySelector('figcaption').textContent = im.alt || '';
           track.appendChild(f); dots.appendChild(document.createElement('i'));
         });
         var figs = track.children, ds = dots.children;
@@ -1393,7 +1392,7 @@
       els.forEach(function (e, i) { e.style.transitionDelay = (e.classList.contains('card') || e.classList.contains('stat') ? (i % 4) * 90 : 0) + 'ms'; io.observe(e); });
     })();
   </script>
-  <script src="i18n.js?v=10"></script>
+  <script src="i18n.js?v=11"></script>
   <script>
     (function () {
       var el = document.getElementById('last-grown'); if (!el) return;

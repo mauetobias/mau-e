@@ -152,7 +152,8 @@
  "Schleswig-Holstein": "Schleswig-Holstein",
  "Niedersachsen": "Lower Saxony",
  "Hamburg": "Hamburg",
- "Berlin": "Berlin"
+ "Berlin": "Berlin",
+ "Co-Founder &amp; CEO": "Co-Founder &amp; CEO"
 };
   var META = {
     de: { title: document.title, desc: (document.querySelector('meta[name=description]') || {}).content },

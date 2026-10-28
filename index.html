@@ -411,6 +411,21 @@
     .v-logo img { width: 100%; max-width: 150px; transition: transform .4s; }
     .venture.main:hover .v-logo img { transform: scale(1.05); }
     .v-body { padding: 20px 26px; }
+    .venture.main.has-gallery { grid-template-columns: 170px 1fr 300px; }
+    .v-gallery { position: relative; overflow: hidden; background: #2A302D; min-height: 240px; }
+    .g-track { position: absolute; inset: 0; }
+    .g-track figure { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity .9s ease; }
+    .g-track figure.on { opacity: 1; }
+    .g-track img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.06); transition: transform 4.5s ease-out; }
+    .g-track figure.on img { transform: scale(1); }
+    .g-track figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 14px 30px; font-size: .78rem; color: #F3EEE6; background: linear-gradient(180deg, transparent, rgba(0,0,0,.6)); }
+    .g-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 34px; height: 34px; border-radius: 50%; border: 0; cursor: pointer;
+      background: rgba(243,238,230,.85); color: #3E4341; font-size: 1.3rem; line-height: 1; opacity: 0; transition: opacity .2s; }
+    .v-gallery:hover .g-nav, .g-nav:focus-visible { opacity: 1; }
+    .g-prev { left: 10px; } .g-next { right: 10px; }
+    .g-dots { position: absolute; left: 0; right: 0; bottom: 10px; display: flex; justify-content: center; gap: 6px; }
+    .g-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(243,238,230,.5); transition: background .3s, width .3s; }
+    .g-dots i.on { background: var(--clay); width: 16px; border-radius: 4px; }
     .v-role { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--clay-deep); }
     .v-text { color: var(--graphite); margin-top: 6px; }
     .v-links { margin-top: 10px; text-align: right; font-weight: 600; font-size: .95rem; }
@@ -438,7 +453,9 @@
     @keyframes pulse { to { box-shadow: 0 0 0 18px rgba(212,145,63,0); } }
     @media (max-width: 760px) {
       .venture-grid { grid-template-columns: 1fr; }
-      .venture.main { grid-template-columns: 1fr; }
+      .venture.main, .venture.main.has-gallery { grid-template-columns: 1fr; }
+      .v-gallery { min-height: 0; aspect-ratio: 4 / 3; order: 3; }
+      .g-nav { opacity: 1; }
       .v-logo { padding: 14px; }
       .v-logo img { max-width: 120px; }
       .v-role { font-size: .7rem; }
@@ -893,6 +910,12 @@
             </div>
             <p class="v-links"><a href="https://cardcircle.cc" target="_blank" rel="noopener">cardcircle.cc</a> · <a href="https://www.instagram.com/cardcircle" target="_blank" rel="noopener">Instagram</a></p>
           </div>
+          <div class="v-gallery" id="cc-gallery" hidden>
+            <div class="g-track"></div>
+            <button type="button" class="g-nav g-prev" aria-label="Vorheriges Bild">‹</button>
+            <button type="button" class="g-nav g-next" aria-label="Nächstes Bild">›</button>
+            <div class="g-dots" aria-hidden="true"></div>
+          </div>
         </article>
         <a class="venture slot reveal" href="#contact">
           <span class="slot-plus" aria-hidden="true">+</span>
@@ -1090,6 +1113,34 @@
   </footer>
 
   <script>
+    /* CardCircle-Galerie aus data/gallery.json (täglich von cardcircle.eu übernommen) */
+    (function () {
+      var g = document.getElementById('cc-gallery'); if (!g || !window.fetch) return;
+      fetch('data/gallery.json?d=' + new Date().toISOString().slice(0, 10)).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+        var imgs = (j && j.images) || []; if (!imgs.length) return;
+        var track = g.querySelector('.g-track'), dots = g.querySelector('.g-dots'), i = 0, timer;
+        imgs.forEach(function (im, k) {
+          var f = document.createElement('figure');
+          f.innerHTML = '<img loading="lazy" decoding="async" alt=""><figcaption></figcaption>';
+          f.querySelector('img').src = im.src; f.querySelector('img').alt = im.alt || 'CardCircle';
+          f.querySelector('figcaption').textContent = im.alt || '';
+          track.appendChild(f); dots.appendChild(document.createElement('i'));
+        });
+        var figs = track.children, ds = dots.children;
+        function show(n) {
+          i = (n + figs.length) % figs.length;
+          for (var k = 0; k < figs.length; k++) { figs[k].classList.toggle('on', k === i); ds[k].classList.toggle('on', k === i); }
+        }
+        function auto() { clearInterval(timer); timer = setInterval(function () { show(i + 1); }, 4000); }
+        g.querySelector('.g-prev').addEventListener('click', function () { show(i - 1); auto(); });
+        g.querySelector('.g-next').addEventListener('click', function () { show(i + 1); auto(); });
+        var sx = null;
+        g.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+        g.addEventListener('touchend', function (e) { if (sx === null) return; var dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) { show(i + (dx < 0 ? 1 : -1)); auto(); } sx = null; });
+        g.hidden = false; g.closest('.venture').classList.add('has-gallery');
+        show(0); auto();
+      }).catch(function () {});
+    })();
     /* Nächstes CardCircle-Event aus data/events.json (täglich automatisch von cardcircle.cc aktualisiert) */
     (function () {
       var box = document.getElementById('next-event'); if (!box || !window.fetch) return;

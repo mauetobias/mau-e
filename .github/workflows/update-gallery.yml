@@ -1,0 +1,39 @@
+name: CardCircle-Galerie aktualisieren
+
+on:
+  schedule:
+    - cron: "41 5 * * *"   # täglich gegen 6:40 Uhr deutscher Zeit
+  push:
+    paths:
+      - "scripts/update_gallery.py"
+      - ".github/workflows/update-gallery.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: content-bots
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/update_gallery.py
+      - name: Änderungen speichern
+        run: |
+          git add -A media/cardcircle data/gallery.json 2>/dev/null || true
+          if ! git diff --cached --quiet; then
+            git config user.name "mau-e Galerie-Bot"
+            git config user.email "actions@users.noreply.github.com"
+            git commit -m "CardCircle-Galerie von cardcircle.eu aktualisiert"
+            git pull --rebase origin main
+            git push
+          else
+            echo "Keine Änderungen."
+          fi

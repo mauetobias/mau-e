@@ -334,7 +334,8 @@
     .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .about-text p + p { margin-top: 18px; }
     .callout { margin-top: 26px !important; padding: 18px 22px; border-radius: 16px; background: var(--clay-soft); color: var(--charcoal); font-weight: 500; border-left: 4px solid var(--clay); }
-    .callout a { color: var(--clay-deep); font-weight: 700; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+    .callout a { color: var(--clay-deep); font-weight: 700; text-decoration: none; }
+    .callout a:hover { color: var(--charcoal); }
 
     .work { background: var(--light-sage); padding-bottom: 120px; }
     .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 48px; }
@@ -772,6 +773,20 @@
     [data-theme="dark"] .side-card:not(.side-next) h4 { color: var(--ink); } [data-theme="dark"] .side-card:not(.side-next) p { color: var(--soft); }
     [data-theme="dark"] .side-btn.is-soon { color: var(--soft); box-shadow: inset 0 0 0 1.5px var(--line); }
 
+
+    /* ---------- Lebenslauf, Termin, Visitenkarte ---------- */
+    .cv-btn { display: inline-flex; align-items: center; gap: 10px; margin-top: 18px; padding: 11px 20px; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: .95rem;
+      color: var(--charcoal); background: var(--clay-soft); box-shadow: inset 0 0 0 1.5px rgba(212,145,63,.45); transition: background .2s, transform .2s; }
+    .cv-btn:hover { background: var(--clay); transform: translateY(-2px); }
+    .cv-btn svg { width: 18px; height: 18px; }
+    [data-theme="dark"] .cv-btn { color: var(--ink); background: rgba(212,145,63,.16); }
+    [data-theme="dark"] .cv-btn:hover { color: #1F2321; background: var(--clay); }
+    .contact-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .contact-btns .li-btn { margin-top: 0; }
+    .book-btn { background: var(--clay); color: var(--charcoal) !important; box-shadow: none !important; }
+    .book-btn:hover { background: #e3a457 !important; }
+    @media (max-width: 820px) { .contact-btns { justify-content: center; } .cv-btn { margin-left: auto; margin-right: auto; } #stations .wrap > .cv-btn { display: flex; width: fit-content; } }
+
     /* Platzhalter sichtbar markieren (vor dem Livegang entfernen) */
     .ph { background: rgba(127, 143, 122, .22); border-bottom: 2px dashed var(--sage); padding: 0 4px; border-radius: 4px; }
     .contact .ph { background: rgba(243, 238, 230, .15); border-color: var(--light-sage); }
@@ -971,6 +986,10 @@
       <div class="wrap">
         <div class="section-label reveal">Stationen</div>
         <h2>Mein Weg bisher.</h2>
+        <a class="cv-btn reveal" id="cv-link" href="downloads/Tobias-Maue-Lebenslauf.pdf" target="_blank" onclick="window.mauTrack('Lebenslauf geöffnet', { quelle: 'website', sprache: window.LANG || 'de' })">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 11v6M9 14l3 3 3-3"/></svg>
+          <span>Lebenslauf als PDF</span>
+        </a>
         <ol class="timeline">
           <li class="reveal">
             <span class="when">seit 2025</span>
@@ -1129,7 +1148,11 @@
           <div class="section-label reveal">Kontakt</div>
           <h2>Lass uns sprechen.</h2>
           <p>Ob spannende neue Aufgabe, ein Projekt im Aufbau oder einfach ein Austausch: Schreib mir eine Nachricht.</p>
-          <a class="li-btn" href="https://www.linkedin.com/in/tobiasmaue" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.5h4V21H3V9.5Zm7 0h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.2c0-1.24-.02-2.84-1.73-2.84-1.73 0-2 1.35-2 2.75V21h-4V9.5Z"/></svg><span>Auf LinkedIn vernetzen</span></a>
+          <div class="contact-btns">
+            <a class="li-btn book-btn" id="book-btn" hidden target="_blank" rel="noopener" onclick="window.mauTrack('Termin geöffnet', { quelle: 'website' })"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="3"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg><span>15 Minuten kennenlernen</span></a>
+            <a class="li-btn" href="https://www.linkedin.com/in/tobiasmaue" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.5h4V21H3V9.5Zm7 0h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.2c0-1.24-.02-2.84-1.73-2.84-1.73 0-2 1.35-2 2.75V21h-4V9.5Z"/></svg><span>Auf LinkedIn vernetzen</span></a>
+            <a class="li-btn" href="karte" onclick="window.mauTrack('Visitenkarte geöffnet')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><circle cx="8.5" cy="11" r="2.2"/><path d="M5.5 16c.6-1.5 1.7-2.3 3-2.3s2.4.8 3 2.3M14 10h4.5M14 13.5h3"/></svg><span>Digitale Visitenkarte</span></a>
+          </div>
         </div>
         <div class="contact-card reveal">
         <form id="contact-form" class="contact-form" action="https://formspree.io/f/maeeokzq" method="POST">
@@ -1157,7 +1180,7 @@
     <div class="wrap">
       <span>© 2026 Tobias Maue</span>
       <span class="egg-counter" id="egg-counter" hidden title="Antippen: deine Entdeckungen anzeigen"><span aria-hidden="true">🌱</span> <b class="egg-n">0/7</b> <span class="egg-l">Geheimnisse gefunden</span></span>
-      <span class="legal"><a href="datenschutz.html">Datenschutz</a></span>
+      <span class="legal"><a href="karte">Visitenkarte</a> · <a href="datenschutz.html">Datenschutz</a></span>
     </div>
   </footer>
 
@@ -1443,7 +1466,7 @@
       els.forEach(function (e, i) { e.style.transitionDelay = (e.classList.contains('card') || e.classList.contains('stat') ? (i % 4) * 90 : 0) + 'ms'; io.observe(e); });
     })();
   </script>
-  <script src="i18n.js?v=15"></script>
+  <script src="i18n.js?v=16"></script>
   <script>
     (function () {
       var el = document.getElementById('last-grown'); if (!el) return;
@@ -1457,5 +1480,15 @@
   </script>
   <script src="games.js?v=7"></script>
   <script src="analytics.js?v=1"></script>
+  <script src="booking.js?v=1"></script>
+  <script>
+    (function () {
+      var b = document.getElementById('book-btn'); if (b && window.BOOKING_URL) { b.href = window.BOOKING_URL; b.hidden = false; }
+      var cv = document.getElementById('cv-link');
+      function cvLang() { if (cv) cv.href = window.LANG === 'en' ? 'downloads/Tobias-Maue-CV.pdf' : 'downloads/Tobias-Maue-Lebenslauf.pdf'; }
+      cvLang(); document.addEventListener('langchange', cvLang);
+    })();
+  </script>
+
 </body>
 </html>

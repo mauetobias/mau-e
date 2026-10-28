@@ -15,7 +15,8 @@ import urllib.request
 
 SITE = "https://cardcircle.eu/"
 OUT = "data/events.json"
-UA = {"User-Agent": "Mozilla/5.0 (mau-e.com event sync)"}
+UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36",
+      "Accept-Language": "de-DE,de;q=0.9", "Accept": "text/html,application/xhtml+xml"}
 MONTHS = {m: i + 1 for i, m in enumerate(
     ["januar", "februar", "märz", "april", "mai", "juni", "juli", "august",
      "september", "oktober", "november", "dezember"])}
@@ -70,20 +71,51 @@ def from_jsonld(page):
     return None
 
 
+def from_meta(page):
+    """Titel aus og:title bzw. <title> der Eventfrog-Seite."""
+    for pat in (r'<meta[^>]+property="og:title"[^>]+content="([^"]+)"', r'<meta[^>]+content="([^"]+)"[^>]+property="og:title"', r"<title>(.*?)</title>"):
+        m = re.search(pat, page, flags=re.S | re.I)
+        if m:
+            t = html.unescape(m.group(1)).strip()
+            t = re.split(r"\s+[|·-]\s+(Eventfrog|Tickets).*$", t)[0].strip()
+            if t:
+                return t
+    return ""
+
+
+BAD_TITLE = re.compile(r"€|Uhr|Tickets?|Plätze|ab 18|•|·|\d{5}|Straße|Booster|Promokarte|pro Spieler|Einlass", re.I)
+
+
+def heading_before(fragment):
+    """Letzte Überschrift (h1 bis h4) vor dem Ticket-Link."""
+    hs = re.findall(r"<h[1-4][^>]*>(.*?)</h[1-4]>", fragment, flags=re.S | re.I)
+    for h in reversed(hs):
+        t = " ".join(text_of(h)).strip()
+        if t and not BAD_TITLE.search(t) and len(t) > 5:
+            return t
+    return ""
+
+
 def from_site_text(page, link):
     pos = page.find(link.split("#")[0])
     if pos < 0:
         return None
     cut = page.rfind("<", 0, pos)
-    lines = text_of(page[max(0, cut - 3000):cut])[-14:]
+    start = max(0, cut - 3000)
+    prev = page.rfind("eventfrog.", start, cut - 1)       # nicht in das vorherige Event hineinlesen
+    if prev > 0:
+        start = page.find(">", prev) + 1
+    lines = text_of(page[start:cut])[-14:]
     date = None
     title = ""
     for ln in reversed(lines):
         if date is None:
             date = parse_date(ln)
-    for ln in lines:
-        if len(ln) > 8 and not parse_date(ln) and not re.search(r"€|Uhr|Tickets?|Plätze|ab 18", ln):
-            title = ln
+    title = heading_before(page[start:cut])
+    if not title:
+        for ln in lines:
+            if len(ln) > 8 and not parse_date(ln) and not BAD_TITLE.search(ln):
+                title = ln
     if not date:
         return None
     time = ""
@@ -91,8 +123,15 @@ def from_site_text(page, link):
         m = re.search(r"(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})", ln)
         if m:
             time = m.group(1) + " bis " + m.group(2) + " Uhr"
+    location = ""
+    for ln in lines:
+        m = re.search(r"(Kombinat[^•·,]*|Jugendhaus [A-ZÄÖÜa-zäöüß]+)", ln)
+        if m:
+            location = m.group(1).strip()
+            if location == "Kombinat":
+                location = "Kombinat Mannheim"
     return {"title": title or link.rsplit("/", 1)[-1].split("-7")[0].replace("-", " ").title(),
-            "date": date.isoformat(), "time": time, "location": ""}
+            "date": date.isoformat(), "time": time, "location": location}
 
 
 def main():
@@ -108,13 +147,25 @@ def main():
             links.append(href)
     events = []
     for link in links:
-        ev = None
+        ev, meta_title = None, ""
         try:
-            ev = from_jsonld(get(link))
+            ef = get(link)
+            ev = from_jsonld(ef)
+            meta_title = from_meta(ef)
         except Exception as e:
             print("Eventfrog nicht lesbar:", link, e)
-        if not ev or not ev.get("title"):
-            ev = from_site_text(page, link) or ev
+        site = from_site_text(page, link)
+        if not ev:
+            ev = site
+        if ev:
+            if not ev.get("title") or BAD_TITLE.search(ev["title"]):
+                ev["title"] = meta_title or (site or {}).get("title", "")
+            for k in ("time", "location"):
+                if not ev.get(k) and site:
+                    ev[k] = site.get(k, "")
+        if ev and (not ev.get("title") or BAD_TITLE.search(ev["title"])):
+            print("Titel unklar, Event wird übersprungen:", link)
+            ev = None
         if ev:
             ev["url"] = link
             events.append(ev)
@@ -123,6 +174,16 @@ def main():
     if not events:
         print("Keine kommenden Events gefunden, Datei bleibt unverändert.")
         return 0
+    try:
+        old = {e["url"].split("#")[0]: e for e in json.load(open(OUT, encoding="utf-8")).get("events", [])}
+    except Exception:
+        old = {}
+    for e in events:
+        o = old.get(e["url"].split("#")[0])
+        if o:
+            for k in ("title", "time", "location"):
+                if not e.get(k):
+                    e[k] = o.get(k, "")
     data = {"source": SITE, "updated": today, "events": events[:5]}
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)

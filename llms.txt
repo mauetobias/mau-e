@@ -24,7 +24,7 @@ Diese Datei fasst die Inhalte der Webseite für KI-Systeme und Suchmaschinen zus
 
 ## Side Projects
 
-- **Geldfluss im Blick**: ein eigenes Android-Widget, entstanden aus eigenem Bedarf, um den finanziellen Überblick zu behalten, wenn Geld zwischen Konten wandert und Abbuchungen erst später kommen. Download auf der Webseite in Vorbereitung.
+- **Geldfluss im Blick**: ein eigenes Android-Widget, entstanden aus eigenem Bedarf, um den finanziellen Überblick zu behalten, wenn Geld zwischen Konten wandert und Abbuchungen erst später kommen. Kostenloser Download als APK (Version 2.1, ab Android 14): https://mau-e.com/downloads/geldfluss-im-blick-2.1.apk. Die App funktioniert ohne Internet, alle Daten bleiben auf dem Gerät.
 
 ## Kontakt
 

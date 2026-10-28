@@ -153,7 +153,20 @@
  "Niedersachsen": "Lower Saxony",
  "Hamburg": "Hamburg",
  "Berlin": "Berlin",
- "Co-Founder &amp; CEO": "Co-Founder &amp; CEO"
+ "Co-Founder &amp; CEO": "Co-Founder &amp; CEO",
+ "APK herunterladen": "Download APK",
+ "Version 2.1 · 24,8 MB · ab Android 14": "Version 2.1 · 24.8 MB · Android 14 or newer",
+ "So installierst du die App": "How to install the app",
+ "APK auf dem Android-Handy herunterladen und antippen.": "Download the APK on your Android phone and tap it.",
+ "Android fragt einmal, ob Apps aus dieser Quelle installiert werden dürfen. Das ist bei Apps außerhalb des Play Stores normal.": "Android asks once whether apps from this source may be installed. That is normal for apps outside the Play Store.",
+ "Widget auf dem Homescreen hinzufügen und loslegen.": "Add the widget to your home screen and get started.",
+ "Die App braucht kein Internet. Deine Buchungen bleiben auf deinem Handy. Den Bankabgleich gibt es nur, wenn du ihm den Zugriff auf Benachrichtigungen ausdrücklich erlaubst.": "The app needs no internet access. Your entries stay on your phone. Bank matching only works if you explicitly allow it to read notifications.",
+ "6. Android-App „Geldfluss im Blick“": "6. Android app “Money flow at a glance”",
+ "Auf dieser Seite kann die App „Geldfluss im Blick“ heruntergeladen werden. Beim Download verarbeitet GitHub technisch notwendige Daten wie unter Punkt 3 beschrieben.": "The app “Money flow at a glance” can be downloaded from this site. When you download it, GitHub processes technically necessary data as described in section 3.",
+ "Die App selbst hat keine Berechtigung für den Internetzugriff. Alle Buchungen, Budgets und Fotos von Kassenbons werden ausschließlich auf Ihrem Gerät gespeichert und nicht an mich oder Dritte übertragen. Die Texterkennung für Kassenbons läuft vollständig auf dem Gerät.": "The app itself has no permission to access the internet. All entries, budgets and receipt photos are stored only on your device and are not transferred to me or third parties. Receipt text recognition runs entirely on the device.",
+ "Für den optionalen Bankabgleich liest die App die Benachrichtigungen ausgewählter Apps mit, etwa von Google Wallet, aber nur, wenn Sie ihr diesen Zugriff in den Android-Einstellungen ausdrücklich erlaubst. Auch diese Informationen bleiben auf dem Gerät. Den Zugriff können Sie jederzeit widerrufen.": "For the optional bank matching, the app reads notifications from selected apps such as Google Wallet, but only if you explicitly allow this in the Android settings. This information also stays on the device. You can revoke access at any time.",
+ "Wenn in Ihrem Android-Gerät die automatische Sicherung aktiviert ist, kann Android die App-Daten in Ihrem eigenen Google-Konto sichern. Darauf habe ich keinen Zugriff.": "If automatic backup is enabled on your Android device, Android may back up the app data to your own Google account. I have no access to it.",
+ "7. Ihre Rechte": "7. Your rights"
 };
   var META = {
     de: { title: document.title, desc: (document.querySelector('meta[name=description]') || {}).content },

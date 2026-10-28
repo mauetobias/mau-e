@@ -1,0 +1,41 @@
+{
+  "source": "https://cardcircle.eu/about",
+  "images": [
+    {
+      "src": "media/cardcircle/01-crew-geekworld.webp",
+      "alt": "Die CardCircle-Crew vor den Geekworld-Aufstellern"
+    },
+    {
+      "src": "media/cardcircle/02-ruestung-spieler.webp",
+      "alt": "Spieler in Rüstung beim Draft"
+    },
+    {
+      "src": "media/cardcircle/03-crew-lachen.webp",
+      "alt": "Lachendes Crew-Mitglied"
+    },
+    {
+      "src": "media/cardcircle/04-karten-haende.webp",
+      "alt": "Karten in der Hand"
+    },
+    {
+      "src": "media/cardcircle/05-deckboxen.webp",
+      "alt": "CardCircle-Deckboxen"
+    },
+    {
+      "src": "media/cardcircle/06-tisch-6.webp",
+      "alt": "Tisch 6 mit Spielern"
+    },
+    {
+      "src": "media/cardcircle/07-crew-ruecken.webp",
+      "alt": "Crew-T-Shirts von hinten"
+    },
+    {
+      "src": "media/cardcircle/08-spieler-draft.webp",
+      "alt": "Spieler beim Draft"
+    },
+    {
+      "src": "media/cardcircle/Bar1.jpg",
+      "alt": "CardCircle Abend in einer Bar"
+    }
+  ]
+}

@@ -140,7 +140,19 @@
  "Zuletzt gewachsen:": "Last grown:",
  "Events und Community für Sammelkartenspiele in der Rhein-Neckar-Region. Magic: The Gathering und bald Lorcana, Riftbound, Pokémon und Co.": "Events and community for trading card games in the Rhine-Neckar region. Magic: The Gathering and soon Lorcana, Riftbound, Pokémon and more.",
  "Events und Community für Sammelkartenspiele in Mannheim und der Rhein-Neckar-Region: Drafts, Turniere, Prereleases und Community-Abende, dazu ein eigener Shop. Aktuell mit Fokus auf Magic: The Gathering, bald auch Lorcana, Riftbound, Pokémon und Co. Gerade schauen wir, wohin wir als Nächstes wachsen.": "Events and community for trading card games in Mannheim and the Rhine-Neckar region: drafts, tournaments, prereleases and community nights, plus our own shop. Currently focused on Magic: The Gathering, soon also Lorcana, Riftbound, Pokémon and more. Right now we are exploring where to grow next.",
- "cardcircle.cc": "cardcircle.cc"
+ "cardcircle.cc": "cardcircle.cc",
+ "Bundesländer, in denen ich unterwegs war": "German states I have worked across",
+ "Gestartet in Kaiserslautern und Karlsruhe, eingearbeitet in Mannheim, Ludwigshafen und Heidelberg. Danach Standortleiter für Frankfurt, Darmstadt, Rüsselsheim, Mainz und Wiesbaden samt Umland, inklusive der Eröffnung in Rüsselsheim, und zuletzt Regionalleiter.": "Started in Kaiserslautern and Karlsruhe, onboarded in Mannheim, Ludwigshafen and Heidelberg. Then site lead for Frankfurt, Darmstadt, Rüsselsheim, Mainz and Wiesbaden including the surrounding areas, with the launch in Rüsselsheim, and finally regional lead.",
+ "Verantwortlich für Berlin und Umland und den Start in Hamburg. Unsere Teams waren in ganz Norddeutschland im Einsatz, von Brandenburg und Mecklenburg-Vorpommern bis Schleswig-Holstein und Niedersachsen. Als nächster Schritt war die Expansion in den ganzen DACH-Raum geplant.": "Responsible for Berlin and the surrounding area and the launch in Hamburg. Our teams worked all across northern Germany, from Brandenburg and Mecklenburg-Western Pomerania to Schleswig-Holstein and Lower Saxony. The next step was planned expansion across the DACH region.",
+ "Rheinland-Pfalz": "Rhineland-Palatinate",
+ "Baden-Württemberg": "Baden-Württemberg",
+ "Hessen": "Hesse",
+ "Brandenburg": "Brandenburg",
+ "Mecklenburg-Vorpommern": "Mecklenburg-Western Pomerania",
+ "Schleswig-Holstein": "Schleswig-Holstein",
+ "Niedersachsen": "Lower Saxony",
+ "Hamburg": "Hamburg",
+ "Berlin": "Berlin"
 };
   var META = {
     de: { title: document.title, desc: (document.querySelector('meta[name=description]') || {}).content },

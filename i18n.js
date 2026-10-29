@@ -155,7 +155,7 @@
  "Berlin": "Berlin",
  "Co-Founder &amp; CEO": "Co-Founder &amp; CEO",
  "APK herunterladen": "Download APK",
- "Version 2.1 · 24,8 MB · ab Android 14": "Version 2.1 · 24.8 MB · Android 14 or newer",
+ "Version 2.2 · 24,8 MB · ab Android 14": "Version 2.2 · 24.8 MB · Android 14 or newer",
  "So installierst du die App": "How to install the app",
  "APK auf dem Android-Handy herunterladen und antippen.": "Download the APK on your Android phone and tap it.",
  "Android fragt einmal, ob Apps aus dieser Quelle installiert werden dürfen. Das ist bei Apps außerhalb des Play Stores normal.": "Android asks once whether apps from this source may be installed. That is normal for apps outside the Play Store.",

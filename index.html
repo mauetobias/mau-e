@@ -1069,8 +1069,8 @@
               <h4>Geldfluss im Blick</h4>
               <p>Ein kleines Android-Widget, entstanden aus eigenem Bedarf: damit ich immer weiß, wo ich finanziell gerade stehe, auch wenn Geld zwischen Konten wandert und Abbuchungen erst später kommen.</p>
               <div class="dl-row">
-                <a class="btn side-btn" onclick="window.mauTrack('APK heruntergeladen', { version: '2.2' })" href="downloads/geldfluss-im-blick-2.2.apk" download type="application/vnd.android.package-archive"><span aria-hidden="true">⬇</span> <span>APK herunterladen</span></a>
-                <span class="dl-meta">Version 2.2 · 24,8 MB · ab Android 14</span>
+                <a class="btn side-btn" id="app-dl" onclick="window.mauTrack('APK heruntergeladen', { version: this.dataset.version || '2.2' })" href="downloads/geldfluss-im-blick-2.2.apk" download type="application/vnd.android.package-archive"><span aria-hidden="true">⬇</span> <span>APK herunterladen</span></a>
+                <span class="dl-meta" id="app-meta">Version 2.2 · 24,8 MB · ab Android 14</span>
               </div>
               <details class="dl-help">
                 <summary>So installierst du die App</summary>
@@ -1080,7 +1080,7 @@
                   <li>Widget auf dem Homescreen hinzufügen und loslegen.</li>
                 </ol>
                 <p>Die App braucht kein Internet. Deine Buchungen bleiben auf deinem Handy. Den Bankabgleich gibt es nur, wenn du ihm den Zugriff auf Benachrichtigungen ausdrücklich erlaubst.</p>
-                <p class="sha">SHA-256: <code>e1e7c1014b8ffc6f1084d24c7dc82dcf5eb3affe057ae76d998809222a864463</code></p>
+                <p class="sha">SHA-256: <code id="app-sha">e1e7c1014b8ffc6f1084d24c7dc82dcf5eb3affe057ae76d998809222a864463</code></p>
               </details>
             </div>
             <div class="side-video">
@@ -1490,5 +1490,15 @@
     })();
   </script>
 
+<script>
+  // Immer die neueste Version der App: data/app.json wird bei jedem neuen Build automatisch aktualisiert
+  fetch('data/app.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (a) {
+    if (!a || !a.url) return;
+    var dl = document.getElementById('app-dl'), meta = document.getElementById('app-meta'), sha = document.getElementById('app-sha');
+    if (dl) { dl.href = a.url; dl.dataset.version = a.version; }
+    if (meta) meta.textContent = 'Version ' + a.version + ' · ' + a.size + ' · ab Android 14';
+    if (sha && a.sha256) sha.textContent = a.sha256;
+  }).catch(function () {});
+</script>
 </body>
 </html>

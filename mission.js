@@ -263,6 +263,92 @@
     });
   }
 
+  /* ---------- Landeanflug: je tiefer, desto näher die Erde ---------- */
+  (function () {
+    var d = document.createElement('div'); d.className = 'descent'; d.setAttribute('aria-hidden', 'true');
+    d.innerHTML = '<div class="ds-space"></div><div class="ds-stars"></div><div class="ds-atmo"></div>' +
+      '<div class="ds-earth"><i class="ds-glow"></i></div>' +
+      '<div class="ds-clouds"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i></div>';
+    document.body.insertBefore(d, document.body.firstChild);
+    var alt = document.createElement('div'); alt.className = 'alt'; alt.setAttribute('aria-hidden', 'true');
+    alt.innerHTML = '<span class="alt-l"></span><b class="alt-v"></b><i class="alt-bar"><i></i></i>';
+    document.body.appendChild(alt);
+    var earth = d.querySelector('.ds-earth'), clouds = d.querySelector('.ds-clouds');
+    function sm(a, b, x) { var t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    var ticking = false, lastP = -1;
+    function upd() {
+      ticking = false;
+      if (!isF()) return;
+      var max = document.documentElement.scrollHeight - innerHeight, p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+      if (Math.abs(p - lastP) < .0005) return; lastP = p;
+      d.style.setProperty('--space', (1 - sm(.18, .62, p)).toFixed(3));
+      d.style.setProperty('--stars', (1 - sm(.3, .72, p)).toFixed(3));
+      d.style.setProperty('--atmo', sm(.32, .8, p).toFixed(3));
+      /* Planet: wird größer, füllt den unteren Bildschirm, wird am Ende zum flachen Horizont */
+      var w, v;
+      if (p < .6) { var a = p / .6; w = lerp(170, 520, a * a); v = lerp(24, 52, sm(0, 1, a)); }
+      else { var b = (p - .6) / .4; w = lerp(520, 900, b); v = lerp(52, 16, sm(0, 1, b)); }
+      earth.style.width = w.toFixed(1) + 'vw';
+      earth.style.top = 'calc(' + (100 - v).toFixed(2) + 'vh)';
+      earth.style.setProperty('--rim', (1 - sm(.55, .9, p) * .65).toFixed(3));
+      earth.style.setProperty('--land', sm(.45, .95, p).toFixed(3));
+      /* Wolken: man fällt hindurch */
+      clouds.style.opacity = (sm(.5, .66, p) * (1 - sm(.88, .98, p))).toFixed(3);
+      clouds.style.transform = 'translate3d(0,' + ((.78 - p) * 260).toFixed(1) + 'vh,0)';
+      /* Höhenmesser */
+      var km = 420 * Math.pow(1 - p, 2.6), txt;
+      if (p >= .995) txt = '0 m'; else if (km < 1) txt = Math.round(km * 1000) + ' m'; else txt = (km < 10 ? km.toFixed(1) : Math.round(km)).toString().replace('.', en() ? '.' : ',') + ' km';
+      alt.querySelector('.alt-v').textContent = txt;
+      alt.querySelector('.alt-bar i').style.height = ((1 - p) * 100).toFixed(1) + '%';
+      alt.classList.toggle('landed', p >= .995);
+    }
+    function req() { if (!ticking) { ticking = true; requestAnimationFrame(upd); } }
+    painters.push(function () { alt.querySelector('.alt-l').textContent = en() ? 'Altitude' : 'Höhe'; lastP = -1; req(); });
+    window.addEventListener('scroll', req, { passive: true });
+    window.addEventListener('resize', function () { lastP = -1; req(); });
+    document.addEventListener('designchange', function () { lastP = -1; req(); });
+    req();
+  })();
+
+  /* ---------- Ganz unten: Landung im Wald ---------- */
+  (function () {
+    var c = document.getElementById('contact'); if (!c) return;
+    var seed = 7; function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+    function pines(W, base, minH, maxH, minGap, maxGap, wf) {
+      var d = '', x = -20;
+      while (x < W + 40) {
+        var h = minH + rnd() * (maxH - minH), w = h * (wf || .42) * (.85 + rnd() * .3);
+        d += 'M' + (x - w * .5).toFixed(1) + ' ' + base +
+          'L' + (x - w * .2).toFixed(1) + ' ' + (base - h * .3).toFixed(1) + 'L' + (x - w * .36).toFixed(1) + ' ' + (base - h * .29).toFixed(1) +
+          'L' + (x - w * .13).toFixed(1) + ' ' + (base - h * .57).toFixed(1) + 'L' + (x - w * .25).toFixed(1) + ' ' + (base - h * .56).toFixed(1) +
+          'L' + x.toFixed(1) + ' ' + (base - h).toFixed(1) +
+          'L' + (x + w * .25).toFixed(1) + ' ' + (base - h * .56).toFixed(1) + 'L' + (x + w * .13).toFixed(1) + ' ' + (base - h * .57).toFixed(1) +
+          'L' + (x + w * .36).toFixed(1) + ' ' + (base - h * .29).toFixed(1) + 'L' + (x + w * .2).toFixed(1) + ' ' + (base - h * .3).toFixed(1) +
+          'L' + (x + w * .5).toFixed(1) + ' ' + base + 'Z';
+        x += minGap + rnd() * (maxGap - minGap);
+      }
+      return d;
+    }
+    function ridge(W, base, top, n) {
+      var d = 'M0 ' + base, step = W / n;
+      for (var i = 0; i <= n; i++) d += 'L' + (i * step).toFixed(1) + ' ' + (top + rnd() * (base - top) * .55).toFixed(1);
+      return d + 'L' + W + ' ' + base + 'Z';
+    }
+    var W = 1600, H = 420;
+    var f = document.createElement('div'); f.className = 'forest'; f.setAttribute('aria-hidden', 'true');
+    var flies = ''; for (var i = 0; i < 18; i++) flies += '<i style="left:' + (rnd() * 96 + 2).toFixed(1) + '%;bottom:' + (rnd() * 46 + 6).toFixed(1) + '%;animation-delay:-' + (rnd() * 8).toFixed(2) + 's,-' + (rnd() * 3).toFixed(2) + 's;animation-duration:' + (6 + rnd() * 6).toFixed(1) + 's,' + (2 + rnd() * 2.5).toFixed(1) + 's"></i>';
+    f.innerHTML =
+      '<div class="fo-sun"></div>' +
+      '<svg class="fo-l fo-m" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMax slice"><path d="' + ridge(W, H, 150, 26) + '"/></svg>' +
+      '<svg class="fo-l fo-1" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMax slice"><path d="' + pines(W, H, 70, 130, 14, 30, .38) + '"/><rect y="' + (H - 6) + '" width="' + W + '" height="6"/></svg>' +
+      '<div class="fo-mist"></div>' +
+      '<svg class="fo-l fo-2" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMax slice"><path d="' + pines(W, H, 120, 220, 26, 60, .4) + '"/><rect y="' + (H - 10) + '" width="' + W + '" height="10"/></svg>' +
+      '<div class="fo-flies">' + flies + '</div>' +
+      '<svg class="fo-l fo-3" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMax slice"><path d="' + pines(W, H, 200, 360, 120, 260, .42) + '"/><path d="M0 ' + H + 'L0 ' + (H - 36) + 'Q400 ' + (H - 60) + ' 800 ' + (H - 40) + 'T1600 ' + (H - 44) + 'L1600 ' + H + 'Z"/></svg>';
+    c.appendChild(f);
+  })();
+
   document.addEventListener('langchange', texts);
   texts();
 })();

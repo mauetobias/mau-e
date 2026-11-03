@@ -94,6 +94,29 @@
     });
   }
 
+  /* Rotierende Zeile im Hero: „Ich baue Startups / Teams / …" */
+  var rot = document.querySelector('.fx-rot');
+  if (rot) {
+    var W = {
+      de: { p: 'Ich baue ', w: ['Startups.', 'Teams.', 'Standorte.', 'Communities.', 'das nächste große Ding.'] },
+      en: { p: 'I build ', w: ['startups.', 'teams.', 'locations.', 'communities.', 'the next big thing.'] }
+    };
+    var wi = 0, wEl = rot.querySelector('.fx-w'), pEl = rot.querySelector('.fx-p');
+    var words = function () { return W[en() ? 'en' : 'de']; };
+    var paint = function () { pEl.textContent = words().p; wEl.textContent = words().w[wi]; };
+    paint();
+    document.addEventListener('langchange', paint);
+    if (!reduce) setInterval(function () {
+      if (!isF() || document.hidden) return;
+      wEl.classList.add('out');
+      setTimeout(function () {
+        wi = (wi + 1) % words().w.length; paint();
+        wEl.classList.remove('out'); wEl.classList.add('in');
+        void wEl.offsetWidth; wEl.classList.remove('in');
+      }, 350);
+    }, 2400);
+  }
+
   document.addEventListener('langchange', label);
   document.addEventListener('themechange', label);
   label();

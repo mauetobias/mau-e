@@ -1,0 +1,8 @@
+# Bilder von cardcircle.eu/about, die NICHT auf mau-e gezeigt werden sollen.
+# Ein Dateiname pro Zeile (so wie er in media/cardcircle/ heißt). Text nach # ist Kommentar.
+# Die automatische Prüfung sortiert unscharfe, zu kleine, schlecht belichtete und doppelte Bilder
+# selbst aus – diese Liste ist für Bilder, die technisch okay, aber inhaltlich schwach sind.
+
+Bar1.webp                 # leerer Tisch, keine Leute
+06-drinks.webp            # nur die Bierflaschen sind scharf
+05-magiccon-flasche.webp  # unruhig, Motiv ist eine Trinkflasche

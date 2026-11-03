@@ -1189,7 +1189,8 @@
     (function () {
       var g = document.getElementById('cc-gallery'); if (!g || !window.fetch) return;
       fetch('data/gallery.json?d=' + new Date().toISOString().slice(0, 10)).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
-        var imgs = (j && j.images) || []; if (!imgs.length) return;
+        var imgs = ((j && j.images) || []).slice(); if (!imgs.length) return;
+        for (var r = imgs.length - 1; r > 0; r--) { var q = Math.floor(Math.random() * (r + 1)), t = imgs[r]; imgs[r] = imgs[q]; imgs[q] = t; } /* bei jedem Besuch zufällige Reihenfolge */
         var track = g.querySelector('.g-track'), dots = g.querySelector('.g-dots'), i = 0, timer;
         imgs.forEach(function (im, k) {
           var f = document.createElement('figure');

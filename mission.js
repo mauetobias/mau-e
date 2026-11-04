@@ -144,7 +144,7 @@
         '<div class="mod-body" role="button" tabindex="0"><span class="mod-n">' + n + '</span><span class="mod-lights" aria-hidden="true"><i></i><i></i><i></i></span></div></div>';
       var body = el.querySelector('.mod-body'), box = li.querySelector(':scope > div');
       var when = li.querySelector('.when'); if (when) body.appendChild(when.cloneNode(true));
-      ['.chip', 'h3', '.role'].forEach(function (s) { var c = box && box.querySelector(s); if (c) body.appendChild(c.cloneNode(true)); });
+      ['.chip', '.co-logo', 'h3', '.role'].forEach(function (s) { var c = box && box.querySelector(s); if (c) { c = c.cloneNode(true); var im = c.querySelector && c.querySelector('img'); if (im) im.removeAttribute('loading'); body.appendChild(c); } });
       var d = document.createElement('span'); d.className = 'mod-dock'; body.appendChild(d);
       body.addEventListener('click', function () { open(li, n); });
       body.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(li, n); } });

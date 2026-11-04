@@ -21,7 +21,7 @@
     btn.setAttribute('aria-label', f ? (en() ? 'Switch to the classic layout' : 'Zum klassischen Layout wechseln') : (en() ? 'Switch to the futuristic layout' : 'Zum futuristischen Layout wechseln'));
     btn.title = btn.getAttribute('aria-label');
     var m = document.querySelector('meta[name=theme-color]');
-    if (m && f) m.content = '#06070A';
+    if (m && f) m.content = root.getAttribute('data-theme') === 'light' ? '#E9E5DC' : '#121815';
     else if (m) m.content = root.getAttribute('data-theme') === 'dark' ? '#1F2321' : '#5F6F63';
     var hh = document.querySelector('.hero-hud .hh-tr');
     if (hh) hh.textContent = en() ? 'Open to new things' : 'Offen für Neues';

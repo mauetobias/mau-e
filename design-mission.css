@@ -574,130 +574,171 @@ html[data-design="future"] footer, html[data-design="future"][data-theme="dark"]
 }
 @media (min-width: 900px) { html[data-design="future"] footer { padding-bottom: 72px; } }
 
-/* Firmenlogos auf den Raumstationen */
-html[data-design="future"] .mod-body .co-logo { height: 34px; padding: 6px 11px; margin: 14px 0 0; border-radius: 8px; box-shadow: 0 6px 16px -8px rgba(0, 0, 0, .6); }
-html[data-design="future"] .mod-body .co-logo img { max-width: 132px; }
-html[data-design="future"] .mod-body .chip + .co-logo { margin-top: 12px; }
-html[data-design="future"] #stations .co-logo { box-shadow: none; }
-.dock-c .co-logo { margin: 14px 0 4px; }
+/* Firmenlogos auf den Raumstationen: Logo statt Name, klickbar */
+html[data-design="future"] .mod-body .co-logo { height: 40px; margin: auto 0 0; padding-top: 0; }
+html[data-design="future"] .mod-body .co-logo img { max-width: 170px; }
+html[data-design="future"] .mod-body .co-logo + h3 + .role { margin-top: 12px; }
+.dock-c .co-logo { height: 52px; margin: 18px 0 14px; }
+.dock-c .co-logo img { max-width: 240px; }
 @media (max-width: 760px) {
-  html[data-design="future"] .mod-body .co-logo { height: 28px; padding: 5px 9px; margin-top: 10px; }
-  html[data-design="future"] .mod-body .co-logo img { max-width: 110px; }
+  html[data-design="future"] .mod-body .co-logo { height: 32px; }
+  html[data-design="future"] .mod-body .co-logo img { max-width: 140px; }
 }
 
 /* =====================================================================
-   Hell-Modus im Layout „Future": Tag über dem grünen Planeten
+   Hell-Modus im Layout „Future": ein klarer Morgen über dem grünen Planeten
+   Hell, warm und kontrastreich: Papierweiß, tiefes Graphit, sattes Grün, Orange.
    ===================================================================== */
 html[data-design="future"][data-theme="light"] {
   color-scheme: light;
-  --f-fg: 42, 48, 45;
-  --f-bgc: 243, 238, 230;
-  --f-bg: #EFEAE1;
-  --f-bg2: #E7E2D7;
-  --f-card: #FBF8F2;
-  --f-card2: #F3EEE6;
-  --f-ink: #262B28;
-  --f-ink2: #3E4341;
-  --f-soft: #55605A;
-  --f-dim: #7A847C;
-  --f-acc: #A8681C;
+  --f-fg: 31, 35, 33;
+  --f-bgc: 251, 248, 242;
+  --f-bg: #F7F3EC;
+  --f-bg2: #EFEAE1;
+  --f-card: #FFFFFF;
+  --f-card2: #FBF8F2;
+  --f-ink: #1F2321;
+  --f-ink2: #343A37;
+  --f-soft: #4C5550;
+  --f-dim: #77817A;
+  --f-acc: #B26E1F;
   --f-acc2: #F5E4C8;
-  --f-acc-glow: rgba(212, 145, 63, .38);
-  background: #E9E5DC;
+  --f-acc-glow: rgba(212, 145, 63, .42);
+  --f-line: rgba(31, 35, 33, .09);
+  --f-line2: rgba(31, 35, 33, .16);
+  background: #F7F3EC;
 }
 html[data-design="future"][data-theme="light"] ::selection { background: #D4913F; color: #1F2321; }
-/* Name im Hero: dunkles Graphit statt Silber */
 html[data-design="future"][data-theme="light"] h1 {
-  background: linear-gradient(180deg, #262B28 20%, #3E4A43 62%, #5F6F63 100%);
-  -webkit-background-clip: text; background-clip: text; filter: drop-shadow(0 10px 30px rgba(212, 145, 63, .18));
+  background: linear-gradient(180deg, #1F2321 30%, #3F5547 100%);
+  -webkit-background-clip: text; background-clip: text; filter: none;
 }
-html[data-design="future"][data-theme="light"] .theme-switch .sun { color: #A8681C; }
-/* Himmel bei Tag */
+html[data-design="future"][data-theme="light"] h1 .dot { text-shadow: 0 0 22px rgba(212, 145, 63, .55); }
+html[data-design="future"][data-theme="light"] .lead,
+html[data-design="future"][data-theme="light"] .about-text p { color: #4C5550; }
+
+/* Himmel: Papierweiß oben, warmes Morgenlicht zum Horizont */
 html[data-design="future"][data-theme="light"] .ds-space {
   background:
-    linear-gradient(rgba(var(--f-fg), .035) 1px, transparent 1px) 0 0 / 80px 80px,
-    linear-gradient(90deg, rgba(var(--f-fg), .035) 1px, transparent 1px) 0 0 / 80px 80px,
-    radial-gradient(55% 60% at 85% 5%, rgba(212, 145, 63, .12), transparent 70%),
-    radial-gradient(45% 50% at 5% 40%, rgba(127, 143, 122, .14), transparent 70%),
-    linear-gradient(180deg, #E9E5DC 0%, #E2E3D8 100%);
+    linear-gradient(rgba(31, 35, 33, .035) 1px, transparent 1px) 0 0 / 80px 80px,
+    linear-gradient(90deg, rgba(31, 35, 33, .035) 1px, transparent 1px) 0 0 / 80px 80px,
+    radial-gradient(60% 45% at 82% 8%, rgba(236, 179, 106, .22), transparent 70%),
+    radial-gradient(70% 60% at 50% 105%, rgba(236, 179, 106, .28), transparent 70%),
+    linear-gradient(180deg, #FBF8F2 0%, #F6F0E5 60%, #F3E9D8 100%);
 }
-html[data-design="future"][data-theme="light"] .ds-stars { opacity: calc(var(--stars) * .35); filter: invert(.75) sepia(.4); }
+html[data-design="future"][data-theme="light"] .ds-stars { opacity: calc(var(--stars) * .5); filter: brightness(0) invert(.42) sepia(.5) hue-rotate(40deg); }
 html[data-design="future"][data-theme="light"] .ds-atmo {
   background:
-    radial-gradient(90% 50% at 50% 100%, rgba(236, 179, 106, .45), transparent 70%),
-    linear-gradient(180deg, #ECE8DF 0%, #E1E4D8 35%, #CDD5C7 62%, #B4BFAE 82%, #9AA791 100%);
+    radial-gradient(90% 55% at 50% 100%, rgba(236, 179, 106, .35), transparent 70%),
+    linear-gradient(180deg, #FBF8F2 0%, #F2F1E8 35%, #E8EEE3 65%, #DCE7D7 100%);
 }
+/* Planet: helles Mintgrün mit klarer Kante und goldenem Rand, damit Text darauf lesbar bleibt */
 html[data-design="future"][data-theme="light"] .ds-earth {
   background:
-    radial-gradient(40% 9% at 30% 3%, rgba(255, 253, 248, .35), transparent 70%),
-    radial-gradient(30% 7% at 68% 5%, rgba(255, 253, 248, .28), transparent 70%),
-    radial-gradient(circle at 50% 0%, #A9B5A1 0%, #8E9B8C 14%, #73836F 34%);
+    radial-gradient(38% 8% at 30% 3%, rgba(255, 255, 255, .7), transparent 70%),
+    radial-gradient(28% 6% at 70% 5%, rgba(255, 255, 255, .55), transparent 70%),
+    radial-gradient(circle at 50% 0%, #D3E2CF 0%, #E2EBDD 12%, #EBF0E6 30%, #EEF1E9 45%);
   box-shadow:
-    0 0 0 1px rgba(212, 145, 63, calc(var(--rim) * .55)),
-    0 -10px 50px -6px rgba(236, 179, 106, calc(var(--rim) * .6)),
-    0 -50px 160px 0 rgba(236, 179, 106, calc(var(--rim) * .3)),
-    inset 0 26px 70px -30px rgba(255, 246, 228, calc(var(--rim) * .7));
+    0 0 0 1.5px rgba(95, 128, 101, calc(.35 + var(--rim) * .35)),
+    0 -6px 30px -4px rgba(236, 179, 106, calc(var(--rim) * .85)),
+    0 -40px 140px 0 rgba(236, 179, 106, calc(var(--rim) * .35)),
+    inset 0 18px 50px -24px rgba(95, 128, 101, .45);
 }
 html[data-design="future"][data-theme="light"] .ds-earth::before {
   background:
-    radial-gradient(4% 0.8% at 38% 1.4%, rgba(63, 82, 69, .45), transparent 70%),
-    radial-gradient(6% 1% at 60% 2%, rgba(63, 82, 69, .4), transparent 70%),
-    radial-gradient(5% 1% at 47% 3%, rgba(47, 66, 54, .5), transparent 70%),
-    radial-gradient(circle at 50% 0%, #7F8F7A 0%, #6A7B67 10%, transparent 30%);
+    radial-gradient(5% 0.9% at 38% 1.4%, rgba(95, 128, 101, .35), transparent 70%),
+    radial-gradient(7% 1.1% at 61% 2.1%, rgba(95, 128, 101, .3), transparent 70%),
+    radial-gradient(5% 1% at 47% 3%, rgba(72, 105, 80, .3), transparent 70%),
+    radial-gradient(circle at 50% 0%, rgba(127, 160, 120, .35) 0%, transparent 18%);
 }
-html[data-design="future"][data-theme="light"] .ds-clouds i { background: radial-gradient(closest-side, rgba(255, 253, 248, .85), rgba(255, 253, 248, .35) 60%, transparent); filter: blur(22px); }
-/* Ganz unten: Wald im Tageslicht */
-html[data-design="future"][data-theme="light"] .fo-sun { background: radial-gradient(closest-side, rgba(255, 236, 196, .9), rgba(236, 179, 106, .35) 45%, transparent 75%); }
-html[data-design="future"][data-theme="light"] .fo-m path { fill: #A3AE9E; }
-html[data-design="future"][data-theme="light"] .fo-1 path, html[data-design="future"][data-theme="light"] .fo-1 rect { fill: #7F8F7A; }
-html[data-design="future"][data-theme="light"] .fo-mist { background: linear-gradient(0deg, rgba(255, 253, 248, 0) 0%, rgba(255, 253, 248, .45) 45%, rgba(255, 253, 248, 0) 100%); }
-html[data-design="future"][data-theme="light"] .fo-2 path, html[data-design="future"][data-theme="light"] .fo-2 rect { fill: #5F6F63; }
-html[data-design="future"][data-theme="light"] .fo-3 path { fill: #3A4741; }
-html[data-design="future"][data-theme="light"] .fo-flies i { background: #FFF6E4; box-shadow: 0 0 8px 2px rgba(255, 246, 228, .8); }
-html[data-design="future"][data-theme="light"] footer { background: #3A4741; color: #C9D0C4; }
+html[data-design="future"][data-theme="light"] .ds-clouds i {
+  background: radial-gradient(closest-side, rgba(255, 255, 255, .95), rgba(255, 255, 255, .5) 55%, transparent);
+  filter: blur(18px) drop-shadow(0 18px 24px rgba(127, 143, 122, .25));
+}
+html[data-design="future"][data-theme="light"] .hero::before {
+  background: radial-gradient(circle at 34% 30%, #FFFFFF 0%, #F3EEE6 40%, #CFD8C9 80%, #B7C4B0 100%);
+  box-shadow: inset -8px -8px 18px rgba(95, 111, 99, .25), 0 0 40px 4px rgba(255, 255, 255, .9);
+}
+
+/* Unten: Wald im Morgenlicht, satte Grüntöne */
+html[data-design="future"][data-theme="light"] .fo-sun { background: radial-gradient(closest-side, rgba(255, 228, 176, .95), rgba(236, 179, 106, .45) 45%, transparent 75%); }
+html[data-design="future"][data-theme="light"] .fo-m path { fill: #B5C7AE; }
+html[data-design="future"][data-theme="light"] .fo-1 path, html[data-design="future"][data-theme="light"] .fo-1 rect { fill: #7FA083; }
+html[data-design="future"][data-theme="light"] .fo-mist { background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .55) 45%, rgba(255, 255, 255, 0) 100%); }
+html[data-design="future"][data-theme="light"] .fo-2 path, html[data-design="future"][data-theme="light"] .fo-2 rect { fill: #4D7059; }
+html[data-design="future"][data-theme="light"] .fo-3 path { fill: #2B4434; }
+html[data-design="future"][data-theme="light"] .fo-flies i { background: #FFF6E4; box-shadow: 0 0 8px 2px rgba(255, 220, 160, .9); }
+html[data-design="future"][data-theme="light"] footer { background: #2B4434; color: #CFDCCB; }
 html[data-design="future"][data-theme="light"] footer a:hover { color: #F5E4C8; }
-/* Karten, Felder, Leiste */
+html[data-design="future"][data-theme="light"] .egg-counter { color: #ECB36A; }
+
+/* Karten: reines Weiß mit weichem Schatten statt Glas */
 html[data-design="future"][data-theme="light"] :is(.card, .venture.main, .side-card:not(.side-next), .quiz-box, .contact-card, .soon-card, .venture.soon) {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 30px 60px -40px rgba(42, 48, 45, .45);
+  background:
+    radial-gradient(420px circle at var(--mx, -9999px) var(--my, -9999px), rgba(212, 145, 63, .08), transparent 45%) padding-box,
+    linear-gradient(180deg, #FFFFFF 0%, #FCFAF6 100%) padding-box,
+    radial-gradient(240px circle at var(--mx, -9999px) var(--my, -9999px), rgba(212, 145, 63, .8), transparent 65%) border-box,
+    linear-gradient(180deg, rgba(31, 35, 33, .12), rgba(31, 35, 33, .07)) border-box;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .9) inset, 0 24px 50px -30px rgba(43, 68, 52, .35), 0 4px 12px -6px rgba(43, 68, 52, .12);
 }
+html[data-design="future"][data-theme="light"] .card:hover { box-shadow: 0 30px 60px -30px rgba(43, 68, 52, .4), 0 0 50px -24px rgba(212, 145, 63, .6); }
+html[data-design="future"][data-theme="light"] :is(.icon, .side-ic, .soon-ic) { background: #FBF1E2; box-shadow: inset 0 0 0 1px rgba(212, 145, 63, .35); }
 html[data-design="future"][data-theme="light"] .contact-form input,
-html[data-design="future"][data-theme="light"] .contact-form textarea { background: #FFFFFF; }
+html[data-design="future"][data-theme="light"] .contact-form textarea { background: #F7F3EC; border-color: rgba(31, 35, 33, .14); }
+html[data-design="future"][data-theme="light"] .contact-form input:focus,
+html[data-design="future"][data-theme="light"] .contact-form textarea:focus { background: #FFFFFF; }
 html[data-design="future"][data-theme="light"] .egg-list li { background: #FFFFFF; }
-html[data-design="future"][data-theme="light"] .ticker { background: #2F3833; }
+html[data-design="future"][data-theme="light"] .ticker { background: #1F2321; box-shadow: 0 14px 30px -16px rgba(31, 35, 33, .5); }
 html[data-design="future"][data-theme="light"] .ticker .tw { color: #ECB36A; }
 html[data-design="future"][data-theme="light"] .ticker .sep { background: #F3EEE6; }
 html[data-design="future"][data-theme="light"] .v-logo { background: #FFFFFF; }
-/* Raumstationen */
+html[data-design="future"][data-theme="light"] .callout { background: linear-gradient(90deg, rgba(212, 145, 63, .14), rgba(212, 145, 63, .03)); }
+html[data-design="future"][data-theme="light"] .topbar.scrolled { background: rgba(251, 248, 242, .82); box-shadow: inset 0 -1px 0 rgba(31, 35, 33, .08), 0 8px 24px -16px rgba(31, 35, 33, .25); }
+html[data-design="future"][data-theme="light"] :is(.hud-read, .alt, .crew-id) { background: rgba(255, 255, 255, .78); box-shadow: inset 0 0 0 1px rgba(31, 35, 33, .1), 0 10px 24px -14px rgba(31, 35, 33, .3); }
+html[data-design="future"][data-theme="light"] .portrait { box-shadow: 0 0 0 1px rgba(31, 35, 33, .1), 0 40px 60px -34px rgba(212, 145, 63, .55), 0 30px 60px -40px rgba(31, 35, 33, .45); }
+html[data-design="future"][data-theme="light"] .stats { background: linear-gradient(180deg, rgba(255, 255, 255, .55), rgba(255, 255, 255, .2)); }
+html[data-design="future"][data-theme="light"] .sys-orbits ellipse { stroke: rgba(31, 35, 33, .2); }
+html[data-design="future"][data-theme="light"] .sys-orbits ellipse:first-child { stroke: rgba(178, 110, 31, .45); }
+html[data-design="future"][data-theme="light"] .p-slot .ball { background: rgba(255, 255, 255, .7); border-color: rgba(31, 35, 33, .3); }
+
+/* Raumstationen: weiße Module, Solarflügel in sattem Grün */
 html[data-design="future"][data-theme="light"] .mod-body {
   background:
-    radial-gradient(120% 70% at 50% -10%, rgba(212, 145, 63, calc(var(--lit) * .16)), transparent 60%),
-    linear-gradient(180deg, #FBF8F2 0%, #F1ECE3 100%);
+    radial-gradient(120% 70% at 50% -10%, rgba(212, 145, 63, calc(var(--lit) * .12)), transparent 60%),
+    linear-gradient(180deg, #FFFFFF 0%, #FBF8F2 100%);
   box-shadow:
-    inset 0 0 0 1px rgba(168, 104, 28, calc(.14 + var(--lit) * .45)),
-    inset 0 1px 0 rgba(255, 255, 255, .8),
-    0 30px 50px -30px rgba(42, 48, 45, .5),
-    0 0 calc(var(--lit) * 56px) calc(var(--lit) * -14px) rgba(212, 145, 63, .45);
+    inset 0 0 0 1px rgba(178, 110, 31, calc(.12 + var(--lit) * .45)),
+    0 30px 50px -30px rgba(43, 68, 52, .45),
+    0 0 calc(var(--lit) * 56px) calc(var(--lit) * -16px) rgba(212, 145, 63, .5);
 }
-html[data-design="future"][data-theme="light"] .mod-body::after { background: #E9E5DC; }
-html[data-design="future"][data-theme="light"] .mod.free .mod-body { background: radial-gradient(90% 60% at 50% 0%, rgba(212, 145, 63, calc(var(--lit) * .14)), transparent 70%), rgba(251, 248, 242, .7); }
-html[data-design="future"][data-theme="light"] .route-path .rp-line { stroke: rgba(var(--f-fg), .45); }
-html[data-design="future"][data-theme="light"] :is(.ship, .lp-rocket) svg path:first-child { fill: #FFFDF8; stroke: #3E4341; stroke-width: 1.2; }
-html[data-design="future"][data-theme="light"] :is(.ship, .lp-rocket) svg { filter: drop-shadow(0 4px 8px rgba(42, 48, 45, .3)); }
-html[data-design="future"][data-theme="light"] .soon-card::after { background: repeating-linear-gradient(-45deg, #D4913F 0 7px, #3E4341 7px 14px); background-size: 19.8px 100%; }
-html[data-design="future"][data-theme="light"] .crew-orbit .sat { box-shadow: 0 0 10px rgba(212, 145, 63, .6), 0 0 0 5px rgba(212, 145, 63, .14); }
-html[data-design="future"][data-theme="light"] .hero::before { box-shadow: inset -10px -10px 22px rgba(42, 48, 45, .35), 0 0 30px -6px rgba(255, 253, 248, .9); }
+html[data-design="future"][data-theme="light"] .mod-body::after { background: #F7F3EC; }
+html[data-design="future"][data-theme="light"] .wing {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 13px, rgba(255, 255, 255, .35) 13px 14px),
+    repeating-linear-gradient(0deg, transparent 0 19px, rgba(255, 255, 255, .35) 19px 20px),
+    linear-gradient(160deg, #4D7059 0%, #2B4434 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .35), 0 10px 24px -12px rgba(43, 68, 52, .5);
+}
+html[data-design="future"][data-theme="light"] .mod.free .mod-body { background: radial-gradient(90% 60% at 50% 0%, rgba(212, 145, 63, calc(var(--lit) * .12)), transparent 70%), rgba(255, 255, 255, .75); }
+html[data-design="future"][data-theme="light"] .route-path .rp-line { stroke: rgba(31, 35, 33, .4); }
+html[data-design="future"][data-theme="light"] .route-path .rp-glow { stroke: rgba(212, 145, 63, .16); }
+html[data-design="future"][data-theme="light"] :is(.ship, .lp-rocket) svg path:first-child { fill: #FFFFFF; stroke: #1F2321; stroke-width: 1.2; }
+html[data-design="future"][data-theme="light"] :is(.ship, .lp-rocket) svg { filter: drop-shadow(0 4px 8px rgba(31, 35, 33, .25)); }
+html[data-design="future"][data-theme="light"] .soon-card::after { background: repeating-linear-gradient(-45deg, #D4913F 0 7px, #1F2321 7px 14px); background-size: 19.8px 100%; }
+html[data-design="future"][data-theme="light"] .crew-orbit { border-color: rgba(31, 35, 33, .18); }
+html[data-design="future"][data-theme="light"] .crew-orbit .sat { box-shadow: 0 0 10px rgba(212, 145, 63, .6), 0 0 0 5px rgba(212, 145, 63, .16); }
+
 /* Andock-Fenster hell */
-html[data-design="future"][data-theme="light"] .dock { color: #262B28; background: radial-gradient(90% 40% at 50% 0%, rgba(212, 145, 63, .14), transparent 70%), #FBF8F2; box-shadow: inset 0 0 0 1px rgba(168, 104, 28, .35), 0 40px 80px -30px rgba(42, 48, 45, .55); }
-html[data-design="future"][data-theme="light"] .dock::backdrop { background: rgba(233, 229, 220, .7); }
-html[data-design="future"][data-theme="light"] .dock-x { color: #262B28; }
-html[data-design="future"][data-theme="light"] .dock-c h3 { color: #262B28; }
-html[data-design="future"][data-theme="light"] .dock-c .role { color: #3E4341; }
-html[data-design="future"][data-theme="light"] .dock-c p, html[data-design="future"][data-theme="light"] .dock-c .facts { color: #55605A; }
-html[data-design="future"][data-theme="light"] :is(.dock-k, .dock-c details summary, .dock-c .cities em) { color: #A8681C; }
-html[data-design="future"][data-theme="light"] .dock-c .cities span { color: #3E4341; }
+html[data-design="future"][data-theme="light"] .dock { color: #1F2321; background: radial-gradient(90% 40% at 50% 0%, rgba(212, 145, 63, .12), transparent 70%), #FFFFFF; box-shadow: inset 0 0 0 1px rgba(178, 110, 31, .3), 0 40px 80px -30px rgba(31, 35, 33, .45); }
+html[data-design="future"][data-theme="light"] .dock::backdrop { background: rgba(247, 243, 236, .72); }
+html[data-design="future"][data-theme="light"] .dock-x { color: #1F2321; background: #F7F3EC; }
+html[data-design="future"][data-theme="light"] .dock-c h3 { color: #1F2321; }
+html[data-design="future"][data-theme="light"] .dock-c .role { color: #343A37; }
+html[data-design="future"][data-theme="light"] .dock-c p, html[data-design="future"][data-theme="light"] .dock-c .facts { color: #4C5550; }
+html[data-design="future"][data-theme="light"] :is(.dock-k, .dock-c details summary, .dock-c .cities em) { color: #B26E1F; }
+html[data-design="future"][data-theme="light"] .dock-c .cities span { color: #343A37; }
 html[data-design="future"][data-theme="light"] .dock-c .chip { color: #8A5512; }
-html[data-design="future"][data-theme="light"] .dock-c .links a { color: #A8681C; }
-html[data-design="future"][data-theme="light"] .co-logo { box-shadow: inset 0 0 0 1px #E2DCD1, 0 6px 16px -10px rgba(42, 48, 45, .4); }
+html[data-design="future"][data-theme="light"] .dock-c .links a { color: #B26E1F; }
 html[data-design="future"] .theme-switch { width: 34px; height: 30px; padding: 0; display: grid; place-items: center; }
 html[data-design="future"] .theme-switch svg { width: 15px; height: 15px; }
 html[data-design="future"] .theme-switch .sun { color: var(--f-acc); }

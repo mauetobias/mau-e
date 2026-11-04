@@ -146,8 +146,8 @@
       var when = li.querySelector('.when'); if (when) body.appendChild(when.cloneNode(true));
       ['.chip', '.co-logo', 'h3', '.role'].forEach(function (s) { var c = box && box.querySelector(s); if (c) { c = c.cloneNode(true); var im = c.querySelector && c.querySelector('img'); if (im) im.removeAttribute('loading'); body.appendChild(c); } });
       var d = document.createElement('span'); d.className = 'mod-dock'; body.appendChild(d);
-      body.addEventListener('click', function () { open(li, n); });
-      body.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(li, n); } });
+      body.addEventListener('click', function (e) { if (e.target.closest('a')) return; open(li, n); });
+      body.addEventListener('keydown', function (e) { if (e.target !== body) return; if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(li, n); } });
       return el;
     }
     function open(li, n) {

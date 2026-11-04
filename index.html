@@ -569,11 +569,14 @@
     .timeline summary::before { content: "+"; display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--clay-soft); font-weight: 700; transition: transform .25s; }
     .timeline details[open] summary::before { transform: rotate(45deg); }
 
-    /* ---------- Firmenlogos im Werdegang ---------- */
-    .co-logo { display: flex; align-items: center; width: fit-content; height: 38px; padding: 7px 12px; margin: 6px 0 8px; border-radius: 10px; background: #fff; box-shadow: inset 0 0 0 1px #E2DCD1; }
-    .co-logo img { display: block; height: 100%; width: auto; max-width: 160px; }
-    .co-logo img.mono { filter: brightness(0); opacity: .85; }
-    [data-theme="dark"] .co-logo { box-shadow: none; }
+    /* ---------- Firmenlogos im Werdegang: das Logo ersetzt den Namen und führt zur Website ---------- */
+    .co-logo { display: block; width: fit-content; height: 40px; margin: 8px 0 6px; transition: transform .35s cubic-bezier(.3, 1.6, .5, 1), opacity .2s; }
+    .co-logo img { display: block; height: 100%; width: auto; max-width: 190px; }
+    .co-logo img.mono { filter: brightness(0); opacity: .82; }
+    .co-logo:hover, .co-logo:focus-visible { transform: translateY(-2px) scale(1.04); }
+    .co-logo:focus-visible { outline: 2px solid var(--clay); outline-offset: 6px; border-radius: 4px; }
+    .co-logo + h3 { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+    [data-theme="dark"] .co-logo img, [data-theme="dark"] .co-logo img.mono { filter: brightness(0) invert(1) sepia(.18); opacity: .88; }
     /* ---------- Einblenden beim Scrollen ---------- */
     .js .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
     .js .reveal.in { opacity: 1; transform: none; }
@@ -846,7 +849,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="design-future.css?v=5">
-  <link rel="stylesheet" href="design-mission.css?v=3">
+  <link rel="stylesheet" href="design-mission.css?v=4">
 </head>
 <body>
 
@@ -1025,7 +1028,7 @@
             <span class="when">seit 2025</span>
             <div>
               <span class="chip hot">Community &amp; Events</span>
-              <span class="co-logo"><img src="img/cardcircle.svg?v=2" alt="Logo CardCircle" loading="lazy" decoding="async"></span>
+              <a class="co-logo" href="https://cardcircle.cc" target="_blank" rel="noopener" title="CardCircle – Website öffnen"><img src="img/cardcircle.svg?v=2" alt="Logo CardCircle" loading="lazy" decoding="async"></a>
               <h3>CardCircle</h3>
               <p class="role">Co-Founder &amp; CEO</p>
               <p>Events und Community für Sammelkartenspiele in Mannheim und der Rhein-Neckar-Region: Drafts, Turniere, Prereleases und Community-Abende, dazu ein eigener Shop. Aktuell mit Fokus auf Magic: The Gathering, bald auch Lorcana, Riftbound, Pokémon und Co. Gerade schauen wir, wohin wir als Nächstes wachsen.</p>
@@ -1045,7 +1048,7 @@
             <span class="when">2025 bis 2026</span>
             <div>
               <span class="chip">Tech</span>
-              <span class="co-logo"><img src="img/logos/quantune.png" alt="Logo Quantune Technologies" class="mono" loading="lazy" decoding="async"></span>
+              <a class="co-logo" href="https://quantune.com" target="_blank" rel="noopener" title="Quantune Technologies – Website öffnen"><img src="img/logos/quantune.png" alt="Logo Quantune Technologies" class="mono" loading="lazy" decoding="async"></a>
               <h3>Quantune Technologies</h3>
               <p class="role">Office &amp; Operations Manager</p>
               <p>Aufbau interner Office- und Operationsprozesse in einem technologiegetriebenen Wachstumsumfeld.</p>
@@ -1055,7 +1058,7 @@
             <span class="when">2024 bis 2025</span>
             <div>
               <span class="chip">Climate Tech</span>
-              <span class="co-logo"><img src="img/logos/varm.svg" alt="Logo VARM" loading="lazy" decoding="async"></span>
+              <a class="co-logo" href="https://www.varm.earth" target="_blank" rel="noopener" title="VARM – Website öffnen"><img src="img/logos/varm.svg" alt="Logo VARM" loading="lazy" decoding="async"></a>
               <h3>VARM</h3>
               <p class="role">Operations Manager, Climate Tech</p>
               <p>Verantwortlich für Berlin und Umland und den Start in Hamburg. Unsere Teams waren in ganz Norddeutschland im Einsatz, von Brandenburg und Mecklenburg-Vorpommern bis Schleswig-Holstein und Niedersachsen. Als nächster Schritt war die Expansion in den ganzen DACH-Raum geplant.</p>
@@ -1066,7 +1069,7 @@
             <span class="when">2019 bis 2024</span>
             <div>
               <span class="chip">Mobility</span>
-              <span class="co-logo"><img src="img/logos/tier.svg" alt="Logo TIER Mobility" loading="lazy" decoding="async"></span>
+              <a class="co-logo" href="https://ridedott.com" target="_blank" rel="noopener" title="TIER Mobility (heute Dott) – Website öffnen"><img src="img/logos/tier.svg" alt="Logo TIER Mobility" loading="lazy" decoding="async"></a>
               <h3>TIER Mobility</h3>
               <p class="role">Operations Manager → Regional Operations Manager Rhein-Main</p>
               <p>Gestartet in Kaiserslautern und Karlsruhe, eingearbeitet in Mannheim, Ludwigshafen und Heidelberg. Danach Standortleiter für Frankfurt, Darmstadt, Rüsselsheim, Mainz und Wiesbaden samt Umland, inklusive der Eröffnung in Rüsselsheim, und zuletzt Regionalleiter.</p>
@@ -1077,7 +1080,7 @@
             <span class="when">Studium</span>
             <div>
               <span class="chip">Ingenieurwesen</span>
-              <span class="co-logo"><img src="img/logos/dhbw.svg" alt="Logo DHBW Mannheim" loading="lazy" decoding="async"></span>
+              <a class="co-logo" href="https://www.mannheim.dhbw.de" target="_blank" rel="noopener" title="DHBW Mannheim – Website öffnen"><img src="img/logos/dhbw.svg" alt="Logo DHBW Mannheim" loading="lazy" decoding="async"></a>
               <h3>DHBW Mannheim</h3>
               <p class="role">Bachelor Maschinenbau</p>
               <p>Das technische Fundament: analytisch denken, Probleme strukturiert lösen, Dinge zu Ende bauen.</p>
@@ -1528,7 +1531,7 @@
   <script src="analytics.js?v=1"></script>
   <script src="booking.js?v=1"></script>
   <script src="design.js?v=4"></script>
-  <script src="mission.js?v=3"></script>
+  <script src="mission.js?v=4"></script>
   <script>
     (function () {
       var b = document.getElementById('book-btn'); if (b && window.BOOKING_URL) { b.href = window.BOOKING_URL; b.hidden = false; }

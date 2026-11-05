@@ -93,7 +93,9 @@
     function place() {
       var w = sys.clientWidth, h = sys.clientHeight, scale = Math.min(w / 1000, h / 400);
       P.forEach(function (pl) {
-        var R = pl.r * 500 * scale, x = Math.cos(pl.a) * R, y = Math.sin(pl.a) * R * pl.k, z = Math.sin(pl.a);
+        /* Kamera kreist mit: der Blickwinkel auf die Umlaufbahnen dreht sich beim Scrollen */
+        var A = pl.a + (isF() && !reduce ? (window.__mauCamAz || 0) * Math.PI / 180 * 1.6 : 0);
+        var R = pl.r * 500 * scale, x = Math.cos(A) * R, y = Math.sin(A) * R * pl.k, z = Math.sin(A);
         pl.el.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + (0.82 + (z + 1) * 0.14).toFixed(3) + ')';
         pl.el.style.zIndex = z > 0 ? 3 : 1;
       });
@@ -209,7 +211,10 @@
         if (!reduce) { var acc = -55 * m.a - 3.6 * m.av - v * .22; m.av += acc * dt; m.a += m.av * dt; m.a = Math.max(-18, Math.min(18, m.a)); } else m.a = 0;
         var bob = reduce ? 0 : Math.sin(T0 * 1.3 + m.ph) * 6;
         m.bob.style.transform = 'translateY(' + bob.toFixed(1) + 'px) rotate(' + m.a.toFixed(2) + 'deg) scale(' + (1 - Math.abs(d) * .14).toFixed(3) + ')';
-        m.body.style.transform = 'rotateY(' + (reduce ? 0 : d * -32).toFixed(1) + 'deg)';
+        /* Stationen laufen um eine Achse: außen weiter hinten und weggedreht */
+        var RR = Math.max(520, stageW * .55), th = reduce ? 0 : Math.max(-1.5, Math.min(1.5, (cx - mid) / RR));
+        m.el.style.transform = reduce ? '' : 'translate3d(' + (RR * Math.sin(th) - (cx - mid)).toFixed(1) + 'px,0,' + (RR * (Math.cos(th) - 1)).toFixed(1) + 'px) rotateY(' + (th * 57.3).toFixed(2) + 'deg)';
+        m.body.style.transform = '';
         m.el.style.setProperty('--lit', (1 - Math.abs(d)).toFixed(3));
       }
       requestAnimationFrame(frame);
@@ -345,7 +350,7 @@
       clearItems(); items = [];
       if (reduce) return;
       var GRID = /(^|\s)(about-grid|stats-grid|cards|venture-grid|side-grid|soon-grid|quiz-wrap)(\s|$)/;
-      function add(el) { if (el.offsetHeight) items.push({ el: el }); }
+      function add(el) { if (el.offsetHeight && !el.classList.contains('sys')) items.push({ el: el, end: !!el.closest('#contact') }); }
       function walk(w) {
         Array.prototype.forEach.call(GRID.test(w.className) ? w.children : w.children, function (c) {
           if (GRID.test(c.className)) Array.prototype.forEach.call(c.children, add); else add(c);
@@ -355,13 +360,12 @@
       var hero = document.querySelector('.hero .wrap'); if (hero) walk(hero);
       document.querySelectorAll('main > section:not(#stations) > .wrap').forEach(walk);
       document.querySelectorAll('#stations > .wrap > :is(.section-label, h2, .cv-btn)').forEach(add);
-      var tk = document.querySelector('main > .ticker'); if (tk) add(tk);
       measure();
     }
     function measure() {
       var y = scrollY;
       items.forEach(function (h) { h.el.style.transform = 'none'; });
-      items.forEach(function (h) { var r = h.el.getBoundingClientRect(); h.l = r.left; h.t = r.top + y; h.h = r.height; h.c = h.t + r.height / 2; });
+      items.forEach(function (h) { var r = h.el.getBoundingClientRect(); h.l = r.left; h.w = r.width; h.t = r.top + y; h.h = r.height; h.c = h.t + r.height / 2; });
       items.forEach(function (h) { h.el.style.transform = ''; h.el.classList.add('in3d'); });
     }
 
@@ -385,7 +389,8 @@
       var vh = innerHeight, vw = innerWidth, max = docH - vh, p = max > 0 ? Math.min(1, Math.max(0, cy / max)) : 0;
       bandsEl.style.transform = 'translate3d(0,' + (-y).toFixed(1) + 'px,0)';
       /* Grad pro Pixel Höhe: eine halbe Bildschirmhöhe entspricht gut 30 Grad Windung */
-      var K = 32 / (vh / 2), turn = (cy + vh / 2) * K;
+      var K = 18 / (vh / 2), turn = (cy + vh / 2) * K;
+      window.__mauCamAz = turn;
       /* Hintergrund liegt hinter der Achse und zieht gegenläufig vorbei */
       var so = (1 - sm(.06, .55, p)).toFixed(3);
       stars.style.opacity = so; stars2.style.opacity = (so * .6).toFixed(3);
@@ -398,18 +403,22 @@
         land[i].style.transform = 'translate3d(' + pan.toFixed(2) + 'vw,' + ((1 - k) * 105).toFixed(2) + '%,0)';
       });
       /* Inhalte im Raum */
-      var R = Math.max(420, vw * .62), P = Math.max(900, vw * .9), camC = cy + vh / 2, viewC = y + vh / 2;
+      var R = Math.max(380, vw * .5), P = Math.max(900, vw * .85), camC = cy + vh / 2, viewC = y + vh / 2;
+      /* am Ende steht der Abschluss ruhig und gerade */
+      var endK = 1 - sm(max - vh * .9, max - 4, cy);
       for (var i = 0; i < items.length; i++) {
         var h = items[i];
         if (h.t + h.h < y - vh * .6 || h.t > y + vh * 1.6) { if (h.vis !== false) { h.el.style.visibility = 'hidden'; h.vis = false; } continue; }
         /* oben und unten kann die Kamera nicht weiter: dort ruhen die Inhalte vorne */
         var rest = Math.min(max, Math.max(0, h.c - vh / 2)) + vh / 2, dy = rest - camC + (h.c - rest) * .15;
-        var phi = dy * K, a = Math.abs(phi);
+        var dx = h.l + h.w / 2 - vw / 2, ek = h.end ? endK : 1;
+        /* senkrecht: Windung der Feder, waagerecht: um die Achse gewickelt statt flacher Ebene */
+        var phi = dy * K * ek, alpha = phi + (dx / R) * 57.2958 * ek, a = Math.abs(alpha);
         if (a > 95) { if (h.vis !== false) { h.el.style.visibility = 'hidden'; h.vis = false; } continue; }
         if (h.vis === false) { h.el.style.visibility = ''; h.vis = true; }
         h.el.style.transformOrigin = (vw / 2 - h.l).toFixed(1) + 'px ' + (viewC - h.t).toFixed(1) + 'px';
-        h.el.style.transform = 'perspective(' + P.toFixed(0) + 'px) translateZ(' + (-R).toFixed(0) + 'px) rotateY(' + phi.toFixed(3) + 'deg) translateZ(' + R.toFixed(0) + 'px)';
-        h.el.style.opacity = (1 - Math.pow(Math.min(1, a / 95), 1.6) * .85).toFixed(3);
+        h.el.style.transform = 'perspective(' + P.toFixed(0) + 'px) translateZ(' + (-R).toFixed(0) + 'px) rotateY(' + alpha.toFixed(3) + 'deg) translateZ(' + R.toFixed(0) + 'px) translateX(' + (-dx * ek).toFixed(1) + 'px)';
+        h.el.style.opacity = (1 - Math.pow(Math.min(1, Math.abs(phi) / 95), 1.6) * .85).toFixed(3);
       }
       /* Höhenmesser */
       var c = y + vh / 2, km = LAYERS[0].km, j;
@@ -434,6 +443,27 @@
     document.addEventListener('designchange', function () { if (isF()) { cam = -1; relayout(); } else clearItems(); });
     if ('ResizeObserver' in window) { var rq; new ResizeObserver(function () { clearTimeout(rq); rq = setTimeout(function () { if (isF() && Math.abs(document.documentElement.scrollHeight - docH) > 4) { layout(); measure(); force = true; req(); } }, 150); }).observe(document.body); }
     relayout();
+  })();
+
+  /* ---------- Laufband: läuft gebogen um die Achse statt als flacher Balken ---------- */
+  (function () {
+    var tk = document.querySelector('.ticker'), tr = tk && tk.querySelector('.ticker-track'); if (!tr) return;
+    var parts = Array.prototype.slice.call(tk.querySelectorAll('.tw, .sep')), vis = false, run = false;
+    function loop() {
+      if (!vis || !isF() || reduce) { run = false; parts.forEach(function (e) { e.style.transform = ''; }); return; }
+      var vw = innerWidth, R = Math.max(420, vw * .5), tb = tk.getBoundingClientRect(), m = new DOMMatrixReadOnly(getComputedStyle(tr).transform), base = tb.left + m.m41;
+      var xs = parts.map(function (e) { return base + e.offsetLeft + e.parentNode.offsetLeft + e.offsetWidth / 2; });
+      for (var i = 0; i < parts.length; i++) {
+        var dx = xs[i] - vw / 2, th = Math.max(-1.55, Math.min(1.55, dx / R));
+        parts[i].style.transform = (parts[i].classList.contains('sep') ? 'rotate(45deg) ' : '') === '' ?
+          'translate3d(' + (R * Math.sin(th) - dx).toFixed(1) + 'px,0,' + (R * (Math.cos(th) - 1)).toFixed(1) + 'px) rotateY(' + (th * 57.3).toFixed(2) + 'deg)' :
+          'translate3d(' + (R * Math.sin(th) - dx).toFixed(1) + 'px,0,' + (R * (Math.cos(th) - 1)).toFixed(1) + 'px) rotateY(' + (th * 57.3).toFixed(2) + 'deg) rotate(45deg)';
+      }
+      requestAnimationFrame(loop);
+    }
+    function go() { if (!run && vis && isF()) { run = true; requestAnimationFrame(loop); } }
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { vis = e[0].isIntersecting; go(); }).observe(tk);
+    document.addEventListener('designchange', go);
   })();
 
   /* ---------- Ganz unten: Landung im Wald ---------- */

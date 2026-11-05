@@ -290,18 +290,31 @@
     var W = 4800, H = 400;
     function svg(path) { return '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none"><path d="' + path + '"/></svg>'; }
     var d = document.createElement('div'); d.className = 'descent'; d.setAttribute('aria-hidden', 'true');
-    d.innerHTML = '<div class="ds-bands"></div><div class="ds-stars s2"></div><div class="ds-stars"></div><div class="ds-glow"></div>' +
+    d.innerHTML = '<div class="ds-sky"></div><div class="ds-stars s2"></div><div class="ds-stars"></div><div class="ds-glow"></div>' +
       '<div class="ds-clouds"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i></div>' +
       '<div class="ds-land l1">' + svg(hills(W, H, 120, 21, 120)) + '</div>' +
       '<div class="ds-land l2">' + svg(hills(W, H, 170, 15, 110)) + '</div>' +
       '<div class="ds-haze"></div>' +
-      '<div class="ds-land l3">' + svg(treeline(W, H, 230, 26, 50, 120)) + '</div>';
+      '<div class="ds-land l3">' + svg(treeline(W, H, 230, 26, 50, 120)) + '</div><canvas class="ds-coil"></canvas>';
     document.body.insertBefore(d, document.body.firstChild);
     var alt = document.createElement('div'); alt.className = 'alt'; alt.setAttribute('aria-hidden', 'true');
-    alt.innerHTML = '<span class="alt-l"></span><b class="alt-v"></b><i class="alt-bar"><i></i></i>';
+    alt.innerHTML = '<span class="alt-n"></span><span class="alt-l"></span><b class="alt-v"></b><i class="alt-bar"><i></i></i>';
     document.body.appendChild(alt);
-    var bandsEl = d.querySelector('.ds-bands'), stars = d.querySelector('.ds-stars:not(.s2)'), stars2 = d.querySelector('.ds-stars.s2'), clouds = d.querySelector('.ds-clouds'), land = d.querySelectorAll('.ds-land');
+    var sky = d.querySelector('.ds-sky'), coil = d.querySelector('.ds-coil'), cx2 = coil.getContext('2d'), stars = d.querySelector('.ds-stars:not(.s2)'), stars2 = d.querySelector('.ds-stars.s2'), clouds = d.querySelector('.ds-clouds'), land = d.querySelectorAll('.ds-land');
     function sm(a, b, x) { var t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); }
+    var SKY = {
+      dark: [[0, [2, 4, 3]], [.18, [5, 11, 8]], [.36, [9, 19, 14]], [.5, [6, 12, 9]], [.64, [16, 32, 23]], [.82, [30, 52, 37]], [1, [48, 74, 53]]],
+      light: [[0, [120, 136, 128]], [.18, [156, 169, 160]], [.36, [190, 198, 186]], [.5, [170, 182, 171]], [.64, [206, 213, 200]], [.82, [228, 224, 210]], [1, [226, 222, 205]]]
+    };
+    function mix(st, p) {
+      for (var i = 1; i < st.length; i++) if (p <= st[i][0]) { var a = st[i - 1], b = st[i], f = (p - a[0]) / (b[0] - a[0]); f = f * f * (3 - 2 * f); return a[1].map(function (v, k) { return Math.round(v + (b[1][k] - v) * f); }); }
+      return st[st.length - 1][1];
+    }
+    function skyAt(p) {
+      var st = SKY[root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'];
+      var top = mix(st, Math.max(0, p - .04)), bot = mix(st, Math.min(1, p + .06));
+      return 'linear-gradient(180deg, rgb(' + top + ') 0%, rgb(' + bot + ') 100%)';
+    }
 
     /* Schichten: Name, Höhe an der Oberkante (km), Abschnitt, an dessen Oberkante sie beginnt */
     var LAYERS = [
@@ -329,15 +342,7 @@
         var r = el.getBoundingClientRect(), y = r.top + scrollY;
         return L.mid ? y + r.height / 2 : y;
       });
-      var html = '';
-      LAYERS.forEach(function (L, i) {
-        if (tops[i] == null) return;
-        var next = docH; for (var j = i + 1; j < LAYERS.length; j++) if (tops[j] != null) { next = tops[j]; break; }
-        html += '<div class="band b-' + L.k + '" style="top:' + tops[i].toFixed(0) + 'px;height:' + (next - tops[i] + 2).toFixed(0) + 'px">' +
-          (i ? '<span class="band-l">' + (en() ? L.en : L.de) + ' · ' + fmtKm(L.km) + '</span>' : '') + '</div>';
-      });
-      bandsEl.style.height = docH + 'px';
-      bandsEl.innerHTML = html;
+      var dpr = Math.min(2, window.devicePixelRatio || 1); coil.width = innerWidth * dpr; coil.height = innerHeight * dpr; cx2.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
     /* Die Seite als 3D-Raum: alle Inhalte sitzen auf einer langgezogenen Feder um eine senkrechte Achse
@@ -387,7 +392,8 @@
 
     function draw(y, cy) {
       var vh = innerHeight, vw = innerWidth, max = docH - vh, p = max > 0 ? Math.min(1, Math.max(0, cy / max)) : 0;
-      bandsEl.style.transform = 'translate3d(0,' + (-y).toFixed(1) + 'px,0)';
+      /* Ein durchgehender Himmel: von fast schwarzem Weltall bis zum hellen Grün über dem Boden */
+      sky.style.background = skyAt(p);
       /* Grad pro Pixel Höhe: eine halbe Bildschirmhöhe entspricht gut 30 Grad Windung */
       var K = 18 / (vh / 2), turn = (cy + vh / 2) * K;
       window.__mauCamAz = turn;
@@ -403,29 +409,45 @@
         land[i].style.transform = 'translate3d(' + pan.toFixed(2) + 'vw,' + ((1 - k) * 105).toFixed(2) + '%,0)';
       });
       /* Inhalte im Raum */
-      /* Sehr große Feder: Radius ein Vielfaches der Bildschirmbreite. In der Mitte steht alles gerade,
-         Richtung Rand fliegen die Inhalte über den Bildschirmrand hinaus (unten rechts rein, oben links raus).
-         Zusätzlich sind Reihen leicht um eine engere Achse gewölbt. */
-      var R = Math.max(2400, vw * 2.4), Rw = Math.max(900, vw * 1.15), P = 1200, mid = vh / 2, camC = cy + mid, viewC = y + mid;
+      /* Große Feder um die senkrechte Achse hinter dem Bildschirm, weit über den Rand hinaus.
+         Die Inhalte bleiben immer gerade zur Kamera ausgerichtet (keine schrägen Ebenen) und wandern nur auf
+         der Bahn der Feder: unten kommen sie von rechts über den Rand herein, in der Mitte stehen sie vorne,
+         oben gleiten sie links hinaus. Hinten auf der Feder sind sie kleiner und blasser. */
+      var R = Math.max(700, vw * .95), P = Math.max(1100, vw * 1.05), T = vh * .07, mid = vh / 2;
       var endK = 1 - sm(max - vh * .9, max - 4, cy), ae = document.activeElement, typing = ae && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName);
+      function thetaAt(tt) { var a2 = Math.min(1.5, Math.abs(tt)); return (tt < 0 ? -1 : 1) * a2 * a2 * Math.PI / 2; }
       for (var i = 0; i < items.length; i++) {
         var h = items[i];
         if (h.t + h.h < y - vh * .8 || h.t > y + vh * 1.8) { if (h.vis !== false) { h.el.style.visibility = 'hidden'; h.vis = false; } continue; }
-        var rest = Math.min(max, Math.max(0, h.c - mid)) + mid, dy = rest - camC + (h.c - rest) * .15;
-        var dx = h.l + h.w / 2 - vw / 2, ek = h.end ? endK : 1;
-        /* beim Tippen steht das Feld gerade */
-        if (typing && h.el.contains(ae)) ek = 0;
-        var tt = dy / mid, ta = Math.max(0, Math.abs(tt) - .32), phi = (tt < 0 ? -1 : 1) * Math.min(80, Math.pow(ta, 1.5) * 32) * ek;
-        if (Math.abs(phi) > 78) { if (h.vis !== false) { h.el.style.visibility = 'hidden'; h.vis = false; } continue; }
+        var rest = Math.min(max, Math.max(0, h.c - mid)) + mid, dyc = rest - (cy + mid) + (h.c - rest) * .15;
+        var ek = h.end ? endK : 1; if (typing && h.el.contains(ae)) ek = 0;
+        var th = thetaAt(dyc / mid) * ek;
+        if (Math.abs(th) > 2.3) { if (h.vis !== false) { h.el.style.visibility = 'hidden'; h.vis = false; } continue; }
         if (h.vis === false) { h.el.style.visibility = ''; h.vis = true; }
-        var aw = (dx / Rw) * 57.2958 * ek;
-        h.el.style.transformOrigin = (vw / 2 - h.l).toFixed(1) + 'px ' + (viewC - h.t).toFixed(1) + 'px';
-        h.el.style.transform = 'perspective(' + P + 'px) translateZ(' + (-R).toFixed(0) + 'px) rotateY(' + phi.toFixed(3) + 'deg) translateZ(' + R.toFixed(0) + 'px) ' +
-          'translateZ(' + (-Rw).toFixed(0) + 'px) rotateY(' + aw.toFixed(3) + 'deg) translateZ(' + Rw.toFixed(0) + 'px) translateX(' + (-dx * ek).toFixed(1) + 'px)';
-        h.el.style.opacity = (1 - Math.pow(Math.min(1, Math.abs(phi) / 70), 2) * .6).toFixed(3);
-        /* Tiefe: Seitenkante zeigt zur Kamera hin, je nach Drehung */
-        var ex = Math.max(-1.6, Math.min(1.6, -Math.sin((phi + aw) / 57.2958) * 3)), exr = Math.round(ex * 20) / 20;
+        var dx = h.l + h.w / 2 - vw / 2, z = R * (Math.cos(th) - 1), sc = P / (P - z);
+        var ysr = h.c - y - mid, tilt = -T * (1 - Math.cos(th));
+        var mx = (R * Math.sin(th) + dx) * sc - dx, my = (ysr + tilt) * sc - ysr;
+        h.el.style.transformOrigin = '50% 50%';
+        h.el.style.transform = 'translate3d(' + mx.toFixed(1) + 'px,' + my.toFixed(1) + 'px,0) scale(' + sc.toFixed(4) + ')';
+        h.el.style.opacity = Math.max(.15, Math.min(1, (sc - .45) / .55)).toFixed(3);
+        h.el.style.zIndex = Math.round(sc * 100);
+        var ex = Math.max(-1.6, Math.min(1.6, -Math.sin(th) * 2.2)), exr = Math.round(ex * 20) / 20;
         if (exr !== h.ex) { h.ex = exr; h.el.style.setProperty('--ex', exr); }
+      }
+      /* Die Feder selbst als Linie: vorne kräftig, hinten zart */
+      cx2.clearRect(0, 0, vw, vh);
+      var light = root.getAttribute('data-theme') === 'light', col = light ? '62,74,67' : '226,166,90', prev = null;
+      cx2.lineCap = 'round';
+      for (var ys = -vh * .4; ys <= vh * 1.4; ys += 6) {
+        var tt2 = (ys + (y - cy) - mid) / mid, th2 = thetaAt(tt2), z2 = R * (Math.cos(th2) - 1), s2 = P / (P - z2);
+        var px = vw / 2 + R * Math.sin(th2) * s2, py = mid + (ys - mid - T * (1 - Math.cos(th2))) * s2;
+        if (prev) {
+          var front = Math.cos(th2);
+          cx2.strokeStyle = 'rgba(' + col + ',' + (Math.max(.05, front) * (light ? .35 : .42) * (1 - endK * 0 )).toFixed(3) + ')';
+          cx2.lineWidth = 1 + Math.max(0, front) * 1.6;
+          cx2.beginPath(); cx2.moveTo(prev[0], prev[1]); cx2.lineTo(px, py); cx2.stroke();
+        }
+        prev = [px, py];
       }
       /* Höhenmesser */
       var c = y + vh / 2, km = LAYERS[0].km, j;
@@ -438,6 +460,8 @@
       var py = max > 0 ? y / max : 0;
       if (py >= .995) km = 0;
       alt.querySelector('.alt-v').textContent = fmtKm(km);
+      var Lc = LAYERS[0]; for (var q = 0; q < LAYERS.length; q++) if (tops[q] != null && c >= tops[q]) Lc = LAYERS[q];
+      alt.querySelector('.alt-n').textContent = en() ? Lc.en : Lc.de;
       alt.querySelector('.alt-bar i').style.height = ((1 - py) * 100).toFixed(1) + '%';
       alt.classList.toggle('landed', py >= .995);
     }

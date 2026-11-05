@@ -772,3 +772,16 @@ html[data-design="future"] .contact-form textarea {
 html[data-design="future"] .btn-primary { box-shadow: 0 5px 0 #8A5512, 0 14px 22px -10px rgba(0, 0, 0, .55), 0 0 24px -6px var(--f-acc-glow) !important; }
 html[data-design="future"] .btn-primary:active { translate: 0 3px; box-shadow: 0 2px 0 #8A5512, 0 8px 14px -8px rgba(0, 0, 0, .55) !important; }
 html[data-design="future"] .stat .ring, html[data-design="future"] .stat svg { filter: drop-shadow(calc(var(--ex, 0) * 3px) 5px 0 var(--edge)); }
+
+/* Durchgehender Himmel statt Abschnitte, Feder als Linie, Inhalte stehen gerade */
+html[data-design="future"] .ds-bands { display: none; }
+html[data-design="future"] .ds-sky { inset: 0; background: #020403; }
+html[data-design="future"] .ds-coil { inset: 0; width: 100%; height: 100%; pointer-events: none; }
+html[data-design="future"] .alt-n { color: var(--f-acc); letter-spacing: .16em; }
+/* Keine Abschnitte: der Himmel läuft ohne Flächen von oben bis unten durch */
+html[data-design="future"] header.hero,
+html[data-design="future"] main > section,
+html[data-design="future"][data-theme] main > section,
+html[data-design="future"] .stats,
+html[data-design="future"][data-theme] .stats { background: transparent !important; box-shadow: none !important; }
+html[data-design="future"] main > section::before, html[data-design="future"] main > section::after { background: none !important; }

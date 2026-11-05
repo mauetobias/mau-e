@@ -31,7 +31,8 @@
       var d = null; try { d = localStorage.getItem('design'); } catch (e) {}
       if (/[?&]layout=future/.test(location.search)) d = 'future';
       if (/[?&]layout=classic/.test(location.search)) d = 'classic';
-      if (d === 'future') document.documentElement.setAttribute('data-design', 'future');
+      if (/[?&]layout=retro/.test(location.search)) d = 'retro';
+      if (d === 'future' || d === 'retro') document.documentElement.setAttribute('data-design', d);
     })();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -879,6 +880,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="design-future.css?v=5">
+  <link rel="stylesheet" href="design-retro.css?v=1">
   <link rel="stylesheet" href="design-mission.css?v=11">
 </head>
 <body>
@@ -1560,7 +1562,8 @@
   <script src="games.js?v=9"></script>
   <script src="analytics.js?v=1"></script>
   <script src="booking.js?v=1"></script>
-  <script src="design.js?v=4"></script>
+  <script src="design.js?v=5"></script>
+  <script src="retro.js?v=1"></script>
   <script src="mission.js?v=11"></script>
   <script>
     (function () {

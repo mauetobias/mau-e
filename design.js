@@ -13,15 +13,19 @@
     document.head.appendChild(l);
   }
 
+  /* Reihenfolge: Klassisch -> Future -> Retro -> Klassisch */
+  function curD() { return root.getAttribute('data-design') || 'classic'; }
+  function nextOf(d) { return d === 'future' ? 'retro' : d === 'retro' ? 'classic' : 'future'; }
   function label() {
     if (!btn) return;
-    var f = isF();
+    var f = isF(), n = nextOf(curD());
     btn.setAttribute('aria-pressed', f ? 'true' : 'false');
-    btn.querySelector('.ds-l').textContent = f ? (en() ? 'Classic' : 'Klassisch') : 'Future';
-    btn.setAttribute('aria-label', f ? (en() ? 'Switch to the classic layout' : 'Zum klassischen Layout wechseln') : (en() ? 'Switch to the futuristic layout' : 'Zum futuristischen Layout wechseln'));
+    btn.querySelector('.ds-l').textContent = n === 'retro' ? 'Retro' : n === 'future' ? 'Future' : (en() ? 'Classic' : 'Klassisch');
+    btn.setAttribute('aria-label', n === 'retro' ? (en() ? 'Switch to the 1996 retro layout' : 'Zum Retro-Layout von 1996 wechseln') : n === 'future' ? (en() ? 'Switch to the futuristic layout' : 'Zum futuristischen Layout wechseln') : (en() ? 'Switch to the classic layout' : 'Zum klassischen Layout wechseln'));
     btn.title = btn.getAttribute('aria-label');
     var m = document.querySelector('meta[name=theme-color]');
-    if (m && f) m.content = root.getAttribute('data-theme') === 'light' ? '#E9E5DC' : '#121815';
+    if (m && curD() === 'retro') m.content = '#C0C0C0';
+    else if (m && f) m.content = root.getAttribute('data-theme') === 'light' ? '#E9E5DC' : '#121815';
     else if (m) m.content = root.getAttribute('data-theme') === 'dark' ? '#1F2321' : '#5F6F63';
     var hh = document.querySelector('.hero-hud .hh-tr');
     if (hh) hh.textContent = en() ? 'Open to new things' : 'Offen für Neues';
@@ -31,6 +35,7 @@
   function set(next, x, y) {
     function apply() {
       if (next === 'future') { root.setAttribute('data-design', 'future'); fonts(); }
+      else if (next === 'retro') root.setAttribute('data-design', 'retro');
       else root.removeAttribute('data-design');
       try { localStorage.setItem(KEY, next); } catch (e) {}
       label();
@@ -46,10 +51,11 @@
   }
 
   if (btn) btn.addEventListener('click', function () {
-    var r = btn.getBoundingClientRect(), next = isF() ? 'classic' : 'future';
+    var r = btn.getBoundingClientRect(), next = nextOf(curD());
     set(next, r.left + r.width / 2, r.top + r.height / 2);
     if (window.mauTrack) window.mauTrack('Layout gewechselt', { layout: next });
   });
+  window.mauDesign = function (next, x, y) { set(next, x == null ? innerWidth / 2 : x, y == null ? 60 : y); if (window.mauTrack) window.mauTrack('Layout gewechselt', { layout: next }); };
   if (isF()) fonts();
 
   /* HUD: Fortschritt beim Scrollen und aktueller Abschnitt */

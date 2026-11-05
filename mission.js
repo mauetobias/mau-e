@@ -441,7 +441,7 @@
     var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(relayout, 120); });
     window.addEventListener('load', relayout);
     document.addEventListener('designchange', function () { if (isF()) { cam = -1; relayout(); } else clearItems(); });
-    if ('ResizeObserver' in window) { var rq; new ResizeObserver(function () { clearTimeout(rq); rq = setTimeout(function () { if (isF() && Math.abs(document.documentElement.scrollHeight - docH) > 4) { layout(); measure(); force = true; req(); } }, 150); }).observe(document.body); }
+    if ('ResizeObserver' in window) { var rq, ro3 = new ResizeObserver(function () { clearTimeout(rq); rq = setTimeout(function () { if (isF()) { layout(); measure(); force = true; req(); } }, 150); }); [document.body, document.querySelector('main')].forEach(function (e) { if (e) ro3.observe(e); }); }
     relayout();
   })();
 

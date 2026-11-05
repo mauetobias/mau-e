@@ -516,7 +516,7 @@ html[data-design="future"] .ds-clouds .c5 { left: -5%; top: 132%; width: 65vw; h
 /* =====================================================================
    Landung im Wald (unten in „Kontakt")
    ===================================================================== */
-html[data-design="future"] .contact { padding-bottom: clamp(260px, 30vw, 400px); overflow: hidden; }
+html[data-design="future"] .contact { padding-bottom: clamp(90px, 8vw, 130px); overflow: hidden; }
 html[data-design="future"] .contact > .wrap { z-index: 3; }
 html[data-design="future"] .forest { display: block; position: absolute; left: 0; right: 0; bottom: 0; height: clamp(240px, 32vw, 460px); z-index: 1; pointer-events: none; }
 html[data-design="future"] .forest .fo-l { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; display: block; }

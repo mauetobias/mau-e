@@ -165,18 +165,34 @@
         if (stage === 1) discover('dot');
         return;
       }
-      /* Baum wirft einen Samen ab, dann startet alles von vorne */
+      /* Baum wirft einen Samen ab: er fällt genau an den Platz des Punkts,
+         danach wird der Baum gefällt und der Kern bleibt liegen */
       busy = true;
-      show(3, '<ellipse class="seed" cx="16" cy="12" rx="1.4" ry="1.9" fill="' + C + '"/>');
-      dot.querySelector('svg').classList.add('drop');
+      var svg = dot.querySelector('svg');
+      svg.style.transform = '';
+      var seed = document.createElement('span');
+      seed.className = 'seedfall'; seed.textContent = '.';
+      dot.classList.add('dropping');
+      dot.insertBefore(seed, svg);
+      /* Zielbreite = Breite des normalen Punkts */
+      var probe = document.createElement('span');
+      probe.textContent = '.'; probe.style.cssText = 'position:absolute;visibility:hidden';
+      dot.parentNode.appendChild(probe);
+      var w = probe.getBoundingClientRect().width; probe.remove();
       setTimeout(function () {
-        dot.classList.add('fade');
+        dot.classList.add('felled');
         setTimeout(function () {
-          dot.className = 'dot';
-          dot.innerHTML = '<span class="reborn">.</span>';
-          stage = 0; busy = false;
-        }, 500);
-      }, 1300);
+          dot.style.width = dot.getBoundingClientRect().width + 'px';
+          void dot.offsetWidth;
+          dot.style.transition = 'width .45s ease';
+          dot.style.width = w + 'px';
+          setTimeout(function () {
+            dot.className = 'dot'; dot.style.width = ''; dot.style.transition = '';
+            dot.textContent = '.';
+            stage = 0; busy = false;
+          }, 480);
+        }, 1200);
+      }, 1850);
     });
   }
 

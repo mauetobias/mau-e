@@ -698,10 +698,28 @@
     h1 .dot.stage-2 svg, h1 .dot.stage-3 svg { position: absolute; left: 0; bottom: 0; }
     h1 .dot.stage-2 svg { width: .8em; height: .8em; }
     h1 .dot.stage-3 svg { width: 1.15em; height: 1.15em; left: -.05em; }
-    h1 .dot svg.drop { animation: none; }
-    h1 .dot .seed { animation: seedfall 1.2s cubic-bezier(.5,0,.8,.6) forwards; transform-box: fill-box; }
-    @keyframes seedfall { 0% { transform: translate(0,0) rotate(0); } 70% { transform: translate(1px,10.5px) rotate(160deg); } 85% { transform: translate(1.5px,9px) rotate(180deg); } 100% { transform: translate(1.5px,10.8px) rotate(200deg); } }
-    h1 .dot.fade svg { transition: opacity .5s, transform .5s; opacity: 0; transform: scale(.4); }
+    h1 .dot.dropping { height: auto; }
+    h1 .dot .seedfall { display: inline-block; animation: seedfall 1.7s .1s both; }
+    @keyframes seedfall {
+      0%   { transform: translate(.72em, -.36em) scale(0); }
+      12%  { transform: translate(.72em, -.36em) scale(1); }
+      20%  { transform: translate(.7em, -.35em); }
+      28%  { transform: translate(.73em, -.36em); animation-timing-function: cubic-bezier(.45,0,.9,.55); }
+      62%  { transform: translate(.08em, 0); animation-timing-function: cubic-bezier(.2,.6,.4,1); }
+      76%  { transform: translate(.03em, -.13em); animation-timing-function: cubic-bezier(.6,0,.9,.5); }
+      88%  { transform: translate(0, 0); animation-timing-function: ease-out; }
+      94%  { transform: translate(0, -.03em); }
+      100% { transform: translate(0, 0); }
+    }
+    h1 .dot.felled svg { transform-origin: 50% 98%; animation: fell 1.2s forwards; }
+    @keyframes fell {
+      0%   { transform: rotate(0); opacity: 1; animation-timing-function: cubic-bezier(.55,0,1,.6); }
+      12%  { transform: rotate(-4deg); animation-timing-function: cubic-bezier(.6,0,1,.7); }
+      65%  { transform: rotate(88deg); opacity: 1; animation-timing-function: ease-out; }
+      75%  { transform: rotate(82deg); }
+      85%  { transform: rotate(90deg); opacity: .8; }
+      100% { transform: rotate(90deg) translateY(.15em); opacity: 0; }
+    }
     h1 .dot .reborn { display: inline-block; animation: grow .6s cubic-bezier(.3,1.6,.5,1); }
     .portrait { cursor: pointer; }
     .portrait.wiggle { animation: wiggle .5s; }
@@ -1539,7 +1557,7 @@
       show(); document.addEventListener('langchange', show);
     })();
   </script>
-  <script src="games.js?v=8"></script>
+  <script src="games.js?v=9"></script>
   <script src="analytics.js?v=1"></script>
   <script src="booking.js?v=1"></script>
   <script src="design.js?v=4"></script>

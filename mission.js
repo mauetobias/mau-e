@@ -333,84 +333,106 @@
       });
       bandsEl.style.height = docH + 'px';
       bandsEl.innerHTML = html;
-      lastY = -1; req();
     }
 
-    /* Inhalte liegen auf einer langgezogenen Feder um eine senkrechte Achse. Die Kamera gleitet an der Feder
-       entlang nach unten und schaut immer auf die Achse: Inhalte kommen rechts aus der Tiefe, stehen vorne und gleiten links weg */
-    var helix = [];
+    /* Die Seite als 3D-Raum: alle Inhalte sitzen auf einer langgezogenen Feder um eine senkrechte Achse
+       hinter der Bildschirmmitte. Die Kamera fährt an der Feder entlang nach unten und schaut immer auf die Achse.
+       Jeder Block wird um genau diese Achse gedreht, Fluchtpunkt ist für alle die Bildschirmmitte.
+       Der Drehwinkel wächst gleichmäßig mit der Höhe (echte Spirale) und folgt dem Scrollen mit sanfter Trägheit. */
+    var items = [];
+    function clearItems() { items.forEach(function (h) { h.el.style.transform = ''; h.el.style.transformOrigin = ''; h.el.style.opacity = ''; h.el.style.visibility = ''; h.el.classList.remove('in3d'); }); }
     function collect() {
-      helix.forEach(function (h) { h.el.style.translate = ''; h.el.style.rotate = ''; h.el.style.opacity = ''; });
-      helix = [];
+      clearItems(); items = [];
       if (reduce) return;
       var GRID = /(^|\s)(about-grid|stats-grid|cards|venture-grid|side-grid|soon-grid|quiz-wrap)(\s|$)/;
-      document.querySelectorAll('main > section:not(#stations) > .wrap').forEach(function (w) {
-        var n = 0;
-        function add(el) { if (!el.offsetHeight) return; helix.push({ el: el }); el.parentNode.classList.add('hx-host'); }
-        (GRID.test(w.className) ? Array.prototype.slice.call(w.children) : Array.prototype.slice.call(w.children)).forEach(function (c) {
+      function add(el) { if (el.offsetHeight) items.push({ el: el }); }
+      function walk(w) {
+        Array.prototype.forEach.call(GRID.test(w.className) ? w.children : w.children, function (c) {
           if (GRID.test(c.className)) Array.prototype.forEach.call(c.children, add); else add(c);
         });
-      });
+        if (GRID.test(w.className) && !w.children.length) add(w);
+      }
+      var hero = document.querySelector('.hero .wrap'); if (hero) walk(hero);
+      document.querySelectorAll('main > section:not(#stations) > .wrap').forEach(walk);
+      document.querySelectorAll('#stations > .wrap > :is(.section-label, h2, .cv-btn)').forEach(add);
+      var tk = document.querySelector('main > .ticker'); if (tk) add(tk);
+      measure();
+    }
+    function measure() {
+      var y = scrollY;
+      items.forEach(function (h) { h.el.style.transform = 'none'; });
+      items.forEach(function (h) { var r = h.el.getBoundingClientRect(); h.l = r.left; h.t = r.top + y; h.h = r.height; h.c = h.t + r.height / 2; });
+      items.forEach(function (h) { h.el.style.transform = ''; h.el.classList.add('in3d'); });
     }
 
-    var ticking = false, lastY = -1;
-    function upd() {
-      ticking = false;
+    var cam = -1, running = false, lastDraw = -1;
+    function frame() {
+      running = false;
       if (!isF()) return;
-      var y = scrollY, vh = innerHeight, max = docH - vh, p = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0;
-      if (Math.abs(y - lastY) < .5) return; lastY = y;
+      var target = scrollY;
+      if (cam < 0) cam = target;
+      cam += (target - cam) * .12;
+      if (Math.abs(target - cam) < .15) cam = target;
+      if (cam !== target) { running = true; requestAnimationFrame(frame); }
+      if (Math.abs(cam - lastDraw) < .05 && lastDraw >= 0 && cam === target && !force) return;
+      force = false; lastDraw = cam;
+      draw(target, cam);
+    }
+    var force = false;
+    function req() { if (!running) { running = true; requestAnimationFrame(frame); } }
+
+    function draw(y, cy) {
+      var vh = innerHeight, vw = innerWidth, max = docH - vh, p = max > 0 ? Math.min(1, Math.max(0, cy / max)) : 0;
       bandsEl.style.transform = 'translate3d(0,' + (-y).toFixed(1) + 'px,0)';
-      /* Spirale: Drehwinkel wächst mit der Tiefe */
-      /* Hintergrund liegt hinter der Achse: er zieht entgegen der Inhalte nach rechts (Kamera kreist) */
-      stars.style.opacity = (1 - sm(.06, .5, p)).toFixed(3);
-      stars.style.backgroundPosition = (p * 2600).toFixed(1) + 'px 0';
-      stars2.style.opacity = stars.style.opacity;
-      stars2.style.backgroundPosition = (p * 1300).toFixed(1) + 'px 0';
-      d.style.setProperty('--glow', sm(.45, 1, p).toFixed(3));
+      /* Grad pro Pixel Höhe: eine halbe Bildschirmhöhe entspricht gut 30 Grad Windung */
+      var K = 32 / (vh / 2), turn = (cy + vh / 2) * K;
+      /* Hintergrund liegt hinter der Achse und zieht gegenläufig vorbei */
+      var so = (1 - sm(.06, .55, p)).toFixed(3);
+      stars.style.opacity = so; stars2.style.opacity = (so * .6).toFixed(3);
+      stars.style.transform = 'translate3d(' + ((turn * 7) % 340 - 340).toFixed(1) + 'px,0,0)';
+      stars2.style.transform = 'translate3d(' + ((turn * 3) % 200 - 200).toFixed(1) + 'px,0,0)';
       clouds.style.opacity = (sm(.36, .48, p) * (1 - sm(.66, .78, p))).toFixed(3);
-      clouds.style.transform = 'translate3d(' + (p * 60 - 30).toFixed(1) + 'vw,' + ((.57 - p) * 320).toFixed(1) + 'vh,0)';
-      /* Boden: steigt auf und zieht seitlich vorbei, vorne schneller als hinten */
-      [[.5, 1, 30], [.6, 1, 55], [.7, 1, 90]].forEach(function (r, i) {
-        var k = sm(r[0], r[1], p), pan = (p * r[2]) % 200;
+      clouds.style.transform = 'translate3d(' + ((turn * .06) % 120 - 60).toFixed(1) + 'vw,' + ((.57 - p) * 320).toFixed(1) + 'vh,0)';
+      [[.5, 1, .035], [.6, 1, .06], [.7, 1, .1]].forEach(function (r, i) {
+        var k = sm(r[0], r[1], p), pan = (turn * r[2]) % 190;
         land[i].style.transform = 'translate3d(' + pan.toFixed(2) + 'vw,' + ((1 - k) * 105).toFixed(2) + '%,0)';
       });
-      /* Inhalte */
-      var R = Math.min(innerWidth * .55, 720), mid = vh / 2, MAXA = innerWidth < 700 ? 40 : 55;
-      for (var i = 0; i < helix.length; i++) {
-        var h = helix[i], r2 = h.el.getBoundingClientRect();
-        if (r2.bottom < -vh * .5 || r2.top > vh * 1.5) continue;
-        var rest = Math.min(max, Math.max(0, r2.top + y + r2.height / 2 - mid)), t = (rest - y) / mid, a = Math.abs(t), u = a < .22 ? 0 : Math.min(1, (a - .22) / 1);
-        u = u * (2 - u) * (t < 0 ? -1 : 1);
-        /* unten = rechts aus der Tiefe, oben = links in die Tiefe */
-        var phi = u * MAXA * Math.PI / 180;
-        h.el.style.translate = (R * Math.sin(phi)).toFixed(1) + 'px 0 ' + (R * (Math.cos(phi) - 1)).toFixed(1) + 'px';
-        h.el.style.rotate = 'y ' + (phi * 180 / Math.PI).toFixed(2) + 'deg';
-        h.el.style.opacity = (1 - Math.abs(u) * .55).toFixed(3);
+      /* Inhalte im Raum */
+      var R = Math.max(420, vw * .62), P = Math.max(900, vw * .9), camC = cy + vh / 2, viewC = y + vh / 2;
+      for (var i = 0; i < items.length; i++) {
+        var h = items[i];
+        if (h.t + h.h < y - vh * .6 || h.t > y + vh * 1.6) { if (h.vis !== false) { h.el.style.visibility = 'hidden'; h.vis = false; } continue; }
+        /* oben und unten kann die Kamera nicht weiter: dort ruhen die Inhalte vorne */
+        var rest = Math.min(max, Math.max(0, h.c - vh / 2)) + vh / 2, dy = rest - camC + (h.c - rest) * .15;
+        var phi = dy * K, a = Math.abs(phi);
+        if (a > 95) { if (h.vis !== false) { h.el.style.visibility = 'hidden'; h.vis = false; } continue; }
+        if (h.vis === false) { h.el.style.visibility = ''; h.vis = true; }
+        h.el.style.transformOrigin = (vw / 2 - h.l).toFixed(1) + 'px ' + (viewC - h.t).toFixed(1) + 'px';
+        h.el.style.transform = 'perspective(' + P.toFixed(0) + 'px) translateZ(' + (-R).toFixed(0) + 'px) rotateY(' + phi.toFixed(3) + 'deg) translateZ(' + R.toFixed(0) + 'px)';
+        h.el.style.opacity = (1 - Math.pow(Math.min(1, a / 95), 1.6) * .85).toFixed(3);
       }
-      /* Höhenmesser: Bildschirmmitte zwischen den Schichtgrenzen */
-      var c = y + mid, km = LAYERS[0].km, j;
+      /* Höhenmesser */
+      var c = y + vh / 2, km = LAYERS[0].km, j;
       for (j = 0; j < LAYERS.length; j++) {
         if (tops[j] == null) continue;
         var nj = j + 1; while (nj < LAYERS.length && tops[nj] == null) nj++;
         var t0 = tops[j], t1 = nj < LAYERS.length ? tops[nj] : docH, k1 = nj < LAYERS.length ? LAYERS[nj].km : 0;
         if (c >= t0 && c < t1) { var f = (c - t0) / (t1 - t0); km = LAYERS[j].km + (k1 - LAYERS[j].km) * f; break; }
       }
-      if (p >= .995) km = 0;
+      var py = max > 0 ? y / max : 0;
+      if (py >= .995) km = 0;
       alt.querySelector('.alt-v').textContent = fmtKm(km);
-      alt.querySelector('.alt-bar i').style.height = ((1 - p) * 100).toFixed(1) + '%';
-      alt.classList.toggle('landed', p >= .995);
+      alt.querySelector('.alt-bar i').style.height = ((1 - py) * 100).toFixed(1) + '%';
+      alt.classList.toggle('landed', py >= .995);
     }
-    function req() { if (!ticking) { ticking = true; requestAnimationFrame(upd); } }
-    function relayout() { if (!isF()) return; collect(); layout(); }
-    painters.push(function () { alt.querySelector('.alt-l').textContent = en() ? 'Altitude' : 'Höhe'; if (isF()) layout(); });
+    var lastY = -1;
+    function relayout() { if (!isF()) return; collect(); layout(); force = true; req(); }
+    painters.push(function () { alt.querySelector('.alt-l').textContent = en() ? 'Altitude' : 'Höhe'; if (isF()) { layout(); force = true; req(); } });
     window.addEventListener('scroll', req, { passive: true });
     var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(relayout, 120); });
     window.addEventListener('load', relayout);
-    document.addEventListener('designchange', function () {
-      if (isF()) relayout();
-      else helix.forEach(function (h) { h.el.style.translate = ''; h.el.style.rotate = ''; h.el.style.opacity = ''; });
-    });
-    if ('ResizeObserver' in window) { var ro, rq; ro = new ResizeObserver(function () { clearTimeout(rq); rq = setTimeout(function () { if (isF() && Math.abs(document.documentElement.scrollHeight - docH) > 4) layout(); }, 150); }); ro.observe(document.body); }
+    document.addEventListener('designchange', function () { if (isF()) { cam = -1; relayout(); } else clearItems(); });
+    if ('ResizeObserver' in window) { var rq; new ResizeObserver(function () { clearTimeout(rq); rq = setTimeout(function () { if (isF() && Math.abs(document.documentElement.scrollHeight - docH) > 4) { layout(); measure(); force = true; req(); } }, 150); }).observe(document.body); }
     relayout();
   })();
 

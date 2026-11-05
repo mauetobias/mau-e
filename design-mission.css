@@ -720,19 +720,19 @@ html[data-design="future"] .band-l {
   position: absolute; right: clamp(16px, 3vw, 40px); top: 10px;
   font-family: var(--f-mono); font-size: .62rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: rgba(var(--f-fg), .45);
 }
-html[data-design="future"] .b-space  { background: #0B110E; }
-html[data-design="future"] .b-exo    { background: linear-gradient(180deg, #101914, #0E1612); }
-html[data-design="future"] .b-thermo { background: linear-gradient(180deg, #16201A, #131C17); }
-html[data-design="future"] .b-meso   { background: linear-gradient(180deg, #121D1C, #111A18); }
-html[data-design="future"] .b-strato { background: linear-gradient(180deg, #172620, #1B2C23); }
-html[data-design="future"] .b-tropo  { background: linear-gradient(180deg, #213428, #27392B); }
-html[data-design="future"] .b-ground { background: linear-gradient(180deg, #2A3B2D, #33402F); }
-html[data-design="future"] .ds-stars { inset: 0; }
-html[data-design="future"] .ds-stars.s2 { background-size: 190px 190px; filter: brightness(.7); transform: scale(.6); transform-origin: 0 0; inset: 0 -70% -70% 0; }
+html[data-design="future"] .b-space  { background: linear-gradient(180deg, #030604, #060B08); }
+html[data-design="future"] .b-exo    { background: linear-gradient(180deg, #08100C, #0B140F); }
+html[data-design="future"] .b-thermo { background: linear-gradient(180deg, #0F1914, #121E17); }
+html[data-design="future"] .b-meso   { background: linear-gradient(180deg, #070C0A, #0A110D); }
+html[data-design="future"] .b-strato { background: linear-gradient(180deg, #14231B, #1A2D22); }
+html[data-design="future"] .b-tropo  { background: linear-gradient(180deg, #213829, #29422F); }
+html[data-design="future"] .b-ground { background: linear-gradient(180deg, #2F4834, #3A563E); }
+html[data-design="future"] .ds-stars { inset: 0 auto 0 0; width: calc(100% + 340px); will-change: transform; }
+html[data-design="future"] .ds-stars.s2 { width: calc(100% + 200px); background-size: 200px 200px; opacity: .6; }
 html[data-design="future"] .ds-land { width: 300%; left: -200%; right: auto; }
-html[data-design="future"] .hx-host { perspective: 1600px; }
-html[data-design="future"] main section:not(#stations) .wrap > * { will-change: translate, rotate; }
-@media (prefers-reduced-motion: reduce) { html[data-design="future"] .hx-host { perspective: none; } }
+html[data-design="future"] .in3d { will-change: transform, opacity; backface-visibility: hidden; transition: none; }
+/* keine Sonne: kein Leuchten am Boden, keine Sonne zwischen den Bäumen */
+html[data-design="future"] .fo-sun, html[data-design="future"] .ds-glow { display: none !important; }
 
 html[data-design="future"][data-theme="light"] .band::before { background: linear-gradient(180deg, rgba(46, 52, 49, .1), transparent); }
 html[data-design="future"][data-theme="light"] .band::after { background: rgba(46, 52, 49, .22); }

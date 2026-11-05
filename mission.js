@@ -90,14 +90,21 @@
     var hover = false; sys.addEventListener('pointerenter', function () { hover = true; }); sys.addEventListener('pointerleave', function () { hover = false; });
     var last = 0, vis = false;
     if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { vis = e[0].isIntersecting; if (vis) requestAnimationFrame(loop); }).observe(sys);
+    /* Echte 3D-Bahnen: die Sonne steht fest in der Mitte, die Planeten kreisen auf einer geneigten Ebene.
+       Je nachdem, wo das System im Bild steht, schaut die Kamera mehr von oben oder flacher darauf.
+       Planeten hinter der Sonne werden verdeckt, kleiner und dunkler, vorne größer und heller. */
+    var ells = sys.querySelectorAll('.sys-orbits ellipse'), RX = [230, 350, 470];
     function place() {
-      var w = sys.clientWidth, h = sys.clientHeight, scale = Math.min(w / 1000, h / 400);
+      var w = sys.clientWidth, h = sys.clientHeight, scale = Math.min(w / 1000, h / 400), r = sys.getBoundingClientRect();
+      var tt = Math.max(-1, Math.min(1, ((r.top + r.height / 2) - innerHeight / 2) / (innerHeight / 2)));
+      var el = (isF() && !reduce ? 24 + tt * 16 : 22) * Math.PI / 180, se = Math.sin(el), ce = Math.cos(el), Pp = 1100 * scale;
+      for (var k = 0; k < ells.length; k++) ells[k].setAttribute('ry', (RX[k] * se).toFixed(1));
       P.forEach(function (pl) {
-        /* Kamera kreist mit: der Blickwinkel auf die Umlaufbahnen dreht sich beim Scrollen */
         var A = pl.a + (isF() && !reduce ? (window.__mauCamAz || 0) * Math.PI / 180 * 1.6 : 0);
-        var R = pl.r * 500 * scale, x = Math.cos(A) * R, y = Math.sin(A) * R * pl.k, z = Math.sin(A);
-        pl.el.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + (0.82 + (z + 1) * 0.14).toFixed(3) + ')';
-        pl.el.style.zIndex = z > 0 ? 3 : 1;
+        var R = pl.r * 500 * scale, x = Math.cos(A) * R, d = Math.sin(A) * R, y = d * se, zz = d * ce, sc = Pp / (Pp - zz);
+        pl.el.style.transform = 'translate(' + (x * sc).toFixed(1) + 'px,' + (y * sc).toFixed(1) + 'px) scale(' + (sc * .95).toFixed(3) + ')';
+        pl.el.style.zIndex = zz > 0 ? 3 : 1;
+        pl.el.style.filter = 'brightness(' + (0.7 + 0.3 * (sc - .6) / .8).toFixed(3) + ')';
       });
     }
     function loop(now) {
@@ -121,7 +128,7 @@
       route = document.createElement('div'); route.className = 'route';
       route.innerHTML = '<div class="route-track"><svg class="route-path" aria-hidden="true"><path class="rp-glow"/><path class="rp-line"/></svg></div>' +
         '<div class="ship" aria-hidden="true"><div class="ship-in"><svg viewBox="0 0 40 40"><path d="M20 3c6 6 8 13 7 21l-7 4-7-4c-1-8 1-15 7-21Z"/><circle cx="20" cy="15" r="3.2"/><path class="fin" d="M13 22l-6 7 7-2M27 22l6 7-7-2"/></svg><i class="flame"></i></div></div>' +
-        '<p class="route-hint" aria-hidden="true"></p>';
+        '<p class="route-hint" aria-hidden="true"></p><div class="route-planet" aria-hidden="true"><i></i></div>';
       track = route.querySelector('.route-track'); svg = route.querySelector('.route-path'); ship = route.querySelector('.ship');
       var items = tl.querySelectorAll(':scope > li');
       items.forEach(function (li, i) { track.appendChild(module(li, i)); });
@@ -197,6 +204,8 @@
       x += (-eased * step - x) * Math.min(1, dt * 9);
       var v = (x - lastX) / dt; lastX = x;
       track.style.transform = 'translate3d(' + x.toFixed(1) + 'px,0,0)';
+      /* der Planet darunter dreht sich mit, die Satelliten kreisen über ihm */
+      var rpl = route.querySelector('.route-planet i'); if (rpl) rpl.style.transform = 'rotate(' + (x * .02).toFixed(2) + 'deg)';
       var mid = stageW / 2;
       /* Rakete fliegt in der Mitte auf der Bahn mit */
       var u = (mid - HW / 2 - x - pad - HW / 2) / HW, slope = Math.cos(u * 1.15) * 1.15 * AMP / HW;
@@ -355,7 +364,8 @@
       clearItems(); items = [];
       if (reduce) return;
       var GRID = /(^|\s)(about-grid|stats-grid|cards|venture-grid|side-grid|soon-grid|quiz-wrap)(\s|$)/;
-      function add(el) { if (el.offsetHeight && !el.classList.contains('sys')) items.push({ el: el, end: !!el.closest('#contact') }); }
+      /* Teile eines Bereichs bewegen sich gemeinsam auf der Feder, damit sie beisammen bleiben */
+      function add(el) { if (el.offsetHeight && !el.classList.contains('sys')) items.push({ el: el, end: !!el.closest('#contact'), grp: el.closest('main > section, header') }); }
       function walk(w) {
         Array.prototype.forEach.call(GRID.test(w.className) ? w.children : w.children, function (c) {
           if (GRID.test(c.className)) Array.prototype.forEach.call(c.children, add); else add(c);
@@ -364,13 +374,16 @@
       }
       var hero = document.querySelector('.hero .wrap'); if (hero) walk(hero);
       document.querySelectorAll('main > section:not(#stations) > .wrap').forEach(walk);
-      document.querySelectorAll('#stations > .wrap > :is(.section-label, h2, .cv-btn)').forEach(add);
+      /* Stationen: auch Überschrift und Satelliten-Route fliegen auf der Feder herein und hinaus */
+      document.querySelectorAll('#stations > .wrap > :is(.section-label, h2, .cv-btn, .route)').forEach(function (el) { add(el); var it = items[items.length - 1]; if (it && it.el === el) it.live = el.parentNode; });
       measure();
     }
     function measure() {
       var y = scrollY;
       items.forEach(function (h) { h.el.style.transform = 'none'; });
-      items.forEach(function (h) { var r = h.el.getBoundingClientRect(); h.l = r.left; h.w = r.width; h.t = r.top + y; h.h = r.height; h.c = h.t + r.height / 2; });
+      items.forEach(function (h) { var r = h.el.getBoundingClientRect(); h.l = r.left; h.w = r.width; h.t = r.top + y; h.h = r.height; h.c = h.t + r.height / 2;
+        var g = h.grp && h.grp.getBoundingClientRect(); h.gt = g ? g.top + y : h.t; h.gb = g ? g.bottom + y : h.t + h.h;
+        if (h.live) h.off = r.top - h.live.getBoundingClientRect().top; });
       items.forEach(function (h) { h.el.style.transform = ''; h.el.classList.add('in3d'); var bg = getComputedStyle(h.el); if ((bg.backgroundImage !== 'none' || bg.backgroundColor !== 'rgba(0, 0, 0, 0)') && h.h > 60) h.el.classList.add('slab'); });
     }
 
@@ -413,27 +426,35 @@
          Die Inhalte bleiben immer gerade zur Kamera ausgerichtet (keine schrägen Ebenen) und wandern nur auf
          der Bahn der Feder: unten kommen sie von rechts über den Rand herein, in der Mitte stehen sie vorne,
          oben gleiten sie links hinaus. Hinten auf der Feder sind sie kleiner und blasser. */
-      var R = Math.max(700, vw * .95), P = Math.max(1100, vw * 1.05), T = vh * .07, mid = vh / 2;
+      var R = Math.max(560, vw * .62), P = Math.max(1100, vw * 1.05), T = vh * .06, mid = vh / 2;
       var endK = 1 - sm(max - vh * .9, max - 4, cy), ae = document.activeElement, typing = ae && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName);
-      function thetaAt(tt) { var a2 = Math.min(1.5, Math.abs(tt)); return (tt < 0 ? -1 : 1) * a2 * a2 * Math.PI / 2; }
+      function thetaAt(tt) { var a2 = Math.min(1.7, Math.abs(tt)); return (tt < 0 ? -1 : 1) * a2 * a2 * .96; }
+      var liveTop = {}, camC2 = cy + mid;
       for (var i = 0; i < items.length; i++) {
         var h = items[i];
-        if (h.t + h.h < y - vh * .8 || h.t > y + vh * 1.8) { if (h.vis !== false) { h.el.style.visibility = 'hidden'; h.vis = false; } continue; }
-        var rest = Math.min(max, Math.max(0, h.c - mid)) + mid, dyc = rest - (cy + mid) + (h.c - rest) * .15;
+        if (h.live) { var lk = h.live === items[i].live ? 'w' : 'w'; if (liveTop[lk] == null) liveTop[lk] = h.live.getBoundingClientRect().top; }
+        var span = h.gb - h.gt, gc = span > vh ? Math.min(h.gb - mid, Math.max(h.gt + mid, camC2)) : (h.gt + h.gb) / 2;
+        if (h.gb < y - vh * .8 || h.gt > y + vh * 1.8) { if (h.vis !== false) { h.el.style.visibility = 'hidden'; h.vis = false; } continue; }
+        var rest = Math.min(max, Math.max(0, gc - mid)) + mid, dyc = rest - camC2 + (gc - rest) * .15;
         var ek = h.end ? endK : 1; if (typing && h.el.contains(ae)) ek = 0;
         var th = thetaAt(dyc / mid) * ek;
         if (Math.abs(th) > 2.3) { if (h.vis !== false) { h.el.style.visibility = 'hidden'; h.vis = false; } continue; }
         if (h.vis === false) { h.el.style.visibility = ''; h.vis = true; }
         var dx = h.l + h.w / 2 - vw / 2, z = R * (Math.cos(th) - 1), sc = P / (P - z);
-        var ysr = h.c - y - mid, tilt = -T * (1 - Math.cos(th));
+        var ysr = h.live ? liveTop.w + h.off + h.h / 2 - mid : h.c - y - mid, tilt = -T * (1 - Math.cos(th));
         var mx = (R * Math.sin(th) + dx) * sc - dx, my = (ysr + tilt) * sc - ysr;
         h.el.style.transformOrigin = '50% 50%';
-        h.el.style.transform = 'translate3d(' + mx.toFixed(1) + 'px,' + my.toFixed(1) + 'px,0) scale(' + sc.toFixed(4) + ')';
+        /* als Körper mit um die Feder drehen: Vorderseite zeigt immer von der Achse weg */
+        var rotA = th * 57.2958 * .8;
+        h.el.style.transform = 'translate3d(' + mx.toFixed(1) + 'px,' + my.toFixed(1) + 'px,0) perspective(1400px) rotateY(' + rotA.toFixed(2) + 'deg) scale(' + sc.toFixed(4) + ')';
         h.el.style.opacity = Math.max(.15, Math.min(1, (sc - .45) / .55)).toFixed(3);
         h.el.style.zIndex = Math.round(sc * 100);
-        var ex = Math.max(-1.6, Math.min(1.6, -Math.sin(th) * 2.2)), exr = Math.round(ex * 20) / 20;
+        var ex = Math.max(-2.2, Math.min(2.2, -Math.sin(th * .8) * 3.2)), exr = Math.round(ex * 20) / 20;
         if (exr !== h.ex) { h.ex = exr; h.el.style.setProperty('--ex', exr); }
       }
+      /* Projektion für andere Elemente (Laufband) mit genau derselben Feder */
+      window.__mauCoil = { R: R, P: P, T: T, mid: mid, off: y - cy, th: thetaAt };
+      document.dispatchEvent(new Event('mau-coil'));
       /* Die Feder selbst als Linie: vorne kräftig, hinten zart */
       cx2.clearRect(0, 0, vw, vh);
       var light = root.getAttribute('data-theme') === 'light', col = light ? '62,74,67' : '226,166,90', prev = null;
@@ -477,25 +498,32 @@
     relayout();
   })();
 
-  /* ---------- Laufband: läuft gebogen um die Achse statt als flacher Balken ---------- */
+  /* ---------- Laufband: liegt als Ring auf derselben Feder (gleicher Durchmesser, gleiche Achse) ---------- */
   (function () {
     var tk = document.querySelector('.ticker'), tr = tk && tk.querySelector('.ticker-track'); if (!tr) return;
     var parts = Array.prototype.slice.call(tk.querySelectorAll('.tw, .sep')), vis = false, run = false;
+    function clear() { parts.forEach(function (e) { e.style.transform = ''; e.style.opacity = ''; }); }
     function loop() {
-      if (!vis || !isF() || reduce) { run = false; parts.forEach(function (e) { e.style.transform = ''; }); return; }
-      var vw = innerWidth, R = Math.max(420, vw * .5), tb = tk.getBoundingClientRect(), m = new DOMMatrixReadOnly(getComputedStyle(tr).transform), base = tb.left + m.m41;
-      var xs = parts.map(function (e) { return base + e.offsetLeft + e.parentNode.offsetLeft + e.offsetWidth / 2; });
+      var C = window.__mauCoil;
+      if (!vis || !isF() || reduce || !C) { run = false; clear(); return; }
+      var vw = innerWidth, tb = tk.getBoundingClientRect(), m = new DOMMatrixReadOnly(getComputedStyle(tr).transform), base = tb.left + m.m41;
+      var ysr = tb.top + tb.height / 2 - C.mid, th0 = C.th((ysr - C.off) / C.mid);
       for (var i = 0; i < parts.length; i++) {
-        var dx = xs[i] - vw / 2, th = Math.max(-1.55, Math.min(1.55, dx / R));
-        parts[i].style.transform = (parts[i].classList.contains('sep') ? 'rotate(45deg) ' : '') === '' ?
-          'translate3d(' + (R * Math.sin(th) - dx).toFixed(1) + 'px,0,' + (R * (Math.cos(th) - 1)).toFixed(1) + 'px) rotateY(' + (th * 57.3).toFixed(2) + 'deg)' :
-          'translate3d(' + (R * Math.sin(th) - dx).toFixed(1) + 'px,0,' + (R * (Math.cos(th) - 1)).toFixed(1) + 'px) rotateY(' + (th * 57.3).toFixed(2) + 'deg) rotate(45deg)';
+        var e = parts[i], dx = base + e.offsetLeft + e.parentNode.offsetLeft + e.offsetWidth / 2 - vw / 2;
+        /* Winkel auf dem Ring: Höhe auf der Feder plus seitlicher Abstand entlang des Umfangs */
+        var ph = th0 + dx / C.R, a = Math.abs(ph);
+        if (a > 1.75) { e.style.opacity = '0'; continue; }
+        var z = C.R * (Math.cos(ph) - 1), s = C.P / (C.P - z);
+        var mx = C.R * Math.sin(ph) * s - dx, my = (-C.T * (1 - Math.cos(ph))) * s + ysr * (s - 1);
+        e.style.opacity = Math.max(.1, Math.min(1, (s - .4) / .6)).toFixed(3);
+        e.style.transform = 'translate3d(' + mx.toFixed(1) + 'px,' + my.toFixed(1) + 'px,0) perspective(1400px) rotateY(' + (ph * 57.3).toFixed(2) + 'deg) scale(' + s.toFixed(4) + ')' + (e.classList.contains('sep') ? ' rotate(45deg)' : '');
       }
       requestAnimationFrame(loop);
     }
     function go() { if (!run && vis && isF()) { run = true; requestAnimationFrame(loop); } }
-    if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { vis = e[0].isIntersecting; go(); }).observe(tk);
-    document.addEventListener('designchange', go);
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { vis = e[0].isIntersecting; go(); }, { rootMargin: '200px 0px' }).observe(tk);
+    document.addEventListener('designchange', function () { if (!isF()) clear(); go(); });
+    document.addEventListener('mau-coil', go);
   })();
 
   /* ---------- Ganz unten: Landung im Wald ---------- */

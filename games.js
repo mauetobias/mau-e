@@ -71,7 +71,7 @@
   function updateCounter() {
     var n = Object.keys(found).length;
     if (!counter) return;
-    counter.hidden = n === 0;
+    counter.hidden = false;
     counter.querySelector('.egg-n').textContent = n + '/' + TOTAL;
     counter.querySelector('.egg-l').textContent = lang() === 'en' ? 'secrets found' : 'Geheimnisse gefunden';
     counter.classList.toggle('all', n === TOTAL);
@@ -100,7 +100,20 @@
   panel.className = 'egg-panel';
   panel.setAttribute('aria-labelledby', 'egg-panel-title');
   document.body.appendChild(panel);
-  function openPanel() {
+  /* Tipps, wenn man nicht weiterkommt: erst ein Hinweis, dann die Lösung */
+  var HINTS = {
+    dot:     { de: ['Schau dir den Punkt hinter meinem Namen ganz oben genauer an. Einmal klicken reicht nicht.', 'Klick fünfmal schnell hintereinander auf den Punkt hinter "Tobias Maue".'], en: ['Take a closer look at the dot after my name at the very top. One click is not enough.', 'Click the dot after "Tobias Maue" five times in quick succession.'] },
+    photo:   { de: ['Mein Foto freut sich über Aufmerksamkeit.', 'Klick oder tipp dreimal schnell auf mein Foto bei "Über mich".'], en: ['My photo likes some attention.', 'Click or tap my photo in "About me" three times quickly.'] },
+    logo:    { de: ['Oben links steht mehr als nur ein Name.', 'Klick dreimal schnell auf "mau-e" oben links.'], en: ['Top left is more than just a name.', 'Click "mau-e" in the top left three times quickly.'] },
+    theme:   { de: ['Kannst du dich zwischen hell und dunkel entscheiden?', 'Schalte sechsmal hintereinander zwischen hell und dunkel um (Sonne/Mond oben rechts).'], en: ['Can you decide between light and dark?', 'Switch between light and dark six times in a row (sun/moon at the top right).'] },
+    konami:  { de: ['Ein Klassiker aus Videospielen der 80er, eingegeben auf der Tastatur.', 'Tippe auf der Tastatur: ↑ ↑ ↓ ↓ ← → ← → B A'], en: ['A classic from 80s video games, typed on the keyboard.', 'Type on your keyboard: ↑ ↑ ↓ ↓ ← → ← → B A'] },
+    console: { de: ['Entwickler schauen dahin, wo andere nicht hinschauen.', 'Öffne die Entwicklerkonsole deines Browsers (meist F12), dort wartet eine Nachricht. Tipp dann hallo() ein und drück Enter.'], en: ['Developers look where others do not.', 'Open your browser\'s developer console (usually F12), a message is waiting there. Then type hallo() and hit enter.'] },
+    quiz:    { de: ['Wie gut kennst du mich wirklich?', 'Mach das Quiz weiter unten und bestehe es.'], en: ['How well do you really know me?', 'Take the quiz further down the page and pass it.'] }
+  };
+  var hintLv = {};
+  try { hintLv = JSON.parse(store('eggHints') || '{}') || {}; } catch (e) { hintLv = {}; }
+  function openPanel() { openPanelInner(); if (panel.showModal) { if (!panel.open) panel.showModal(); } else panel.setAttribute('open', ''); }
+  function openPanelInner() {
     var n = Object.keys(found).length, en = lang() === 'en';
     var html = '<button type="button" class="egg-close" aria-label="' + (en ? 'Close' : 'Schließen') + '">×</button>' +
       '<p class="egg-kicker">🌱 ' + n + '/' + TOTAL + '</p>' +
@@ -110,13 +123,22 @@
         var tx = t(EGGS[id]);
         html += '<li class="got"><span class="egg-mark" aria-hidden="true">✓</span><div><b></b><p></p></div></li>'.replace('<b></b>', '<b>' + tx[0] + '</b>').replace('<p></p>', '<p>' + tx[1] + '</p>');
       } else {
-        html += '<li class="locked"><span class="egg-mark" aria-hidden="true">?</span><div><b>' + (en ? 'Not discovered yet' : 'Noch nicht entdeckt') + '</b><p>' + (en ? 'Keep looking. It is somewhere on this page.' : 'Such weiter. Es ist irgendwo auf dieser Seite.') + '</p></div></li>';
+        var lv = hintLv[id] || 0, hs = HINTS[id][en ? 'en' : 'de'];
+        html += '<li class="locked"><span class="egg-mark" aria-hidden="true">?</span><div><b>' + (en ? 'Not discovered yet' : 'Noch nicht entdeckt') + '</b><p>' +
+          (lv ? '💡 ' + hs[lv - 1] : (en ? 'Keep looking. It is somewhere on this page.' : 'Such weiter. Es ist irgendwo auf dieser Seite.')) + '</p>' +
+          (lv < hs.length ? '<button type="button" class="egg-hint" data-id="' + id + '">' + (lv ? (en ? 'Show solution' : 'Lösung zeigen') : (en ? 'Get a hint' : 'Tipp anzeigen')) + '</button>' : '') + '</div></li>';
       }
     });
     html += '</ul>' + (n === TOTAL ? '<p class="egg-done">' + (en ? 'All found. Respect!' : 'Alles gefunden. Respekt!') + '</p>' : '');
     panel.innerHTML = html;
     panel.querySelector('.egg-close').addEventListener('click', function () { panel.close(); });
-    if (panel.showModal) panel.showModal(); else panel.setAttribute('open', '');
+    Array.prototype.forEach.call(panel.querySelectorAll('.egg-hint'), function (b) {
+      b.addEventListener('click', function () {
+        var id = b.getAttribute('data-id'); hintLv[id] = (hintLv[id] || 0) + 1; store('eggHints', JSON.stringify(hintLv));
+        if (window.mauTrack) window.mauTrack('Geheimnis-Tipp', { geheimnis: id, stufe: hintLv[id] });
+        openPanelInner();
+      });
+    });
   }
   panel.addEventListener('click', function (e) { if (e.target === panel) panel.close(); });
   if (counter) {

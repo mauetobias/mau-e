@@ -747,6 +747,9 @@
     .egg-list li.locked { background: transparent; border: 1.5px dashed #D3CBBE; }
     .egg-list li.locked .egg-mark { background: #E6E0D5; color: var(--graphite); }
     .egg-list li.locked b { color: var(--graphite); }
+    .egg-hint { margin-top: 8px; font: inherit; font-size: .8rem; font-weight: 700; color: var(--clay-deep); background: rgba(212,145,63,.12); border: 1px solid rgba(212,145,63,.45); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+    .egg-hint:hover { background: rgba(212,145,63,.22); }
+    [data-theme="dark"] .egg-hint { color: var(--clay); }
     .egg-done { margin-top: 16px; font-weight: 700; color: var(--clay-deep); text-align: center; }
     [data-theme="dark"] .egg-panel { background: var(--surf); color: var(--ink); }
     [data-theme="dark"] .egg-list li { background: var(--bg); } [data-theme="dark"] .egg-list p, [data-theme="dark"] .egg-close { color: var(--soft); }
@@ -881,7 +884,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="design-future.css?v=5">
   <link rel="stylesheet" href="design-retro.css?v=1">
-  <link rel="stylesheet" href="design-mission.css?v=12">
+  <link rel="stylesheet" href="design-mission.css?v=16">
 </head>
 <body>
 
@@ -1559,12 +1562,12 @@
       show(); document.addEventListener('langchange', show);
     })();
   </script>
-  <script src="games.js?v=9"></script>
+  <script src="games.js?v=10"></script>
   <script src="analytics.js?v=1"></script>
   <script src="booking.js?v=1"></script>
   <script src="design.js?v=5"></script>
   <script src="retro.js?v=1"></script>
-  <script src="mission.js?v=12"></script>
+  <script src="mission.js?v=16"></script>
   <script>
     (function () {
       var b = document.getElementById('book-btn'); if (b && window.BOOKING_URL) { b.href = window.BOOKING_URL; b.hidden = false; }

@@ -127,19 +127,41 @@
   document.addEventListener('langchange', updateCounter);
   updateCounter();
 
-  /* 1) Den Punkt hinter dem Namen 5x anklicken */
+  /* 1) Den Punkt hinter dem Namen 5x anklicken: Kern -> Trieb -> Baum -> Samen -> Kern */
   var dot = document.querySelector('h1 .dot');
   if (dot) {
-    var dc = 0, dTimer;
+    var dc = 0, dTimer, stage = 0, busy = false;
+    var SPROUT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22V12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12 13c0-5 3.5-8 8.5-8 0 5-3.5 8-8.5 8z" fill="currentColor"/><path d="M12 16c0-4-3-6.5-7-6.5 0 4 3 6.5 7 6.5z" fill="currentColor" opacity=".7"/></svg>';
+    var TREE = '<path d="M12 23v-9" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12 17l-3-3M12 15.5l3-2.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="8.5" r="6.5" fill="currentColor" opacity=".85"/><circle cx="8" cy="11" r="3.6" fill="currentColor" opacity=".7"/><circle cx="16" cy="11" r="3.6" fill="currentColor" opacity=".7"/>';
     dot.style.cursor = 'pointer';
     dot.addEventListener('click', function () {
-      dc++; clearTimeout(dTimer); dTimer = setTimeout(function () { dc = 0; }, 2500);
-      dot.style.transform = 'scale(' + (1 + dc * .25) + ')';
-      if (dc >= 5) {
-        dc = 0; dot.classList.add('sprouted');
-        dot.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22V12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12 13c0-5 3.5-8 8.5-8 0 5-3.5 8-8.5 8z" fill="currentColor"/><path d="M12 16c0-4-3-6.5-7-6.5 0 4 3 6.5 7 6.5z" fill="currentColor" opacity=".7"/></svg>';
-        dot.style.transform = '';
-        discover('dot');
+      if (busy) return;
+      if (stage === 0) {
+        /* Kern: 5 Klicks bis zum Trieb */
+        dc++; clearTimeout(dTimer); dTimer = setTimeout(function () { dc = 0; dot.style.transform = ''; }, 2500);
+        dot.style.transform = 'scale(' + (1 + dc * .25) + ')';
+        if (dc >= 5) {
+          dc = 0; stage = 1; dot.classList.add('sprouted');
+          dot.innerHTML = SPROUT;
+          dot.style.transform = '';
+          discover('dot');
+        }
+      } else if (stage === 1) {
+        /* Trieb wächst zum Baum */
+        stage = 2; dot.classList.add('tree');
+        dot.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + TREE + '</svg>';
+      } else if (stage === 2) {
+        /* Baum wirft einen Samen ab, dann startet alles von vorne */
+        busy = true;
+        dot.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" class="drop">' + TREE + '<ellipse class="seed" cx="15" cy="10" rx="1.6" ry="2.1" fill="currentColor"/></svg>';
+        setTimeout(function () {
+          dot.classList.add('fade');
+          setTimeout(function () {
+            dot.classList.remove('sprouted', 'tree', 'fade');
+            dot.innerHTML = '<span class="reborn">.</span>';
+            stage = 0; busy = false;
+          }, 500);
+        }, 1300);
       }
     });
   }

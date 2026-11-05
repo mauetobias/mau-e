@@ -35,20 +35,8 @@ html[data-design="future"] :is(.btn, .li-btn, .cv-btn, .ne-btn):active { animati
 html[data-design="future"] .cta .btn-primary::after,
 html[data-design="future"] .contact-form .btn-primary::after { transition: none; }
 
-/* ---------- Seitenanfang: Planetenhorizont und Mond ---------- */
-html[data-design="future"] .hero::before {
-  content: ""; position: absolute; right: 12%; top: 20%; z-index: 1; pointer-events: none;
-  width: clamp(44px, 6vw, 86px); aspect-ratio: 1; border-radius: 50%;
-  background: radial-gradient(circle at 34% 30%, #F3EEE6 0%, #B7C0B1 38%, #5F6F63 75%, #2F3833 100%);
-  box-shadow: inset -10px -10px 22px rgba(0, 0, 0, .45), 0 0 40px -6px rgba(183, 192, 177, .35);
-}
-@media (prefers-reduced-motion: no-preference) {
-  html[data-design="future"] .hero::before { animation: fx-moon 9s ease-in-out infinite; }
-}
-@keyframes fx-moon { 50% { translate: -10px 12px; } }
-@media (max-width: 700px) {
-  html[data-design="future"] .hero::before { right: 8%; top: 15%; }
-}
+/* ---------- Seitenanfang: nur Weltall, kein Mond ---------- */
+html[data-design="future"] .hero::before { content: none; display: none; }
 
 /* ---------- Über mich: Crew-Akte mit Orbit ---------- */
 html[data-design="future"] .about { overflow: clip; }
@@ -180,11 +168,11 @@ html[data-design="future"] .p-cc .ball::before {
   box-shadow: 0 0 0 2px rgba(226, 166, 90, .75); rotate: -16deg;
 }
 html[data-design="future"] .p-cc .pl { top: clamp(38px, 4.8vw, 52px); color: var(--f-ink); }
-html[data-design="future"] .moon { position: absolute; left: 50%; top: 50%; width: 9px; height: 9px; margin: -4.5px; border-radius: 50%; background: #F3EEE6; box-shadow: inset -2px -2px 3px rgba(0, 0, 0, .4); }
-html[data-design="future"] .moon.m2 { width: 6px; height: 6px; margin: -3px; background: #E2A65A; }
+html[data-design="future"] .planet .moon { position: absolute; left: 50%; top: 50%; width: 9px; height: 9px; margin: -4.5px; border-radius: 50%; background: #F3EEE6; box-shadow: inset -2px -2px 3px rgba(0, 0, 0, .4); }
+html[data-design="future"] .planet .moon.m2 { width: 6px; height: 6px; margin: -3px; background: #E2A65A; }
 @media (prefers-reduced-motion: no-preference) {
-  html[data-design="future"] .moon.m1 { animation: fx-moon1 7s linear infinite; }
-  html[data-design="future"] .moon.m2 { animation: fx-moon2 11s linear infinite reverse; }
+  html[data-design="future"] .planet .moon.m1 { animation: fx-moon1 7s linear infinite; }
+  html[data-design="future"] .planet .moon.m2 { animation: fx-moon2 11s linear infinite reverse; }
 }
 @keyframes fx-moon1 { from { transform: rotate(0) translateX(clamp(40px, 5vw, 56px)); } to { transform: rotate(360deg) translateX(clamp(40px, 5vw, 56px)); } }
 @keyframes fx-moon2 { from { transform: rotate(0) translateX(clamp(50px, 6.2vw, 70px)); } to { transform: rotate(360deg) translateX(clamp(50px, 6.2vw, 70px)); } }
@@ -450,7 +438,7 @@ html[data-design="future"] .stats, html[data-design="future"][data-theme="dark"]
 html[data-design="future"] .quiz, html[data-design="future"][data-theme="dark"] .quiz { background: transparent; }
 html[data-design="future"] .contact, html[data-design="future"][data-theme="dark"] .contact { background: transparent; }
 
-html[data-design="future"] .descent { display: block; position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; --space: 1; --stars: 1; --atmo: 0; }
+html[data-design="future"] .descent { display: block; position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; --space: 1; --stars: 1; --sky: 0; --glow: 0; }
 .descent > * { position: absolute; }
 html[data-design="future"] .ds-space {
   inset: 0; opacity: var(--space);
@@ -474,33 +462,26 @@ html[data-design="future"] .ds-stars {
     radial-gradient(1px 1px at 68% 80%, #F3EEE6 50%, transparent 51%);
   background-size: 340px 340px;
 }
-html[data-design="future"] .ds-atmo {
-  inset: 0; opacity: var(--atmo);
-  background:
-    radial-gradient(90% 50% at 50% 100%, rgba(212, 145, 63, .26), transparent 70%),
-    linear-gradient(180deg, #111814 0%, #16231C 35%, #1F3327 62%, #2D4433 82%, #4A5236 100%);
+html[data-design="future"] .ds-sky {
+  inset: 0; opacity: var(--sky);
+  background: linear-gradient(180deg, #0F1713 0%, #14211B 30%, #1C2F25 55%, #2A3F30 75%, #3E4B34 100%);
 }
-html[data-design="future"] .ds-earth {
-  left: 50%; top: 76vh; width: 170vw; aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%;
-  --rim: 1; --land: 0;
-  background:
-    radial-gradient(40% 9% at 30% 3%, rgba(183, 192, 177, calc(.12 - var(--land) * .08)), transparent 70%),
-    radial-gradient(30% 7% at 68% 5%, rgba(127, 143, 122, .16), transparent 70%),
-    radial-gradient(circle at 50% 0%, #34453B 0%, #1F2A24 16%, #141B17 38%);
-  box-shadow:
-    0 0 0 1px rgba(226, 166, 90, calc(var(--rim) * .6)),
-    0 -8px 40px -6px rgba(212, 145, 63, calc(var(--rim) * .55)),
-    0 -40px 160px 0 rgba(212, 145, 63, calc(var(--rim) * .22)),
-    inset 0 26px 70px -30px rgba(226, 166, 90, calc(var(--rim) * .45));
+html[data-design="future"] .ds-glow {
+  left: -20%; right: -20%; bottom: -30vh; height: 80vh; opacity: var(--glow);
+  background: radial-gradient(50% 50% at 50% 60%, rgba(212, 145, 63, .38), rgba(212, 145, 63, .12) 45%, transparent 72%);
 }
-/* Kontinente/Wälder auf dem Planeten werden beim Näherkommen sichtbar */
-html[data-design="future"] .ds-earth::before {
-  content: ""; position: absolute; inset: 0; border-radius: 50%; opacity: var(--land);
-  background:
-    radial-gradient(4% 0.8% at 38% 1.4%, rgba(95, 111, 99, .5), transparent 70%),
-    radial-gradient(6% 1% at 60% 2%, rgba(95, 111, 99, .45), transparent 70%),
-    radial-gradient(5% 1% at 47% 3%, rgba(72, 92, 80, .55), transparent 70%),
-    radial-gradient(circle at 50% 0%, #2B3B31 0%, #1A241F 10%, transparent 30%);
+/* Landschaft steigt von unten auf: hinten wenig, vorne viel (Parallaxe) */
+html[data-design="future"] .ds-land { left: 0; right: 0; bottom: 0; height: 46vh; will-change: transform; }
+html[data-design="future"] .ds-land svg { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; display: block; }
+html[data-design="future"] .ds-land.l1 { height: 42vh; }
+html[data-design="future"] .ds-land.l2 { height: 34vh; }
+html[data-design="future"] .ds-land.l3 { height: 26vh; }
+html[data-design="future"] .ds-land.l1 path { fill: #2E3F33; }
+html[data-design="future"] .ds-land.l2 path { fill: #223028; }
+html[data-design="future"] .ds-land.l3 path { fill: #18221C; }
+html[data-design="future"] .ds-haze {
+  left: 0; right: 0; bottom: 0; height: 50vh; opacity: var(--glow);
+  background: linear-gradient(0deg, rgba(18, 24, 21, .55) 0%, rgba(18, 24, 21, 0) 70%);
 }
 html[data-design="future"] .ds-clouds { inset: 0; opacity: 0; will-change: transform, opacity; }
 html[data-design="future"] .ds-clouds i {
@@ -586,118 +567,95 @@ html[data-design="future"] .mod-body .co-logo + h3 + .role { margin-top: 12px; }
 }
 
 /* =====================================================================
-   Hell-Modus im Layout „Future": ein klarer Morgen über dem grünen Planeten
-   Hell, warm und kontrastreich: Papierweiß, tiefes Graphit, sattes Grün, Orange.
+   Hell-Modus im Layout „Future": Tageslicht in der klassischen Palette
+   Salbei, Offwhite, Graphit und Bernstein. Gedämpft statt grell.
    ===================================================================== */
 html[data-design="future"][data-theme="light"] {
   color-scheme: light;
-  --f-fg: 31, 35, 33;
-  --f-bgc: 251, 248, 242;
-  --f-bg: #F7F3EC;
-  --f-bg2: #EFEAE1;
-  --f-card: #FFFFFF;
-  --f-card2: #FBF8F2;
-  --f-ink: #1F2321;
+  --f-fg: 46, 52, 49;
+  --f-bgc: 226, 223, 213;
+  --f-bg: #E3DFD5;
+  --f-bg2: #DAD7CC;
+  --f-card: #F3EEE6;
+  --f-card2: #EFEAE1;
+  --f-ink: #262B28;
   --f-ink2: #343A37;
-  --f-soft: #4C5550;
-  --f-dim: #77817A;
-  --f-acc: #B26E1F;
+  --f-soft: #4A524D;
+  --f-dim: #69736C;
+  --f-acc: #9A6119;
   --f-acc2: #F5E4C8;
-  --f-acc-glow: rgba(212, 145, 63, .42);
-  --f-line: rgba(31, 35, 33, .09);
-  --f-line2: rgba(31, 35, 33, .16);
-  background: #F7F3EC;
+  --f-acc-glow: rgba(212, 145, 63, .35);
+  --f-line: rgba(46, 52, 49, .12);
+  --f-line2: rgba(46, 52, 49, .22);
+  background: #C6CCBF;
 }
 html[data-design="future"][data-theme="light"] ::selection { background: #D4913F; color: #1F2321; }
 html[data-design="future"][data-theme="light"] h1 {
-  background: linear-gradient(180deg, #1F2321 30%, #3F5547 100%);
+  background: linear-gradient(180deg, #262B28 35%, #46574B 100%);
   -webkit-background-clip: text; background-clip: text; filter: none;
 }
-html[data-design="future"][data-theme="light"] h1 .dot { text-shadow: 0 0 22px rgba(212, 145, 63, .55); }
+html[data-design="future"][data-theme="light"] h1 .dot { text-shadow: none; }
 html[data-design="future"][data-theme="light"] .lead,
-html[data-design="future"][data-theme="light"] .about-text p { color: #4C5550; }
+html[data-design="future"][data-theme="light"] .about-text p { color: #3E4341; }
 
-/* Himmel: Papierweiß oben, warmes Morgenlicht zum Horizont */
+/* Himmel: oben dunstiges Salbei (hoch oben), unten warmes Offwhite über dem Land */
 html[data-design="future"][data-theme="light"] .ds-space {
   background:
-    linear-gradient(rgba(31, 35, 33, .035) 1px, transparent 1px) 0 0 / 80px 80px,
-    linear-gradient(90deg, rgba(31, 35, 33, .035) 1px, transparent 1px) 0 0 / 80px 80px,
-    radial-gradient(60% 45% at 82% 8%, rgba(236, 179, 106, .22), transparent 70%),
-    radial-gradient(70% 60% at 50% 105%, rgba(236, 179, 106, .28), transparent 70%),
-    linear-gradient(180deg, #FBF8F2 0%, #F6F0E5 60%, #F3E9D8 100%);
+    radial-gradient(60% 50% at 80% 0%, rgba(243, 238, 230, .35), transparent 70%),
+    linear-gradient(180deg, #A9B4A6 0%, #B8C1B2 55%, #C3CABD 100%);
 }
-html[data-design="future"][data-theme="light"] .ds-stars { opacity: calc(var(--stars) * .5); filter: brightness(0) invert(.42) sepia(.5) hue-rotate(40deg); }
-html[data-design="future"][data-theme="light"] .ds-atmo {
-  background:
-    radial-gradient(90% 55% at 50% 100%, rgba(236, 179, 106, .35), transparent 70%),
-    linear-gradient(180deg, #FBF8F2 0%, #F2F1E8 35%, #E8EEE3 65%, #DCE7D7 100%);
+html[data-design="future"][data-theme="light"] .ds-stars { opacity: calc(var(--stars) * .55); filter: brightness(0) invert(.32) sepia(.3) hue-rotate(60deg); }
+html[data-design="future"][data-theme="light"] .ds-sky {
+  background: linear-gradient(180deg, #C3CABD 0%, #D2D4C8 40%, #E1DDD0 75%, #EBE3D3 100%);
 }
-/* Planet: helles Mintgrün mit klarer Kante und goldenem Rand, damit Text darauf lesbar bleibt */
-html[data-design="future"][data-theme="light"] .ds-earth {
-  background:
-    radial-gradient(38% 8% at 30% 3%, rgba(255, 255, 255, .7), transparent 70%),
-    radial-gradient(28% 6% at 70% 5%, rgba(255, 255, 255, .55), transparent 70%),
-    radial-gradient(circle at 50% 0%, #D3E2CF 0%, #E2EBDD 12%, #EBF0E6 30%, #EEF1E9 45%);
-  box-shadow:
-    0 0 0 1.5px rgba(95, 128, 101, calc(.35 + var(--rim) * .35)),
-    0 -6px 30px -4px rgba(236, 179, 106, calc(var(--rim) * .85)),
-    0 -40px 140px 0 rgba(236, 179, 106, calc(var(--rim) * .35)),
-    inset 0 18px 50px -24px rgba(95, 128, 101, .45);
-}
-html[data-design="future"][data-theme="light"] .ds-earth::before {
-  background:
-    radial-gradient(5% 0.9% at 38% 1.4%, rgba(95, 128, 101, .35), transparent 70%),
-    radial-gradient(7% 1.1% at 61% 2.1%, rgba(95, 128, 101, .3), transparent 70%),
-    radial-gradient(5% 1% at 47% 3%, rgba(72, 105, 80, .3), transparent 70%),
-    radial-gradient(circle at 50% 0%, rgba(127, 160, 120, .35) 0%, transparent 18%);
-}
+html[data-design="future"][data-theme="light"] .ds-glow { background: radial-gradient(50% 50% at 50% 60%, rgba(212, 145, 63, .3), rgba(212, 145, 63, .1) 45%, transparent 72%); }
+html[data-design="future"][data-theme="light"] .ds-land.l1 path { fill: #A7B2A2; }
+html[data-design="future"][data-theme="light"] .ds-land.l2 path { fill: #8E9B8C; }
+html[data-design="future"][data-theme="light"] .ds-land.l3 path { fill: #6F8070; }
+html[data-design="future"][data-theme="light"] .ds-haze { background: linear-gradient(0deg, rgba(227, 223, 213, .45) 0%, rgba(227, 223, 213, 0) 70%); }
 html[data-design="future"][data-theme="light"] .ds-clouds i {
-  background: radial-gradient(closest-side, rgba(255, 255, 255, .95), rgba(255, 255, 255, .5) 55%, transparent);
-  filter: blur(18px) drop-shadow(0 18px 24px rgba(127, 143, 122, .25));
-}
-html[data-design="future"][data-theme="light"] .hero::before {
-  background: radial-gradient(circle at 34% 30%, #FFFFFF 0%, #F3EEE6 40%, #CFD8C9 80%, #B7C4B0 100%);
-  box-shadow: inset -8px -8px 18px rgba(95, 111, 99, .25), 0 0 40px 4px rgba(255, 255, 255, .9);
+  background: radial-gradient(closest-side, rgba(243, 238, 230, .85), rgba(239, 234, 225, .4) 55%, transparent);
+  filter: blur(22px);
 }
 
-/* Unten: Wald im Morgenlicht, satte Grüntöne */
-html[data-design="future"][data-theme="light"] .fo-sun { background: radial-gradient(closest-side, rgba(255, 228, 176, .95), rgba(236, 179, 106, .45) 45%, transparent 75%); }
-html[data-design="future"][data-theme="light"] .fo-m path { fill: #B5C7AE; }
-html[data-design="future"][data-theme="light"] .fo-1 path, html[data-design="future"][data-theme="light"] .fo-1 rect { fill: #7FA083; }
-html[data-design="future"][data-theme="light"] .fo-mist { background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .55) 45%, rgba(255, 255, 255, 0) 100%); }
-html[data-design="future"][data-theme="light"] .fo-2 path, html[data-design="future"][data-theme="light"] .fo-2 rect { fill: #4D7059; }
-html[data-design="future"][data-theme="light"] .fo-3 path { fill: #2B4434; }
-html[data-design="future"][data-theme="light"] .fo-flies i { background: #FFF6E4; box-shadow: 0 0 8px 2px rgba(255, 220, 160, .9); }
-html[data-design="future"][data-theme="light"] footer { background: #2B4434; color: #CFDCCB; }
+/* Unten: Wald in Salbeitönen */
+html[data-design="future"][data-theme="light"] .fo-sun { background: radial-gradient(closest-side, rgba(245, 228, 200, .9), rgba(212, 145, 63, .35) 45%, transparent 75%); }
+html[data-design="future"][data-theme="light"] .fo-m path { fill: #8E9B8C; }
+html[data-design="future"][data-theme="light"] .fo-1 path, html[data-design="future"][data-theme="light"] .fo-1 rect { fill: #6F8070; }
+html[data-design="future"][data-theme="light"] .fo-mist { background: linear-gradient(0deg, rgba(239, 234, 225, 0) 0%, rgba(239, 234, 225, .4) 45%, rgba(239, 234, 225, 0) 100%); }
+html[data-design="future"][data-theme="light"] .fo-2 path, html[data-design="future"][data-theme="light"] .fo-2 rect { fill: #5F6F63; }
+html[data-design="future"][data-theme="light"] .fo-3 path { fill: #3E4A43; }
+html[data-design="future"][data-theme="light"] .fo-flies i { background: #F5E4C8; box-shadow: 0 0 8px 2px rgba(212, 145, 63, .7); }
+html[data-design="future"][data-theme="light"] footer { background: #3E4A43; color: #D5DACF; }
 html[data-design="future"][data-theme="light"] footer a:hover { color: #F5E4C8; }
-html[data-design="future"][data-theme="light"] .egg-counter { color: #ECB36A; }
+html[data-design="future"][data-theme="light"] .egg-counter { color: #D4913F; }
 
-/* Karten: reines Weiß mit weichem Schatten statt Glas */
+/* Karten: Offwhite mit Salbei-Schatten statt Reinweiß */
 html[data-design="future"][data-theme="light"] :is(.card, .venture.main, .side-card:not(.side-next), .quiz-box, .contact-card, .soon-card, .venture.soon) {
   background:
     radial-gradient(420px circle at var(--mx, -9999px) var(--my, -9999px), rgba(212, 145, 63, .08), transparent 45%) padding-box,
-    linear-gradient(180deg, #FFFFFF 0%, #FCFAF6 100%) padding-box,
-    radial-gradient(240px circle at var(--mx, -9999px) var(--my, -9999px), rgba(212, 145, 63, .8), transparent 65%) border-box,
-    linear-gradient(180deg, rgba(31, 35, 33, .12), rgba(31, 35, 33, .07)) border-box;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, .9) inset, 0 24px 50px -30px rgba(43, 68, 52, .35), 0 4px 12px -6px rgba(43, 68, 52, .12);
+    linear-gradient(180deg, #F3EEE6 0%, #EFEAE1 100%) padding-box,
+    radial-gradient(240px circle at var(--mx, -9999px) var(--my, -9999px), rgba(212, 145, 63, .7), transparent 65%) border-box,
+    linear-gradient(180deg, rgba(95, 111, 99, .28), rgba(95, 111, 99, .14)) border-box;
+  box-shadow: 0 24px 50px -30px rgba(62, 74, 67, .45), 0 4px 12px -6px rgba(62, 74, 67, .18);
 }
-html[data-design="future"][data-theme="light"] .card:hover { box-shadow: 0 30px 60px -30px rgba(43, 68, 52, .4), 0 0 50px -24px rgba(212, 145, 63, .6); }
-html[data-design="future"][data-theme="light"] :is(.icon, .side-ic, .soon-ic) { background: #FBF1E2; box-shadow: inset 0 0 0 1px rgba(212, 145, 63, .35); }
+html[data-design="future"][data-theme="light"] .card:hover { box-shadow: 0 30px 60px -30px rgba(62, 74, 67, .5), 0 0 50px -24px rgba(212, 145, 63, .5); }
+html[data-design="future"][data-theme="light"] :is(.icon, .side-ic, .soon-ic) { background: #F5E4C8; box-shadow: inset 0 0 0 1px rgba(154, 97, 25, .3); }
 html[data-design="future"][data-theme="light"] .contact-form input,
-html[data-design="future"][data-theme="light"] .contact-form textarea { background: #F7F3EC; border-color: rgba(31, 35, 33, .14); }
+html[data-design="future"][data-theme="light"] .contact-form textarea { background: #E9E4DA; border-color: rgba(46, 52, 49, .18); }
 html[data-design="future"][data-theme="light"] .contact-form input:focus,
-html[data-design="future"][data-theme="light"] .contact-form textarea:focus { background: #FFFFFF; }
-html[data-design="future"][data-theme="light"] .egg-list li { background: #FFFFFF; }
-html[data-design="future"][data-theme="light"] .ticker { background: #1F2321; box-shadow: 0 14px 30px -16px rgba(31, 35, 33, .5); }
+html[data-design="future"][data-theme="light"] .contact-form textarea:focus { background: #F3EEE6; }
+html[data-design="future"][data-theme="light"] .egg-list li { background: #F3EEE6; }
+html[data-design="future"][data-theme="light"] .ticker { background: #3E4341; box-shadow: 0 14px 30px -16px rgba(31, 35, 33, .5); }
 html[data-design="future"][data-theme="light"] .ticker .tw { color: #ECB36A; }
 html[data-design="future"][data-theme="light"] .ticker .sep { background: #F3EEE6; }
-html[data-design="future"][data-theme="light"] .v-logo { background: #FFFFFF; }
-html[data-design="future"][data-theme="light"] .callout { background: linear-gradient(90deg, rgba(212, 145, 63, .14), rgba(212, 145, 63, .03)); }
-html[data-design="future"][data-theme="light"] .topbar.scrolled { background: rgba(251, 248, 242, .82); box-shadow: inset 0 -1px 0 rgba(31, 35, 33, .08), 0 8px 24px -16px rgba(31, 35, 33, .25); }
-html[data-design="future"][data-theme="light"] :is(.hud-read, .alt, .crew-id) { background: rgba(255, 255, 255, .78); box-shadow: inset 0 0 0 1px rgba(31, 35, 33, .1), 0 10px 24px -14px rgba(31, 35, 33, .3); }
-html[data-design="future"][data-theme="light"] .portrait { box-shadow: 0 0 0 1px rgba(31, 35, 33, .1), 0 40px 60px -34px rgba(212, 145, 63, .55), 0 30px 60px -40px rgba(31, 35, 33, .45); }
-html[data-design="future"][data-theme="light"] .stats { background: linear-gradient(180deg, rgba(255, 255, 255, .55), rgba(255, 255, 255, .2)); }
-html[data-design="future"][data-theme="light"] .sys-orbits ellipse { stroke: rgba(31, 35, 33, .2); }
+html[data-design="future"][data-theme="light"] .v-logo { background: #F3EEE6; }
+html[data-design="future"][data-theme="light"] .callout { background: linear-gradient(90deg, rgba(212, 145, 63, .16), rgba(212, 145, 63, .04)); }
+html[data-design="future"][data-theme="light"] .topbar.scrolled { background: rgba(214, 218, 207, .82); box-shadow: inset 0 -1px 0 rgba(46, 52, 49, .12), 0 8px 24px -16px rgba(31, 35, 33, .3); }
+html[data-design="future"][data-theme="light"] :is(.hud-read, .alt, .crew-id) { background: rgba(243, 238, 230, .8); box-shadow: inset 0 0 0 1px rgba(46, 52, 49, .14), 0 10px 24px -14px rgba(31, 35, 33, .3); }
+html[data-design="future"][data-theme="light"] .portrait { box-shadow: 0 0 0 1px rgba(46, 52, 49, .14), 0 40px 60px -34px rgba(154, 97, 25, .45), 0 30px 60px -40px rgba(31, 35, 33, .5); }
+html[data-design="future"][data-theme="light"] .stats { background: linear-gradient(180deg, rgba(243, 238, 230, .45), rgba(243, 238, 230, .15)); }
+html[data-design="future"][data-theme="light"] .sys-orbits ellipse { stroke: rgba(46, 52, 49, .25); }
 html[data-design="future"][data-theme="light"] .sys-orbits ellipse:first-child { stroke: rgba(178, 110, 31, .45); }
 html[data-design="future"][data-theme="light"] .p-slot .ball { background: rgba(255, 255, 255, .7); border-color: rgba(31, 35, 33, .3); }
 
@@ -741,4 +699,9 @@ html[data-design="future"][data-theme="light"] .dock-c .chip { color: #8A5512; }
 html[data-design="future"][data-theme="light"] .dock-c .links a { color: #B26E1F; }
 html[data-design="future"] .theme-switch { width: 34px; height: 30px; padding: 0; display: grid; place-items: center; }
 html[data-design="future"] .theme-switch svg { width: 15px; height: 15px; }
-html[data-design="future"] .theme-switch .sun { color: var(--f-acc); }
+html[data-design="future"] .theme-switch .sun { color: #ECB36A; }
+html[data-design="future"] .theme-switch .moon { color: #3E4A43; }
+html[data-design="future"][data-theme="light"] .theme-switch { background: rgba(62, 74, 67, .1); border-color: rgba(62, 74, 67, .35); }
+html[data-design="future"] .theme-switch svg { display: none; }
+html[data-design="future"]:not([data-theme="dark"]) .theme-switch .moon,
+html[data-design="future"][data-theme="dark"] .theme-switch .sun { display: block; }

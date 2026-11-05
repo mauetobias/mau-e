@@ -263,39 +263,61 @@
     });
   }
 
-  /* ---------- Landeanflug: je tiefer, desto näher die Erde ---------- */
+  /* ---------- Landeanflug: oben Weltall, je tiefer, desto näher der Boden ---------- */
   (function () {
+    var rs = 11; function rnd() { rs = (rs * 16807) % 2147483647; return (rs - 1) / 2147483646; }
+    /* weiche Hügelkette */
+    function hills(W, H, top, n, amp) {
+      var pts = [], i; for (i = 0; i <= n; i++) pts.push([i * W / n, top + (rnd() - .5) * amp]);
+      var d = 'M0 ' + H + 'L0 ' + pts[0][1].toFixed(1);
+      for (i = 0; i < n; i++) { var a = pts[i], b = pts[i + 1], mx = (a[0] + b[0]) / 2; d += 'C' + mx.toFixed(1) + ' ' + a[1].toFixed(1) + ' ' + mx.toFixed(1) + ' ' + b[1].toFixed(1) + ' ' + b[0].toFixed(1) + ' ' + b[1].toFixed(1); }
+      return d + 'L' + W + ' ' + H + 'Z';
+    }
+    /* Baumkante auf einem Hügel */
+    function treeline(W, H, top, gap, minH, maxH) {
+      var d = 'M0 ' + H + 'L0 ' + top, x = 0;
+      while (x < W) {
+        var h = minH + rnd() * (maxH - minH), w = h * .5, base = top + Math.sin(x / W * 6.3) * 10;
+        d += 'L' + x.toFixed(1) + ' ' + base.toFixed(1) + 'L' + (x + w / 2).toFixed(1) + ' ' + (base - h).toFixed(1) + 'L' + (x + w).toFixed(1) + ' ' + base.toFixed(1);
+        x += w + rnd() * gap;
+      }
+      return d + 'L' + W + ' ' + top + 'L' + W + ' ' + H + 'Z';
+    }
+    var W = 1600, H = 400;
+    function svg(path) { return '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none"><path d="' + path + '"/></svg>'; }
     var d = document.createElement('div'); d.className = 'descent'; d.setAttribute('aria-hidden', 'true');
-    d.innerHTML = '<div class="ds-space"></div><div class="ds-stars"></div><div class="ds-atmo"></div>' +
-      '<div class="ds-earth"><i class="ds-glow"></i></div>' +
-      '<div class="ds-clouds"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i></div>';
+    d.innerHTML = '<div class="ds-space"></div><div class="ds-stars"></div><div class="ds-sky"></div><div class="ds-glow"></div>' +
+      '<div class="ds-clouds"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i></div>' +
+      '<div class="ds-land l1">' + svg(hills(W, H, 120, 7, 120)) + '</div>' +
+      '<div class="ds-land l2">' + svg(hills(W, H, 170, 5, 110)) + '</div>' +
+      '<div class="ds-haze"></div>' +
+      '<div class="ds-land l3">' + svg(treeline(W, H, 230, 26, 50, 120)) + '</div>';
     document.body.insertBefore(d, document.body.firstChild);
     var alt = document.createElement('div'); alt.className = 'alt'; alt.setAttribute('aria-hidden', 'true');
     alt.innerHTML = '<span class="alt-l"></span><b class="alt-v"></b><i class="alt-bar"><i></i></i>';
     document.body.appendChild(alt);
-    var earth = d.querySelector('.ds-earth'), clouds = d.querySelector('.ds-clouds');
+    var clouds = d.querySelector('.ds-clouds'), land = d.querySelectorAll('.ds-land');
     function sm(a, b, x) { var t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); }
-    function lerp(a, b, t) { return a + (b - a) * t; }
     var ticking = false, lastP = -1;
     function upd() {
       ticking = false;
       if (!isF()) return;
       var max = document.documentElement.scrollHeight - innerHeight, p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
       if (Math.abs(p - lastP) < .0005) return; lastP = p;
-      d.style.setProperty('--space', (1 - sm(.18, .62, p)).toFixed(3));
-      d.style.setProperty('--stars', (1 - sm(.3, .72, p)).toFixed(3));
-      d.style.setProperty('--atmo', sm(.32, .8, p).toFixed(3));
-      /* Planet: wird größer, füllt den unteren Bildschirm, wird am Ende zum flachen Horizont */
-      var w, v;
-      if (p < .6) { var a = p / .6; w = lerp(170, 520, a * a); v = lerp(24, 52, sm(0, 1, a)); }
-      else { var b = (p - .6) / .4; w = lerp(520, 900, b); v = lerp(52, 16, sm(0, 1, b)); }
-      earth.style.width = w.toFixed(1) + 'vw';
-      earth.style.top = 'calc(' + (100 - v).toFixed(2) + 'vh)';
-      earth.style.setProperty('--rim', (1 - sm(.55, .9, p) * .65).toFixed(3));
-      earth.style.setProperty('--land', sm(.45, .95, p).toFixed(3));
-      /* Wolken: man fällt hindurch */
-      clouds.style.opacity = (sm(.5, .66, p) * (1 - sm(.88, .98, p))).toFixed(3);
-      clouds.style.transform = 'translate3d(0,' + ((.78 - p) * 260).toFixed(1) + 'vh,0)';
+      /* Weltall verblasst, die Atmosphäre wird dichter */
+      d.style.setProperty('--space', (1 - sm(.12, .55, p)).toFixed(3));
+      d.style.setProperty('--stars', (1 - sm(.08, .5, p)).toFixed(3));
+      d.style.setProperty('--sky', sm(.12, .6, p).toFixed(3));
+      d.style.setProperty('--glow', sm(.45, 1, p).toFixed(3));
+      /* Wolkendecke: man sinkt hindurch, sie zieht nach oben weg */
+      clouds.style.opacity = (sm(.36, .48, p) * (1 - sm(.66, .78, p))).toFixed(3);
+      clouds.style.transform = 'translate3d(0,' + ((.57 - p) * 320).toFixed(1) + 'vh,0)';
+      /* Boden kommt näher: hintere Hügel zuerst, vorne die Bäume zuletzt */
+      [[.5, 1], [.6, 1], [.7, 1]].forEach(function (r, i) {
+        var k = sm(r[0], r[1], p);
+        land[i].style.transform = 'translate3d(0,' + ((1 - k) * 105).toFixed(2) + '%,0) scale(' + (1 + k * (i + 1) * .04).toFixed(3) + ')';
+        land[i].style.transformOrigin = '50% 100%';
+      });
       /* Höhenmesser */
       var km = 420 * Math.pow(1 - p, 2.6), txt;
       if (p >= .995) txt = '0 m'; else if (km < 1) txt = Math.round(km * 1000) + ' m'; else txt = (km < 10 ? km.toFixed(1) : Math.round(km)).toString().replace('.', en() ? '.' : ',') + ' km';
@@ -308,6 +330,7 @@
     window.addEventListener('scroll', req, { passive: true });
     window.addEventListener('resize', function () { lastP = -1; req(); });
     document.addEventListener('designchange', function () { lastP = -1; req(); });
+    document.addEventListener('themechange', function () { lastP = -1; req(); });
     req();
   })();
 

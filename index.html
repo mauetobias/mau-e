@@ -691,11 +691,16 @@
     h1 .dot.sprouted { color: var(--clay); width: .5em; vertical-align: baseline; }
     h1 .dot.sprouted svg { width: .55em; height: .55em; animation: grow .8s cubic-bezier(.3,1.6,.5,1); transform-origin: bottom; }
     @keyframes grow { from { transform: scale(0); } }
-    h1 .dot.tree { width: .75em; }
-    h1 .dot.tree svg { width: .8em; height: .8em; }
-    h1 .dot.tree svg.drop { animation: none; }
+    h1 .dot.sprouted svg { transition: transform .2s cubic-bezier(.3,1.6,.5,1); }
+    h1 .dot.stage-2, h1 .dot.stage-3 { position: relative; height: .5em; }
+    h1 .dot.stage-2 { width: .75em; }
+    h1 .dot.stage-3 { width: 1.05em; }
+    h1 .dot.stage-2 svg, h1 .dot.stage-3 svg { position: absolute; left: 0; bottom: 0; }
+    h1 .dot.stage-2 svg { width: .8em; height: .8em; }
+    h1 .dot.stage-3 svg { width: 1.15em; height: 1.15em; left: -.05em; }
+    h1 .dot svg.drop { animation: none; }
     h1 .dot .seed { animation: seedfall 1.2s cubic-bezier(.5,0,.8,.6) forwards; transform-box: fill-box; }
-    @keyframes seedfall { 0% { transform: translate(0,0) rotate(0); } 70% { transform: translate(-2px,11px) rotate(160deg); } 85% { transform: translate(-2px,9.5px) rotate(180deg); } 100% { transform: translate(-2px,11.5px) rotate(200deg); } }
+    @keyframes seedfall { 0% { transform: translate(0,0) rotate(0); } 70% { transform: translate(1px,10.5px) rotate(160deg); } 85% { transform: translate(1.5px,9px) rotate(180deg); } 100% { transform: translate(1.5px,10.8px) rotate(200deg); } }
     h1 .dot.fade svg { transition: opacity .5s, transform .5s; opacity: 0; transform: scale(.4); }
     h1 .dot .reborn { display: inline-block; animation: grow .6s cubic-bezier(.3,1.6,.5,1); }
     .portrait { cursor: pointer; }
@@ -1534,7 +1539,7 @@
       show(); document.addEventListener('langchange', show);
     })();
   </script>
-  <script src="games.js?v=7"></script>
+  <script src="games.js?v=8"></script>
   <script src="analytics.js?v=1"></script>
   <script src="booking.js?v=1"></script>
   <script src="design.js?v=4"></script>

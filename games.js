@@ -127,42 +127,56 @@
   document.addEventListener('langchange', updateCounter);
   updateCounter();
 
-  /* 1) Den Punkt hinter dem Namen 5x anklicken: Kern -> Trieb -> Baum -> Samen -> Kern */
+  /* 1) Den Punkt hinter dem Namen anklicken: je 5 Klicks pro Stufe.
+     Kern -> Trieb -> Bäumchen -> Baum -> Samen fällt -> Kern */
   var dot = document.querySelector('h1 .dot');
   if (dot) {
     var dc = 0, dTimer, stage = 0, busy = false;
-    var SPROUT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22V12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12 13c0-5 3.5-8 8.5-8 0 5-3.5 8-8.5 8z" fill="currentColor"/><path d="M12 16c0-4-3-6.5-7-6.5 0 4 3 6.5 7 6.5z" fill="currentColor" opacity=".7"/></svg>';
-    var TREE = '<path d="M12 23v-9" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12 17l-3-3M12 15.5l3-2.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="8.5" r="6.5" fill="currentColor" opacity=".85"/><circle cx="8" cy="11" r="3.6" fill="currentColor" opacity=".7"/><circle cx="16" cy="11" r="3.6" fill="currentColor" opacity=".7"/>';
+    var C = 'currentColor';
+    var STAGES = [
+      null,
+      /* 1: Trieb */
+      '<path d="M12 22V12" stroke="' + C + '" stroke-width="2.6" stroke-linecap="round"/><path d="M12 13c0-5 3.5-8 8.5-8 0 5-3.5 8-8.5 8z" fill="' + C + '"/><path d="M12 16c0-4-3-6.5-7-6.5 0 4 3 6.5 7 6.5z" fill="' + C + '" opacity=".7"/>',
+      /* 2: Bäumchen */
+      '<path d="M12 23.5V6" stroke="' + C + '" stroke-width="2" stroke-linecap="round"/><path d="M12 15l-4.5-4M12 11.5l4.5-4M12 18l3.5-2.5" stroke="' + C + '" stroke-width="1.3" stroke-linecap="round"/>' +
+        '<ellipse cx="12" cy="4.5" rx="2.2" ry="3" fill="' + C + '"/><ellipse cx="6.5" cy="9.5" rx="2.6" ry="1.8" transform="rotate(-35 6.5 9.5)" fill="' + C + '" opacity=".8"/><ellipse cx="17.5" cy="6" rx="2.6" ry="1.8" transform="rotate(35 17.5 6)" fill="' + C + '" opacity=".8"/><ellipse cx="16.5" cy="15" rx="2.2" ry="1.5" transform="rotate(25 16.5 15)" fill="' + C + '" opacity=".65"/>',
+      /* 3: Baum */
+      '<path d="M12 23.6v-10" stroke="' + C + '" stroke-width="2.8" stroke-linecap="round"/><path d="M12 18l-3.5-3.5M12 16l3.5-3" stroke="' + C + '" stroke-width="1.6" stroke-linecap="round"/>' +
+        '<circle cx="12" cy="7.5" r="6.5" fill="' + C + '" opacity=".9"/><circle cx="6.5" cy="11" r="4.4" fill="' + C + '" opacity=".75"/><circle cx="17.5" cy="11" r="4.4" fill="' + C + '" opacity=".75"/><circle cx="12" cy="12.5" r="3.6" fill="' + C + '" opacity=".6"/>'
+    ];
+    function show(n, extra) {
+      dot.className = 'dot sprouted stage-' + n;
+      dot.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + STAGES[n] + (extra || '') + '</svg>';
+    }
+    function pump() {
+      /* bei jedem Klick ein Stück anwachsen */
+      var el = stage === 0 ? dot : dot.querySelector('svg');
+      if (el) el.style.transform = 'scale(' + (1 + dc * (stage === 0 ? .25 : .07)) + ')';
+    }
     dot.style.cursor = 'pointer';
     dot.addEventListener('click', function () {
       if (busy) return;
-      if (stage === 0) {
-        /* Kern: 5 Klicks bis zum Trieb */
-        dc++; clearTimeout(dTimer); dTimer = setTimeout(function () { dc = 0; dot.style.transform = ''; }, 2500);
-        dot.style.transform = 'scale(' + (1 + dc * .25) + ')';
-        if (dc >= 5) {
-          dc = 0; stage = 1; dot.classList.add('sprouted');
-          dot.innerHTML = SPROUT;
-          dot.style.transform = '';
-          discover('dot');
-        }
-      } else if (stage === 1) {
-        /* Trieb wächst zum Baum */
-        stage = 2; dot.classList.add('tree');
-        dot.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + TREE + '</svg>';
-      } else if (stage === 2) {
-        /* Baum wirft einen Samen ab, dann startet alles von vorne */
-        busy = true;
-        dot.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" class="drop">' + TREE + '<ellipse class="seed" cx="15" cy="10" rx="1.6" ry="2.1" fill="currentColor"/></svg>';
-        setTimeout(function () {
-          dot.classList.add('fade');
-          setTimeout(function () {
-            dot.classList.remove('sprouted', 'tree', 'fade');
-            dot.innerHTML = '<span class="reborn">.</span>';
-            stage = 0; busy = false;
-          }, 500);
-        }, 1300);
+      dc++; clearTimeout(dTimer);
+      dTimer = setTimeout(function () { dc = 0; pump(); }, 2500);
+      if (dc < 5) { pump(); return; }
+      dc = 0; dot.style.transform = '';
+      if (stage < 3) {
+        stage++; show(stage);
+        if (stage === 1) discover('dot');
+        return;
       }
+      /* Baum wirft einen Samen ab, dann startet alles von vorne */
+      busy = true;
+      show(3, '<ellipse class="seed" cx="16" cy="12" rx="1.4" ry="1.9" fill="' + C + '"/>');
+      dot.querySelector('svg').classList.add('drop');
+      setTimeout(function () {
+        dot.classList.add('fade');
+        setTimeout(function () {
+          dot.className = 'dot';
+          dot.innerHTML = '<span class="reborn">.</span>';
+          stage = 0; busy = false;
+        }, 500);
+      }, 1300);
     });
   }
 

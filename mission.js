@@ -285,7 +285,7 @@
     var W = 4800, H = 400;
     function svg(path) { return '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none"><path d="' + path + '"/></svg>'; }
     var d = document.createElement('div'); d.className = 'descent'; d.setAttribute('aria-hidden', 'true');
-    d.innerHTML = '<div class="ds-bands"></div><div class="ds-stars"></div><div class="ds-glow"></div>' +
+    d.innerHTML = '<div class="ds-bands"></div><div class="ds-stars s2"></div><div class="ds-stars"></div><div class="ds-glow"></div>' +
       '<div class="ds-clouds"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i></div>' +
       '<div class="ds-land l1">' + svg(hills(W, H, 120, 21, 120)) + '</div>' +
       '<div class="ds-land l2">' + svg(hills(W, H, 170, 15, 110)) + '</div>' +
@@ -295,7 +295,7 @@
     var alt = document.createElement('div'); alt.className = 'alt'; alt.setAttribute('aria-hidden', 'true');
     alt.innerHTML = '<span class="alt-l"></span><b class="alt-v"></b><i class="alt-bar"><i></i></i>';
     document.body.appendChild(alt);
-    var bandsEl = d.querySelector('.ds-bands'), stars = d.querySelector('.ds-stars'), clouds = d.querySelector('.ds-clouds'), land = d.querySelectorAll('.ds-land');
+    var bandsEl = d.querySelector('.ds-bands'), stars = d.querySelector('.ds-stars:not(.s2)'), stars2 = d.querySelector('.ds-stars.s2'), clouds = d.querySelector('.ds-clouds'), land = d.querySelectorAll('.ds-land');
     function sm(a, b, x) { var t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); }
 
     /* Schichten: Name, Höhe an der Oberkante (km), Abschnitt, an dessen Oberkante sie beginnt */
@@ -336,7 +336,8 @@
       lastY = -1; req();
     }
 
-    /* Inhalte schweben wie auf einem DNA-Strang herein: abwechselnd links und rechts um eine Achse */
+    /* Inhalte liegen auf einer langgezogenen Feder um eine senkrechte Achse. Die Kamera gleitet an der Feder
+       entlang nach unten und schaut immer auf die Achse: Inhalte kommen rechts aus der Tiefe, stehen vorne und gleiten links weg */
     var helix = [];
     function collect() {
       helix.forEach(function (h) { h.el.style.translate = ''; h.el.style.rotate = ''; h.el.style.opacity = ''; });
@@ -345,7 +346,7 @@
       var GRID = /(^|\s)(about-grid|stats-grid|cards|venture-grid|side-grid|soon-grid|quiz-wrap)(\s|$)/;
       document.querySelectorAll('main > section:not(#stations) > .wrap').forEach(function (w) {
         var n = 0;
-        function add(el) { if (!el.offsetHeight) return; helix.push({ el: el, side: n++ % 2 ? -1 : 1 }); el.parentNode.classList.add('hx-host'); }
+        function add(el) { if (!el.offsetHeight) return; helix.push({ el: el }); el.parentNode.classList.add('hx-host'); }
         (GRID.test(w.className) ? Array.prototype.slice.call(w.children) : Array.prototype.slice.call(w.children)).forEach(function (c) {
           if (GRID.test(c.className)) Array.prototype.forEach.call(c.children, add); else add(c);
         });
@@ -360,25 +361,28 @@
       if (Math.abs(y - lastY) < .5) return; lastY = y;
       bandsEl.style.transform = 'translate3d(0,' + (-y).toFixed(1) + 'px,0)';
       /* Spirale: Drehwinkel wächst mit der Tiefe */
-      var turn = p * 540;
+      /* Hintergrund liegt hinter der Achse: er zieht entgegen der Inhalte nach rechts (Kamera kreist) */
       stars.style.opacity = (1 - sm(.06, .5, p)).toFixed(3);
-      stars.style.transform = 'rotate(' + turn.toFixed(2) + 'deg)';
+      stars.style.backgroundPosition = (p * 2600).toFixed(1) + 'px 0';
+      stars2.style.opacity = stars.style.opacity;
+      stars2.style.backgroundPosition = (p * 1300).toFixed(1) + 'px 0';
       d.style.setProperty('--glow', sm(.45, 1, p).toFixed(3));
       clouds.style.opacity = (sm(.36, .48, p) * (1 - sm(.66, .78, p))).toFixed(3);
-      clouds.style.transform = 'translate3d(' + (-p * 60).toFixed(1) + 'vw,' + ((.57 - p) * 320).toFixed(1) + 'vh,0)';
+      clouds.style.transform = 'translate3d(' + (p * 60 - 30).toFixed(1) + 'vw,' + ((.57 - p) * 320).toFixed(1) + 'vh,0)';
       /* Boden: steigt auf und zieht seitlich vorbei, vorne schneller als hinten */
       [[.5, 1, 30], [.6, 1, 55], [.7, 1, 90]].forEach(function (r, i) {
         var k = sm(r[0], r[1], p), pan = (p * r[2]) % 200;
-        land[i].style.transform = 'translate3d(' + (-pan).toFixed(2) + 'vw,' + ((1 - k) * 105).toFixed(2) + '%,0)';
+        land[i].style.transform = 'translate3d(' + pan.toFixed(2) + 'vw,' + ((1 - k) * 105).toFixed(2) + '%,0)';
       });
       /* Inhalte */
-      var R = Math.min(innerWidth * .38, 520), mid = vh / 2;
+      var R = Math.min(innerWidth * .55, 720), mid = vh / 2, MAXA = innerWidth < 700 ? 40 : 55;
       for (var i = 0; i < helix.length; i++) {
         var h = helix[i], r2 = h.el.getBoundingClientRect();
         if (r2.bottom < -vh * .5 || r2.top > vh * 1.5) continue;
-        var rest = Math.min(max, Math.max(0, r2.top + y + r2.height / 2 - mid)), t = (rest - y) / mid, a = Math.abs(t), u = a < .38 ? 0 : Math.min(1, (a - .38) / .85);
-        u = u * u * (3 - 2 * u) * (t < 0 ? -1 : 1);
-        var phi = h.side * u * (innerWidth < 700 ? 45 : 60) * Math.PI / 180;
+        var rest = Math.min(max, Math.max(0, r2.top + y + r2.height / 2 - mid)), t = (rest - y) / mid, a = Math.abs(t), u = a < .22 ? 0 : Math.min(1, (a - .22) / 1);
+        u = u * (2 - u) * (t < 0 ? -1 : 1);
+        /* unten = rechts aus der Tiefe, oben = links in die Tiefe */
+        var phi = u * MAXA * Math.PI / 180;
         h.el.style.translate = (R * Math.sin(phi)).toFixed(1) + 'px 0 ' + (R * (Math.cos(phi) - 1)).toFixed(1) + 'px';
         h.el.style.rotate = 'y ' + (phi * 180 / Math.PI).toFixed(2) + 'deg';
         h.el.style.opacity = (1 - Math.abs(u) * .55).toFixed(3);

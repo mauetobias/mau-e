@@ -745,3 +745,30 @@ html[data-design="future"][data-theme="light"] .ticker .tw { background: #3E4341
 html[data-design="future"][data-theme="light"] .ticker .sep { background: #3E4341; }
 html[data-design="future"] .route { perspective: 1100px; }
 html[data-design="future"] .route-track { transform-style: preserve-3d; }
+
+/* =====================================================================
+   Echte Tiefe: Karten als Platten mit Kante, Felder eingelassen, Knöpfe erhaben
+   --ex kommt aus dem Skript und zeigt, zu welcher Seite die Kante sichtbar ist
+   ===================================================================== */
+html[data-design="future"] { --edge: #050806; --edge-t: rgba(0, 0, 0, .55); }
+html[data-design="future"][data-theme="light"] { --edge: #A39C8B; --edge-t: rgba(62, 74, 67, .45); }
+html[data-design="future"] .in3d { --ex: 0; }
+html[data-design="future"] .in3d.slab {
+  box-shadow:
+    calc(var(--ex) * 1px) 1px 0 var(--edge), calc(var(--ex) * 2px) 2px 0 var(--edge), calc(var(--ex) * 3px) 3px 0 var(--edge),
+    calc(var(--ex) * 4px) 4px 0 var(--edge), calc(var(--ex) * 5px) 5px 0 var(--edge), calc(var(--ex) * 6px) 6px 0 var(--edge),
+    calc(var(--ex) * 7px) 7px 0 var(--edge), calc(var(--ex) * 8px) 8px 0 var(--edge), calc(var(--ex) * 9px) 9px 0 var(--edge),
+    calc(var(--ex) * 10px) 10px 0 var(--edge),
+    calc(var(--ex) * 18px) 34px 50px -18px var(--edge-t) !important;
+}
+html[data-design="future"] main section .in3d h2, html[data-design="future"] main section h2.in3d {
+  text-shadow: calc(var(--ex, 0) * 1px) 1px 0 var(--edge), calc(var(--ex, 0) * 2px) 2px 0 var(--edge), calc(var(--ex, 0) * 3px) 3px 0 var(--edge),
+    calc(var(--ex, 0) * 4px) 4px 0 var(--edge), calc(var(--ex, 0) * 8px) 12px 18px var(--edge-t);
+}
+html[data-design="future"] .contact-form input,
+html[data-design="future"] .contact-form textarea {
+  box-shadow: inset 0 3px 0 var(--edge-t), inset 0 8px 16px -8px var(--edge-t), 0 1px 0 rgba(var(--f-fg), .06) !important;
+}
+html[data-design="future"] .btn-primary { box-shadow: 0 5px 0 #8A5512, 0 14px 22px -10px rgba(0, 0, 0, .55), 0 0 24px -6px var(--f-acc-glow) !important; }
+html[data-design="future"] .btn-primary:active { translate: 0 3px; box-shadow: 0 2px 0 #8A5512, 0 8px 14px -8px rgba(0, 0, 0, .55) !important; }
+html[data-design="future"] .stat .ring, html[data-design="future"] .stat svg { filter: drop-shadow(calc(var(--ex, 0) * 3px) 5px 0 var(--edge)); }

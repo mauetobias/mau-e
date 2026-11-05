@@ -345,7 +345,7 @@
        Jeder Block wird um genau diese Achse gedreht, Fluchtpunkt ist für alle die Bildschirmmitte.
        Der Drehwinkel wächst gleichmäßig mit der Höhe (echte Spirale) und folgt dem Scrollen mit sanfter Trägheit. */
     var items = [];
-    function clearItems() { items.forEach(function (h) { h.el.style.transform = ''; h.el.style.transformOrigin = ''; h.el.style.opacity = ''; h.el.style.visibility = ''; h.el.classList.remove('in3d'); }); }
+    function clearItems() { items.forEach(function (h) { h.el.style.transform = ''; h.el.style.transformOrigin = ''; h.el.style.opacity = ''; h.el.style.visibility = ''; h.el.classList.remove('in3d', 'slab'); h.el.style.removeProperty('--ex'); h.ex = null; }); }
     function collect() {
       clearItems(); items = [];
       if (reduce) return;
@@ -366,7 +366,7 @@
       var y = scrollY;
       items.forEach(function (h) { h.el.style.transform = 'none'; });
       items.forEach(function (h) { var r = h.el.getBoundingClientRect(); h.l = r.left; h.w = r.width; h.t = r.top + y; h.h = r.height; h.c = h.t + r.height / 2; });
-      items.forEach(function (h) { h.el.style.transform = ''; h.el.classList.add('in3d'); });
+      items.forEach(function (h) { h.el.style.transform = ''; h.el.classList.add('in3d'); var bg = getComputedStyle(h.el); if ((bg.backgroundImage !== 'none' || bg.backgroundColor !== 'rgba(0, 0, 0, 0)') && h.h > 60) h.el.classList.add('slab'); });
     }
 
     var cam = -1, running = false, lastDraw = -1;
@@ -403,22 +403,29 @@
         land[i].style.transform = 'translate3d(' + pan.toFixed(2) + 'vw,' + ((1 - k) * 105).toFixed(2) + '%,0)';
       });
       /* Inhalte im Raum */
-      var R = Math.max(380, vw * .5), P = Math.max(900, vw * .85), camC = cy + vh / 2, viewC = y + vh / 2;
-      /* am Ende steht der Abschluss ruhig und gerade */
-      var endK = 1 - sm(max - vh * .9, max - 4, cy);
+      /* Sehr große Feder: Radius ein Vielfaches der Bildschirmbreite. In der Mitte steht alles gerade,
+         Richtung Rand fliegen die Inhalte über den Bildschirmrand hinaus (unten rechts rein, oben links raus).
+         Zusätzlich sind Reihen leicht um eine engere Achse gewölbt. */
+      var R = Math.max(2400, vw * 2.4), Rw = Math.max(900, vw * 1.15), P = 1200, mid = vh / 2, camC = cy + mid, viewC = y + mid;
+      var endK = 1 - sm(max - vh * .9, max - 4, cy), ae = document.activeElement, typing = ae && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName);
       for (var i = 0; i < items.length; i++) {
         var h = items[i];
-        if (h.t + h.h < y - vh * .6 || h.t > y + vh * 1.6) { if (h.vis !== false) { h.el.style.visibility = 'hidden'; h.vis = false; } continue; }
-        /* oben und unten kann die Kamera nicht weiter: dort ruhen die Inhalte vorne */
-        var rest = Math.min(max, Math.max(0, h.c - vh / 2)) + vh / 2, dy = rest - camC + (h.c - rest) * .15;
+        if (h.t + h.h < y - vh * .8 || h.t > y + vh * 1.8) { if (h.vis !== false) { h.el.style.visibility = 'hidden'; h.vis = false; } continue; }
+        var rest = Math.min(max, Math.max(0, h.c - mid)) + mid, dy = rest - camC + (h.c - rest) * .15;
         var dx = h.l + h.w / 2 - vw / 2, ek = h.end ? endK : 1;
-        /* senkrecht: Windung der Feder, waagerecht: um die Achse gewickelt statt flacher Ebene */
-        var phi = dy * K * ek, alpha = phi + (dx / R) * 57.2958 * ek, a = Math.abs(alpha);
-        if (a > 95) { if (h.vis !== false) { h.el.style.visibility = 'hidden'; h.vis = false; } continue; }
+        /* beim Tippen steht das Feld gerade */
+        if (typing && h.el.contains(ae)) ek = 0;
+        var tt = dy / mid, ta = Math.max(0, Math.abs(tt) - .32), phi = (tt < 0 ? -1 : 1) * Math.min(80, Math.pow(ta, 1.5) * 32) * ek;
+        if (Math.abs(phi) > 78) { if (h.vis !== false) { h.el.style.visibility = 'hidden'; h.vis = false; } continue; }
         if (h.vis === false) { h.el.style.visibility = ''; h.vis = true; }
+        var aw = (dx / Rw) * 57.2958 * ek;
         h.el.style.transformOrigin = (vw / 2 - h.l).toFixed(1) + 'px ' + (viewC - h.t).toFixed(1) + 'px';
-        h.el.style.transform = 'perspective(' + P.toFixed(0) + 'px) translateZ(' + (-R).toFixed(0) + 'px) rotateY(' + alpha.toFixed(3) + 'deg) translateZ(' + R.toFixed(0) + 'px) translateX(' + (-dx * ek).toFixed(1) + 'px)';
-        h.el.style.opacity = (1 - Math.pow(Math.min(1, Math.abs(phi) / 95), 1.6) * .85).toFixed(3);
+        h.el.style.transform = 'perspective(' + P + 'px) translateZ(' + (-R).toFixed(0) + 'px) rotateY(' + phi.toFixed(3) + 'deg) translateZ(' + R.toFixed(0) + 'px) ' +
+          'translateZ(' + (-Rw).toFixed(0) + 'px) rotateY(' + aw.toFixed(3) + 'deg) translateZ(' + Rw.toFixed(0) + 'px) translateX(' + (-dx * ek).toFixed(1) + 'px)';
+        h.el.style.opacity = (1 - Math.pow(Math.min(1, Math.abs(phi) / 70), 2) * .6).toFixed(3);
+        /* Tiefe: Seitenkante zeigt zur Kamera hin, je nach Drehung */
+        var ex = Math.max(-1.6, Math.min(1.6, -Math.sin((phi + aw) / 57.2958) * 3)), exr = Math.round(ex * 20) / 20;
+        if (exr !== h.ex) { h.ex = exr; h.el.style.setProperty('--ex', exr); }
       }
       /* Höhenmesser */
       var c = y + vh / 2, km = LAYERS[0].km, j;
@@ -438,6 +445,7 @@
     function relayout() { if (!isF()) return; collect(); layout(); force = true; req(); }
     painters.push(function () { alt.querySelector('.alt-l').textContent = en() ? 'Altitude' : 'Höhe'; if (isF()) { layout(); force = true; req(); } });
     window.addEventListener('scroll', req, { passive: true });
+    document.addEventListener('focusin', function () { force = true; req(); }); document.addEventListener('focusout', function () { setTimeout(function () { force = true; req(); }, 0); });
     var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(relayout, 120); });
     window.addEventListener('load', relayout);
     document.addEventListener('designchange', function () { if (isF()) { cam = -1; relayout(); } else clearItems(); });

@@ -705,3 +705,41 @@ html[data-design="future"][data-theme="light"] .theme-switch { background: rgba(
 html[data-design="future"] .theme-switch svg { display: none; }
 html[data-design="future"]:not([data-theme="dark"]) .theme-switch .moon,
 html[data-design="future"][data-theme="dark"] .theme-switch .sun { display: block; }
+
+/* ---------- Schichten der Atmosphäre (wandern mit dem Inhalt) ---------- */
+html[data-design="future"] .ds-bands { left: 0; right: 0; top: 0; will-change: transform; }
+html[data-design="future"] .band { position: absolute; left: 0; right: 0; }
+html[data-design="future"] .band::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 90px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, .14), transparent);
+}
+html[data-design="future"] .band:first-child::before { display: none; }
+html[data-design="future"] .band::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: rgba(var(--f-fg), .16); }
+html[data-design="future"] .band:first-child::after { display: none; }
+html[data-design="future"] .band-l {
+  position: absolute; right: clamp(16px, 3vw, 40px); top: 10px;
+  font-family: var(--f-mono); font-size: .62rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: rgba(var(--f-fg), .45);
+}
+html[data-design="future"] .b-space  { background: #0B110E; }
+html[data-design="future"] .b-exo    { background: linear-gradient(180deg, #101914, #0E1612); }
+html[data-design="future"] .b-thermo { background: linear-gradient(180deg, #16201A, #131C17); }
+html[data-design="future"] .b-meso   { background: linear-gradient(180deg, #121D1C, #111A18); }
+html[data-design="future"] .b-strato { background: linear-gradient(180deg, #172620, #1B2C23); }
+html[data-design="future"] .b-tropo  { background: linear-gradient(180deg, #213428, #27392B); }
+html[data-design="future"] .b-ground { background: linear-gradient(180deg, #2A3B2D, #33402F); }
+html[data-design="future"] .ds-stars { inset: -60%; }
+html[data-design="future"] .ds-land { width: 300%; }
+html[data-design="future"] .hx-host { perspective: 1600px; }
+html[data-design="future"] main section:not(#stations) .wrap > * { will-change: translate, rotate; }
+@media (prefers-reduced-motion: reduce) { html[data-design="future"] .hx-host { perspective: none; } }
+
+html[data-design="future"][data-theme="light"] .band::before { background: linear-gradient(180deg, rgba(46, 52, 49, .1), transparent); }
+html[data-design="future"][data-theme="light"] .band::after { background: rgba(46, 52, 49, .22); }
+html[data-design="future"][data-theme="light"] .band-l { color: rgba(46, 52, 49, .55); }
+html[data-design="future"][data-theme="light"] .b-space  { background: linear-gradient(180deg, #8E9C96, #A3AFA8); }
+html[data-design="future"][data-theme="light"] .b-exo    { background: linear-gradient(180deg, #B6C0B9, #BEC7BF); }
+html[data-design="future"][data-theme="light"] .b-thermo { background: linear-gradient(180deg, #D8D3C3, #DDD8C9); }
+html[data-design="future"][data-theme="light"] .b-meso   { background: linear-gradient(180deg, #B7C3B6, #C3CDC0); }
+html[data-design="future"][data-theme="light"] .b-strato { background: linear-gradient(180deg, #D2D9CE, #DAE0D5); }
+html[data-design="future"][data-theme="light"] .b-tropo  { background: linear-gradient(180deg, #E7E1D3, #ECE5D6); }
+html[data-design="future"][data-theme="light"] .b-ground { background: linear-gradient(180deg, #DCD9C7, #E3DECD); }

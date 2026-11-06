@@ -1169,8 +1169,8 @@
               <h4>Essensplan</h4>
               <p>Ein Knopf auf dem Homescreen: Zeitraum wählen, und die App plant Essen und Einkauf. Sie liest Waage und Garmin über Health Connect, erkennt Sporttage im Kalender, nutzt meine YAZIO-Rezepte, weiß was noch zu Hause ist, vergleicht die Angebote der Supermärkte in der Nähe und schickt die Liste direkt an Bring.</p>
               <div class="dl-row">
-                <a class="btn side-btn" onclick="window.mauTrack('APK heruntergeladen', { app: 'essensplan', version: '0.2' })" href="downloads/essensplan-0.2.apk" download type="application/vnd.android.package-archive"><span aria-hidden="true">⬇</span> <span>APK herunterladen</span></a>
-                <span class="dl-meta">Version 0.2 · 27,6 MB · ab Android 9 · frühe Version</span>
+                <a class="btn side-btn" id="ep-dl" onclick="window.mauTrack('APK heruntergeladen', { app: 'essensplan', version: this.dataset.version || '0.2' })" href="downloads/essensplan-0.2.apk" download type="application/vnd.android.package-archive"><span aria-hidden="true">⬇</span> <span>APK herunterladen</span></a>
+                <span class="dl-meta" id="ep-meta">Version 0.2 · 27,6 MB · ab Android 9 · frühe Version</span>
               </div>
               <details class="dl-help">
                 <summary>So installierst du die App</summary>
@@ -1180,7 +1180,7 @@
                   <li>Widget „Essensplan“ auf den Homescreen ziehen.</li>
                 </ol>
                 <p>Schlüssel und Logins bleiben verschlüsselt auf deinem Handy. Die App spricht nur mit den Diensten, die du selbst einträgst. YAZIO, Bring und die Angebotssuche laufen über inoffizielle Schnittstellen und können sich jederzeit ändern.</p>
-                <p class="sha">SHA-256: <code>ee045b8c1f7c43ea187dbafa9c93c36dcaae799997163a316e60731432aa2ef4</code></p>
+                <p class="sha">SHA-256: <code id="ep-sha">ee045b8c1f7c43ea187dbafa9c93c36dcaae799997163a316e60731432aa2ef4</code></p>
               </details>
             </div>
           </article>
@@ -1608,6 +1608,14 @@
     var dl = document.getElementById('app-dl'), meta = document.getElementById('app-meta'), sha = document.getElementById('app-sha');
     if (dl) { dl.href = a.url; dl.dataset.version = a.version; }
     if (meta) meta.textContent = 'Version ' + a.version + ' · ' + a.size + ' · ab Android 14';
+    if (sha && a.sha256) sha.textContent = a.sha256;
+  }).catch(function () {});
+  // Essensplan: data/essensplan.json wird bei jedem Build automatisch aktualisiert
+  fetch('data/essensplan.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (a) {
+    if (!a || !a.url) return;
+    var dl = document.getElementById('ep-dl'), meta = document.getElementById('ep-meta'), sha = document.getElementById('ep-sha');
+    if (dl) { dl.href = a.url; dl.dataset.version = a.version; }
+    if (meta) meta.textContent = 'Version ' + a.version + ' · ' + a.size + ' · ab Android 9';
     if (sha && a.sha256) sha.textContent = a.sha256;
   }).catch(function () {});
 </script>

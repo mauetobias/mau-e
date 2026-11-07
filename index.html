@@ -725,6 +725,17 @@
     .portrait { cursor: pointer; }
     .portrait.wiggle { animation: wiggle .5s; }
     @keyframes wiggle { 20% { transform: rotate(-3deg); } 40% { transform: rotate(3deg); } 60% { transform: rotate(-2deg); } 80% { transform: rotate(1deg); } }
+    /* Kontakt-Leiste am Handy (7.11.): erscheint nach dem Seitenanfang, verschwindet beim Kontaktbereich */
+    .m-cta { display: none; }
+    @media (max-width: 899px) {
+      .m-cta { display: flex; position: fixed; left: 50%; bottom: calc(14px + env(safe-area-inset-bottom)); z-index: 45; align-items: center; gap: 8px;
+        padding: 12px 22px; min-height: 46px; white-space: nowrap; border-radius: 999px; background: var(--charcoal); color: var(--offwhite); text-decoration: none; font-weight: 700; font-size: .95rem;
+        box-shadow: 0 14px 30px -12px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.12); transform: translate(-50%, 140%); transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+      .m-cta::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--clay); }
+      .m-cta.on { transform: translate(-50%, 0); }
+      html[data-design="retro"] .m-cta { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) { .m-cta { transition: none; } }
     .toasts { position: fixed; right: 18px; bottom: 18px; z-index: 200; display: flex; flex-direction: column; gap: 10px; max-width: min(360px, calc(100vw - 36px)); pointer-events: none; }
     .toast { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 16px; background: var(--charcoal); color: var(--offwhite);
       box-shadow: 0 20px 40px -18px rgba(0,0,0,.6); border-left: 4px solid var(--clay); transform: translateY(20px); opacity: 0; transition: transform .4s cubic-bezier(.2,.8,.2,1), opacity .4s; }
@@ -1273,6 +1284,19 @@
       </div>
     </section>
   </main>
+  <a href="#contact" class="m-cta" id="m-cta" aria-hidden="true" tabindex="-1">Kontakt aufnehmen</a>
+  <script>
+    /* Kontakt-Leiste am Handy: sichtbar, sobald der Seitenanfang weg ist und bevor der Kontaktbereich kommt */
+    (function () {
+      var b = document.getElementById('m-cta'), top = document.getElementById('top'), c = document.getElementById('contact');
+      if (!b || !top || !c || !('IntersectionObserver' in window)) return;
+      var a = true, z = false;
+      function upd() { var on = !a && !z; b.classList.toggle('on', on); b.setAttribute('aria-hidden', on ? 'false' : 'true'); b.tabIndex = on ? 0 : -1; }
+      new IntersectionObserver(function (e) { a = e[0].isIntersecting; upd(); }, { threshold: 0.2 }).observe(top);
+      new IntersectionObserver(function (e) { z = e[0].isIntersecting; upd(); }).observe(c);
+      b.addEventListener('click', function () { if (window.mauTrack) window.mauTrack('Kontakt-Leiste angetippt'); });
+    })();
+  </script>
 
   <footer>
     <div class="wrap">

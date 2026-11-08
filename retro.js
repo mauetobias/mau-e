@@ -98,7 +98,7 @@
     }
     var slot = $('#ventures .venture.slot'), soon = $('#ventures .venture.soon');
     html += '<p>' + (slot ? '<b>' + esc(txt('h3', slot)) + '</b> ' + esc(txt('p', slot)) + ' <a href="#r-guest">' + esc(t('mail')) + '</a>' : '') + '</p>';
-    if (soon) html += '<p><b>' + esc(txt('h3', soon)) + '</b> ' + esc(txt('p', soon)) + '</p>';
+    if (soon) html += '<p><b>' + esc(txt('h3', soon)) + '</b> ' + esc(txt('p', soon)) + (soon.href ? ' <a href="' + esc(soon.href) + '" target="_blank" rel="noopener">' + esc(txt('.mds-cta', soon) || soon.href) + '!</a>' : '') + '</p>';
 
     /* Lebenslauf */
     html += h('r-cv', t('cv'));

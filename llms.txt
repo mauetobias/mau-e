@@ -24,7 +24,7 @@ Diese Datei fasst die Inhalte der Webseite für KI-Systeme und Suchmaschinen zus
 
 ## Side Projects
 
-- **Maison Démon Souriant** (im Aufbau): eigenes Modelabel. Shirts zwischen Old Money und Streetwear, von Hand im Siebdruck gedruckt und in Drops als Vorbestellung verkauft. Website: https://www.demonsouriant.de
+- **Maison Démon Souriant**: Shirts aus dem Siebdruck, verkauft in Drops. Shop: https://www.demonsouriant.de
 - **Geldfluss im Blick**: ein eigenes Android-Widget, entstanden aus eigenem Bedarf, um den finanziellen Überblick zu behalten, wenn Geld zwischen Konten wandert und Abbuchungen erst später kommen. Kostenloser Download als APK (Version 2.2, ab Android 14): https://mau-e.com/downloads/geldfluss-im-blick-2.2.apk. Die App funktioniert ohne Internet, alle Daten bleiben auf dem Gerät.
 
 ## Kontakt

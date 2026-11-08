@@ -483,6 +483,17 @@
     .venture.soon { background: rgba(243, 238, 230, .06); color: var(--offwhite); }
     .soon-dot { display: block; width: 14px; height: 14px; border-radius: 50%; background: var(--clay); margin: 0 12px; box-shadow: 0 0 0 0 rgba(212,145,63,.6); animation: pulse 2.4s ease-out infinite; }
     @keyframes pulse { to { box-shadow: 0 0 0 18px rgba(212,145,63,0); } }
+    /* Maison Démon Souriant: eigene Karte in den Farben der Marke */
+    #ventures .venture.soon.mds { position: relative; overflow: hidden; border-radius: 18px; padding: 20px 22px 20px 18px; color: #ece3d3; border: 1px solid rgba(180, 148, 94, .55); background: radial-gradient(90% 120% at 15% 0%, rgba(236, 200, 140, .18), transparent 60%), linear-gradient(135deg, #3a2a22, #1c1512 70%); box-shadow: 0 24px 50px -28px rgba(0,0,0,.8); }
+    #ventures .venture.soon.mds::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 5px; background: #6d1f25; }
+    #ventures .venture.soon.mds:hover { transform: translateY(-4px); border-color: #b4945e; }
+    #ventures .venture.soon.mds h3 { color: #ece3d3; font-size: 1.35rem; }
+    #ventures .venture.soon.mds p { color: #cbbfab; font-size: .95rem; margin: 2px 0 12px; }
+    .mds-hanger { width: 62px; height: auto; margin: 0 4px; transform-origin: 50% 6%; transition: transform .4s cubic-bezier(.3,.7,.3,1); filter: drop-shadow(0 8px 8px rgba(0,0,0,.5)); }
+    #ventures .venture.soon.mds:hover .mds-hanger { transform: rotate(-6deg); }
+    .mds-cta { justify-self: start; display: inline-block; padding: 9px 16px; border-radius: 3px; background: #6d1f25; border: 1px solid #8a333a; color: #ece3d3; font-weight: 700; font-size: .9rem; letter-spacing: .02em; transition: background .3s; }
+    #ventures .venture.soon.mds:hover .mds-cta { background: #8a2a31; }
+    @media (prefers-reduced-motion: reduce) { .mds-hanger { transition: none; } }
     @media (max-width: 760px) {
       .venture-grid { grid-template-columns: 1fr; }
       .venture.main, .venture.main.has-gallery { grid-template-columns: 1fr; }
@@ -1052,12 +1063,17 @@
           <h3>Dein Projekt hier?</h3>
           <p>Du baust etwas Neues und suchst jemanden, der mit anpackt? Lass uns darüber sprechen.</p>
         </a>
-        <div class="venture soon reveal">
-          <span class="soon-dot" aria-hidden="true"></span>
+        <a class="venture soon mds reveal" href="https://www.demonsouriant.de" target="_blank" rel="noopener" onclick="window.mauTrack && window.mauTrack('Maison Démon Souriant geöffnet')">
+          <svg class="mds-hanger" viewBox="0 0 300 380" aria-hidden="true">
+            <path d="M150 40 V24 C150 10 164 6 166 16" fill="none" stroke="#c9ab72" stroke-width="10" stroke-linecap="round"/>
+            <path d="M108 50 Q150 76 192 50 L250 64 L294 120 L258 144 L238 122 L238 372 Q150 380 62 372 L62 122 L42 144 L6 120 L50 64 Z" fill="#e9dfcc"/>
+            <path d="M62 64 L150 38 L238 64" fill="none" stroke="#7a5a3a" stroke-width="14" stroke-linecap="round"/>
+            <path d="M118 180 Q150 214 182 180" fill="none" stroke="#6d1f25" stroke-width="12" stroke-linecap="round"/>
+          </svg>
           <h3>Maison Démon Souriant</h3>
-          <p>Mein eigenes Modelabel: Shirts zwischen Old Money und Streetwear, von Hand im Siebdruck gedruckt und in Drops verkauft. Gerade im Aufbau.</p>
-          <p class="v-links"><a href="https://www.demonsouriant.de" target="_blank" rel="noopener">demonsouriant.de</a></p>
-        </div>
+          <p>Shirts aus dem Siebdruck. Hier holst du dir deins.</p>
+          <span class="mds-cta">Zum Shop</span>
+        </a>
       </div></div>
     </section>
 

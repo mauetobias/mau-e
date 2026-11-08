@@ -190,11 +190,12 @@
  "Lebenslauf als PDF": "CV as PDF",
  "15 Minuten kennenlernen": "15 minute intro call",
  "Digitale Visitenkarte": "Digital business card",
- "Visitenkarte": "Business card"
+ "Visitenkarte": "Business card",
+ "Impressum": "Legal notice"
 };
   var META = {
     de: { title: document.title, desc: (document.querySelector('meta[name=description]') || {}).content },
-    en: { title: document.title.replace('Datenschutz', 'Privacy').replace('Mitgründer, Maschinenbauer und Aufbauer', 'Co-founder, engineer and builder'), desc: 'Tobias Maue: mechanical engineer (DHBW Mannheim), co-founder of CardCircle and builder. Experience building locations and teams at TIER Mobility and VARM. Creating something from nothing that moves all of us forward.' }
+    en: { title: document.title.replace('Datenschutz', 'Privacy').replace('Impressum', 'Legal notice').replace('Mitgründer, Maschinenbauer und Aufbauer', 'Co-founder, engineer and builder'), desc: 'Tobias Maue: mechanical engineer (DHBW Mannheim), co-founder of CardCircle and builder. Experience building locations and teams at TIER Mobility and VARM. Creating something from nothing that moves all of us forward.' }
   };
   var SEL = 'h1,h2,h3,h4,p,li,a,span,em,button,summary,strong,.section-label,.when,.eyebrow';
   function apply(lang) {

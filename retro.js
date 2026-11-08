@@ -147,7 +147,7 @@
       '<p>' + esc(t('counter')) + '<br><span class="r-counter">' + digits + '</span></p>' +
       '<p class="r-badges"><span>HTML 3.2</span><span>800 × 600</span><span>Notepad</span><span>Web 1.0</span></p>' +
       '<p class="r-small">' + esc(t('best')) + '<br>' + esc(t('made')) + (upd ? ' · ' + esc(t('updated')) + ' ' + esc(upd) : '') + '<br>' +
-      '&copy; 2026 Tobias Maue · <a href="karte">' + (en() ? 'Business card' : 'Visitenkarte') + '</a> · <a href="datenschutz.html">' + (en() ? 'Privacy' : 'Datenschutz') + '</a></p>' +
+      '&copy; 2026 Tobias Maue · <a href="karte">' + (en() ? 'Business card' : 'Visitenkarte') + '</a> · <a href="impressum.html">' + (en() ? 'Legal notice' : 'Impressum') + '</a> · <a href="datenschutz.html">' + (en() ? 'Privacy' : 'Datenschutz') + '</a></p>' +
       '<p><a href="#r-top">[ ' + esc(t('top')) + ' ]</a></p></center>';
 
     box.innerHTML = '<a name="r-top"></a>' + html;

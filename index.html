@@ -1212,6 +1212,30 @@
               </details>
             </div>
           </article>
+          <article class="side-card reveal">
+            <div class="side-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8.5 9l1.6 1.6L13 7.8"/><path d="M15 9.5h1.5"/><path d="M8.5 14h8M8.5 17.5h5.5"/></svg>
+            </div>
+            <div class="side-body">
+              <div class="side-tags"><span class="chip">Android</span><span class="chip">Widget</span><span class="chip">Produktivität</span></div>
+              <h4>Zentrale</h4>
+              <p>Ein Ort für alles, was mir durch den Kopf geht: Aufgaben, Projekte und Ideen statt verstreut in Kalender, Notizen und WhatsApp-Chats. Ganz oben wartet immer ein großes leeres Feld für den nächsten Gedanken, auch direkt im Widget auf dem Homescreen. Texte aus anderen Apps landen per Teilen sofort drin, und meine Aufgaben aus dem CardCircle-Projektplan laufen in beide Richtungen mit.</p>
+              <div class="dl-row">
+                <a class="btn side-btn" id="zt-dl" onclick="window.mauTrack('APK heruntergeladen', { app: 'zentrale', version: this.dataset.version || '0.1' })" href="downloads/zentrale-0.1.apk" download type="application/vnd.android.package-archive"><span aria-hidden="true">⬇</span> <span>APK herunterladen</span></a>
+                <span class="dl-meta" id="zt-meta">Version 0.1 · 25,1 MB · ab Android 9 · frühe Version</span>
+              </div>
+              <details class="dl-help">
+                <summary>So installierst du die App</summary>
+                <ol>
+                  <li>APK auf dem Android-Handy herunterladen und antippen, Installation aus dieser Quelle einmal erlauben.</li>
+                  <li>Widget „Zentrale“ auf den Homescreen ziehen und einfach losschreiben.</li>
+                  <li>Optional: unter ⚙ eigene Projekte anlegen.</li>
+                </ol>
+                <p>Alles bleibt auf deinem Handy und wird nur über die normale Android-Sicherung in deinem eigenen Google Drive gesichert. Die CardCircle-Anbindung ist nur für unser Team und braucht einen persönlichen Schlüssel.</p>
+                <p class="sha">SHA-256: <code id="zt-sha">5fcfe05283b80549373b4ef058a76a18f56f3d68796648dc2fc7cae4beff6853</code></p>
+              </details>
+            </div>
+          </article>
           <div class="side-card side-next reveal">
             <span class="slot-plus" aria-hidden="true">+</span>
             <div>
@@ -1655,6 +1679,14 @@
   fetch('data/essensplan.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (a) {
     if (!a || !a.url) return;
     var dl = document.getElementById('ep-dl'), meta = document.getElementById('ep-meta'), sha = document.getElementById('ep-sha');
+    if (dl) { dl.href = a.url; dl.dataset.version = a.version; }
+    if (meta) meta.textContent = 'Version ' + a.version + ' · ' + a.size + ' · ab Android 9';
+    if (sha && a.sha256) sha.textContent = a.sha256;
+  }).catch(function () {});
+  // Zentrale: data/zentrale.json wird bei jedem Build automatisch aktualisiert
+  fetch('data/zentrale.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (a) {
+    if (!a || !a.url) return;
+    var dl = document.getElementById('zt-dl'), meta = document.getElementById('zt-meta'), sha = document.getElementById('zt-sha');
     if (dl) { dl.href = a.url; dl.dataset.version = a.version; }
     if (meta) meta.textContent = 'Version ' + a.version + ' · ' + a.size + ' · ab Android 9';
     if (sha && a.sha256) sha.textContent = a.sha256;

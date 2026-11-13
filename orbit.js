@@ -1,15 +1,14 @@
 /* =====================================================================
    mau-e · Layout „Future" · Sinkflug
-   Eine Kamera, eine Spirale, ein Himmel.
+   Eine Kamera, ein gerader Flug nach unten, ein Himmel.
 
    Die Seite bleibt ein ganz normales, scrollbares Dokument (Lesen, Links,
    Formulare, Anker: alles funktioniert wie immer). Darüber liegt eine
    einzige Kamera-Idee:
-     · Alle Abschnitte sitzen auf einer großen Spirale um eine senkrechte
-       Achse hinter dem Bildschirm (Radius größer als der Bildschirm).
      · Beim Lesen steht der aktuelle Abschnitt gerade vor der Kamera.
-     · Zwischen zwei Abschnitten dreht sich die Welt um die Achse: der alte
-       Abschnitt schwenkt links hinaus, der neue kommt von rechts herein.
+     · Was noch unter dir liegt, ist tiefer im Raum und kommt beim Sinken
+       auf dich zu. Was du hinter dir lässt, zieht über dich hinweg.
+     · Keine seitliche Drehung: alles bewegt sich in Scrollrichtung.
      · Dahinter rechnet ein Shader den Himmel: oben Weltall, darunter die
        Atmosphäre, der Horizont, zuletzt Hügel und Wald.
    ===================================================================== */
@@ -171,7 +170,7 @@
     gl.uniform2f(u.uR, sky.cv.width, sky.cv.height);
     gl.uniform1f(u.uT, (now - sky.t0) / 1000);
     gl.uniform1f(u.uP, p);
-    gl.uniform1f(u.uYaw, yaw * Math.PI / 180);
+    gl.uniform1f(u.uYaw, (now - sky.t0) * 0.000004);
     gl.uniform1f(u.uTh, sky.th);
     gl.uniform2f(u.uSw, swx, -swy);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
@@ -203,7 +202,7 @@
   var ring = { el: null, y: 0, n: 0 };
   function measure() {
     vw = innerWidth; vh = innerHeight; mobile = vw < 760;
-    R = Math.max(mobile ? 700 : 1000, vw * 1.5); P = Math.max(900, vw * 1.25);
+    R = Math.max(mobile ? 700 : 1000, vw * 1.5); P = Math.max(1000, vw * 1.1);
     root.style.setProperty('--f-R', R.toFixed(0) + 'px');
     var all = [];
     slots.forEach(function (s) { s.items.forEach(function (it) { all.push(it); }); });
@@ -222,33 +221,22 @@
     force = true;
   }
 
-  /* Blickwinkel zur Höhe c (Dokumentposition der Bildschirmmitte) */
-  function yawAt(c) {
-    var n = slots.length; if (!n) return 0;
-    if (c <= slots[0].he) return slots[0].a;
-    for (var i = 0; i < n - 1; i++) {
-      var A = slots[i], B = slots[i + 1];
-      if (c <= A.he) return A.a;
-      if (c < B.hs) {
-        var t = (c - A.he) / Math.max(1, B.hs - A.he), e = t * t * t * (t * (t * 6 - 15) + 10);
-        t = B.step === SAT ? t * 0.45 + e * 0.55 : e;
-        return A.a + (B.a - A.a) * t;
-      }
-    }
-    return slots[n - 1].a;
-  }
-
+  /* Gerader Sinkflug, keine Drehung: was unter dir liegt, ist noch tief im Raum (kleiner, wie eine
+     Plattform von oben gesehen geneigt) und kommt beim Sinken auf dich zu. Beim Lesen steht es gerade.
+     Danach zieht es über dich hinweg. Alles bewegt sich nur in Scrollrichtung und in die Tiefe. */
   function place(sy) {
-    var cy = sy + vh / 2, pitch = (swy * 1.4).toFixed(3), sway = swx * -1.8;
+    var cy = sy + vh / 2, pitch = (swy * 1.2).toFixed(3), sway = (swx * -1.6).toFixed(3);
+    var head = 'perspective(' + P.toFixed(0) + 'px) rotateY(' + sway + 'deg) rotateX(' + pitch + 'deg) ';
     for (var i = 0; i < slots.length; i++) {
       var s = slots[i];
-      if (s.bot < sy - vh * 1.4 || s.top > sy + vh * 2.4) continue;
-      var phi = s.a - yaw + sway, hide = Math.abs(phi) > 84;
-      var tf = 'perspective(' + P.toFixed(0) + 'px) rotateX(' + pitch + 'deg) translateZ(' + (-R).toFixed(0) + 'px) rotateY(' + phi.toFixed(3) + 'deg) translateZ(' + R.toFixed(0) + 'px)';
+      if (s.bot < sy - vh * 1.2 || s.top > sy + vh * 2.2) continue;
+      var small = s.step === SAT, tilt = 0, z = 0, piv = cy, u, e;
+      if (cy < s.hs) { u = Math.min(1, (s.hs - cy) / (vh * (small ? 0.62 : 0.85))); e = u * u * (3 - 2 * u); tilt = 34 * e; z = -460 * e; piv = s.hs; }
+      else if (cy > s.he) { u = Math.min(1, (cy - s.he) / (vh * 0.7)); e = u * u * (3 - 2 * u); tilt = -20 * e; z = 150 * e; piv = s.he; }
+      var py = (piv - cy).toFixed(1);
+      var tf = head + 'translateY(' + py + 'px) translateZ(' + z.toFixed(1) + 'px) rotateX(' + tilt.toFixed(3) + 'deg) translateY(' + (-py) + 'px)';
       for (var j = 0; j < s.items.length; j++) {
         var it = s.items[j], st = it.el.style;
-        if (hide) { if (it.vis !== false) { st.visibility = 'hidden'; it.vis = false; } continue; }
-        if (it.vis === false) { st.visibility = ''; it.vis = true; }
         st.transformOrigin = (vw / 2 - it.L).toFixed(1) + 'px ' + (cy - it.T).toFixed(1) + 'px';
         st.transform = tf;
       }
@@ -257,7 +245,7 @@
       var ry = ring.y - cy;
       if (Math.abs(ry) < vh * 1.3) {
         ring.el.style.transformOrigin = '0px ' + (-ry).toFixed(1) + 'px';
-        ring.el.style.transform = 'perspective(' + P.toFixed(0) + 'px) rotateX(' + pitch + 'deg) translateZ(' + (-R).toFixed(0) + 'px) rotateY(' + (-yaw + sway).toFixed(3) + 'deg)';
+        ring.el.style.transform = head + 'translateZ(' + (-R).toFixed(0) + 'px)';
       }
     }
   }
@@ -391,9 +379,6 @@
     var dt = Math.min(0.05, (now - last) / 1000 || 0.016); last = now;
     var sy = window.scrollY, max = Math.max(1, docH - vh), p = Math.min(1, Math.max(0, sy / max));
     if (!reduce) {
-      var tgt = yawAt(sy + vh / 2);
-      yaw += (tgt - yaw) * (1 - Math.exp(-dt * 7.5));
-      if (Math.abs(tgt - yaw) < 0.004) yaw = tgt;
       swx += (tsx - swx) * (1 - Math.exp(-dt * 4)); swy += (tsy - swy) * (1 - Math.exp(-dt * 4));
       if (Math.abs(tsx - swx) < 0.0004) swx = tsx; if (Math.abs(tsy - swy) < 0.0004) swy = tsy;
     }
@@ -418,7 +403,7 @@
       window.addEventListener('load', function () { if (isF()) measure(); });
     }
     root.classList.add('f-on');
-    measure(); yaw = yawAt(window.scrollY + vh / 2);
+    measure();
     cancelAnimationFrame(raf); last = performance.now(); raf = requestAnimationFrame(frame);
   }
   function stop() {

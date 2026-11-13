@@ -1,6 +1,7 @@
 {
-  "version": "2.5",
-  "url": "https://github.com/mauetobias/mau-e/releases/download/widget-v2.5-8/geldfluss-im-blick.apk",
+  "version": "2.6 (109)",
+  "code": 109,
+  "url": "https://github.com/mauetobias/mau-e/releases/download/widget-v2.6-9/geldfluss-im-blick.apk",
   "size": "24,8 MB",
-  "sha256": "3f6ce9cad5e140d802ffe29d4fea05899628a1aed8a719d271107375afa3923b"
+  "sha256": "1aafbab54b692b464327ea074256783b06b4362e19cb6591f403b349f22e9ebb"
 }

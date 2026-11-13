@@ -582,13 +582,21 @@
     .timeline details[open] summary::before { transform: rotate(45deg); }
 
     /* ---------- Firmenlogos im Werdegang: das Logo ersetzt den Namen und führt zur Website ---------- */
-    .co-logo { display: block; width: fit-content; height: 40px; margin: 8px 0 6px; transition: transform .35s cubic-bezier(.3, 1.6, .5, 1), opacity .2s; }
+    .co-logo { display: block; width: fit-content; margin: 8px 0 6px; transition: transform .35s cubic-bezier(.3, 1.6, .5, 1), opacity .2s; }
     .co-logo img { display: block; height: 100%; width: auto; max-width: 190px; }
-    .co-logo img.mono { filter: brightness(0); opacity: .82; }
+    /* Originalfarben; Höhen so gewählt, dass alle Logos optisch gleich viel Fläche einnehmen */
+    .co-logo { height: var(--lh, 34px); }
+    .co-logo[href*="cardcircle"] { --lh: 52px; }
+    .co-logo[href*="quantune"] { --lh: 30px; }
+    .co-logo[href*="varm"] { --lh: 30px; }
+    .co-logo[href*="ridedott"] { --lh: 28px; }
+    .co-logo[href*="dhbw"] { --lh: 24px; }
+    .co-logo .qt { display: block; height: 100%; aspect-ratio: 443 / 85; background: #0d1632; -webkit-mask: url(img/logos/quantune.png) center / contain no-repeat; mask: url(img/logos/quantune.png) center / contain no-repeat; }
     .co-logo:hover, .co-logo:focus-visible { transform: translateY(-2px) scale(1.04); }
     .co-logo:focus-visible { outline: 2px solid var(--clay); outline-offset: 6px; border-radius: 4px; }
     .co-logo + h3 { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-    [data-theme="dark"] .co-logo img, [data-theme="dark"] .co-logo img.mono { filter: brightness(0) invert(1) sepia(.18); opacity: .88; }
+    [data-theme="dark"] .co-logo:not([href*="quantune"]) { padding: 6px 12px; margin-left: -12px; box-sizing: content-box; background: #f4f1ea; border-radius: 8px; }
+    [data-theme="dark"] .co-logo .qt { background: #fff; }
     /* ---------- Einblenden beim Scrollen ---------- */
     .js .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
     .js .reveal.in { opacity: 1; transform: none; }
@@ -1111,7 +1119,7 @@
             <span class="when">2025 bis 2026</span>
             <div>
               <span class="chip">Tech</span>
-              <a class="co-logo" href="https://quantune.com" target="_blank" rel="noopener" title="Quantune Technologies – Website öffnen"><img src="img/logos/quantune.png" alt="Logo Quantune Technologies" class="mono" loading="lazy" decoding="async"></a>
+              <a class="co-logo" href="https://quantune.com" target="_blank" rel="noopener" title="Quantune Technologies – Website öffnen"><span class="qt" role="img" aria-label="Logo Quantune Technologies"></span></a>
               <h3>Quantune Technologies</h3>
               <p class="role">Office &amp; Operations Manager</p>
               <p>Aufbau interner Office- und Operationsprozesse in einem technologiegetriebenen Wachstumsumfeld.</p>

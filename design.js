@@ -5,13 +5,10 @@
   function isF() { return root.getAttribute('data-design') === 'future'; }
   function en() { return window.LANG === 'en'; }
 
-  /* Schriften erst laden, wenn das Layout gebraucht wird */
-  function fonts() {
-    if (document.getElementById('fx-fonts')) return;
-    var l = document.createElement('link'); l.id = 'fx-fonts'; l.rel = 'stylesheet';
-    l.href = 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;600;700&display=swap';
-    document.head.appendChild(l);
-  }
+  /* Keine Schriften von Google laden (DSGVO, LG München I 3 O 17493/20).
+     Das Future-Layout nutzt die Systemschriften aus --f-mono / --f-display.
+     Eigene Schrift-Dateien gehören nach /fonts/ und werden per @font-face eingebunden. */
+  function fonts() {}
 
   /* Reihenfolge: Klassisch -> Future -> Retro -> Klassisch */
   function curD() { return root.getAttribute('data-design') || 'classic'; }

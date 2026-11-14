@@ -1246,6 +1246,30 @@
               </details>
             </div>
           </article>
+          <article class="side-card reveal">
+            <div class="side-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14h10l-1.4 6.2a1 1 0 0 1-1 .8H9.4a1 1 0 0 1-1-.8z"/><path d="M12 14V9"/><path d="M12 10.5C12 7.5 9.5 6 6.5 6c0 3 2 4.5 5.5 4.5z"/><path d="M12 9c0-3 2.5-5 5.5-5 0 3.2-2.2 5-5.5 5z"/></svg>
+            </div>
+            <div class="side-body">
+              <div class="side-tags"><span class="chip">Android</span><span class="chip">Widget</span><span class="chip">KI</span></div>
+              <h4>Pflanzen</h4>
+              <p>Für alle ohne grünen Daumen, also für mich. Die App erinnert ans Gießen, Düngen und an laufende Behandlungen, im Winter automatisch seltener. Ein Foto genügt: Gemini erkennt die Pflanze, legt ihr Pflegeprofil an und prüft bei jedem neuen Foto, wie es ihr geht. Entdeckt es Schädlinge wie Spinnmilben, gibt es einen Behandlungsplan mit Erinnerungen und den Hinweis auf Quarantäne. Auf dem Homescreen zeigt ein Widget, wer heute Wasser braucht, ein Tipp auf den Tropfen und sie ist gegossen.</p>
+              <div class="dl-row">
+                <a class="btn side-btn" id="pf-dl" onclick="window.mauTrack('APK heruntergeladen', { app: 'pflanzen', version: this.dataset.version || '0.1' })" href="https://github.com/mauetobias/mau-e/releases" download type="application/vnd.android.package-archive"><span aria-hidden="true">⬇</span> <span>APK herunterladen</span></a>
+                <span class="dl-meta" id="pf-meta">Version 0.1 · ab Android 9 · frühe Version</span>
+              </div>
+              <details class="dl-help">
+                <summary>So installierst du die App</summary>
+                <ol>
+                  <li>APK auf dem Android-Handy herunterladen und antippen, Installation aus dieser Quelle einmal erlauben.</li>
+                  <li>In den Einstellungen der App einen eigenen, kostenlosen Gemini-API-Schlüssel eintragen.</li>
+                  <li>Erste Pflanze fotografieren und das Widget „Pflanzen gießen“ auf den Homescreen ziehen.</li>
+                </ol>
+                <p>Pflanzen, Fotos und Tagebuch bleiben auf deinem Handy und landen nur in deiner eigenen Android-Sicherung. Fotos gehen ausschließlich an Gemini, wenn du einen Check startest.</p>
+                <p class="sha">SHA-256: <code id="pf-sha">folgt mit dem ersten Build</code></p>
+              </details>
+            </div>
+          </article>
           <div class="side-card side-next reveal">
             <span class="slot-plus" aria-hidden="true">+</span>
             <div>
@@ -1697,6 +1721,14 @@
   fetch('data/zentrale.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (a) {
     if (!a || !a.url) return;
     var dl = document.getElementById('zt-dl'), meta = document.getElementById('zt-meta'), sha = document.getElementById('zt-sha');
+    if (dl) { dl.href = a.url; dl.dataset.version = a.version; }
+    if (meta) meta.textContent = 'Version ' + a.version + ' · ' + a.size + ' · ab Android 9';
+    if (sha && a.sha256) sha.textContent = a.sha256;
+  }).catch(function () {});
+  // Pflanzen: data/pflanzen.json wird bei jedem Build automatisch aktualisiert
+  fetch('data/pflanzen.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (a) {
+    if (!a || !a.url) return;
+    var dl = document.getElementById('pf-dl'), meta = document.getElementById('pf-meta'), sha = document.getElementById('pf-sha');
     if (dl) { dl.href = a.url; dl.dataset.version = a.version; }
     if (meta) meta.textContent = 'Version ' + a.version + ' · ' + a.size + ' · ab Android 9';
     if (sha && a.sha256) sha.textContent = a.sha256;

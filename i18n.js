@@ -166,7 +166,7 @@
  "Version 0.2 · ab Android 9 · frühe Version": "Version 0.2 · Android 9 and up · early version",
  "Unter „Mehr“ BahnCard und Deutschlandticket eintragen.": "Enter your BahnCard and Deutschlandticket under “Mehr”.",
  "Bei einer Bahnverbindung auf „Fahrt begleiten“ tippen und Benachrichtigungen erlauben.": "Tap “Fahrt begleiten” on a train connection and allow notifications.",
- "Die Suche läuft über meinen eigenen Server, deshalb braucht die App einen Zugangscode. Tickets und Einstellungen bleiben auf deinem Handy.": "Searches run on my own server, so the app needs an access code. Tickets and settings stay on your phone.",
+ "Die Suche läuft direkt auf deinem Handy, ohne Server dazwischen. Für Flüge und Hotels trägst du unter „Mehr“ einen eigenen, kostenlosen SerpApi-Schlüssel ein. Tickets und Einstellungen bleiben auf deinem Handy.": "Searches run right on your phone, with no server in between. For flights and hotels, enter your own free SerpApi key under “Mehr”. Tickets and settings stay on your phone.",
  "Das nächste Side Project": "The next side project",
  "Liegt schon im Kopf bereit.": "Already taking shape in my head.",
  "Zuletzt gewachsen:": "Last grown:",

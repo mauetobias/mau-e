@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Reisespar einrichten</title>
+<style>
+  body { margin:0; font-family: system-ui, sans-serif; background:#0A1620; color:#E2E8EE; display:flex; min-height:100vh; align-items:center; justify-content:center; }
+  .box { max-width:360px; padding:28px; text-align:center; }
+  h1 { font-size:22px; margin:0 0 10px; }
+  p { color:#A9B7C3; line-height:1.5; }
+  a.btn { display:inline-block; margin-top:18px; padding:14px 22px; border-radius:28px; background:#F5B940; color:#2A1C00; font-weight:600; text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>Reisespar einrichten</h1>
+  <p id="msg">Ein Tipp, und der Bahn-Zugang landet in der App.</p>
+  <a class="btn" id="go" href="#">In Reisespar übernehmen</a>
+</div>
+<script>
+  // Die Schlüssel stehen nur im Teil hinter dem #, der nie an einen Server geschickt wird.
+  var p = new URLSearchParams(location.hash.slice(1));
+  var id = p.get('id'), key = p.get('key');
+  var go = document.getElementById('go');
+  if (!id || !key) {
+    document.getElementById('msg').textContent = 'Dieser Link ist unvollständig.';
+    go.style.display = 'none';
+  } else {
+    var target = 'intent://setup?id=' + encodeURIComponent(id) + '&key=' + encodeURIComponent(key) +
+      '#Intent;scheme=reisespar;package=cc.maue.reisespar;end';
+    go.href = target;
+    if (/Android/i.test(navigator.userAgent)) location.href = target;
+  }
+</script>
+</body>
+</html>

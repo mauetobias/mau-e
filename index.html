@@ -1270,6 +1270,30 @@
           </article>
           <article class="side-card reveal">
             <div class="side-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 1-8.2 5.3"/><path d="M13 7l-4 5.5h3L11 17l4-5.5h-3z"/></svg>
+            </div>
+            <div class="side-body">
+              <div class="side-tags"><span class="chip">Android</span><span class="chip">Widget</span><span class="chip">Garmin</span></div>
+              <h4>Sport</h4>
+              <p>Meine Sportziele und alles, was dazugehört, an einem Ort. Die App holt Schlaf, Ruhepuls, Schritte und Einheiten von der Garmin, das Gewicht von der Waage und die Luft im Schlafzimmer vom Netatmo Home Coach. Daraus rechnet sie jeden Morgen eine Tagesform von 0 bis 100 und erklärt, wie sie darauf kommt. Ziele für Wettkampf, Gewicht, Regelmäßigkeit und Kraft zeigen, ob ich auf Kurs bin, und ein Tipp am Tag hält fest, wie es mir geht. Das Widget zeigt die Tagesform direkt auf dem Homescreen.</p>
+              <div class="dl-row">
+                <a class="btn side-btn" id="sp-dl" onclick="window.mauTrack('APK heruntergeladen', { app: 'sport', version: this.dataset.version || '0.1' })" href="https://github.com/mauetobias/mau-e/releases" download type="application/vnd.android.package-archive"><span aria-hidden="true">⬇</span> <span>APK herunterladen</span></a>
+                <span class="dl-meta" id="sp-meta">Version 0.1 · ab Android 9 · frühe Version</span>
+              </div>
+              <details class="dl-help">
+                <summary>So installierst du die App</summary>
+                <ol>
+                  <li>APK auf dem Android-Handy herunterladen und antippen, Installation aus dieser Quelle einmal erlauben.</li>
+                  <li>In Garmin Connect und in der Waagen-App Health Connect einschalten, dann in Sport auf „Freigeben“ tippen.</li>
+                  <li>Erstes Ziel anlegen und das Widget „Sport: Form heute“ auf den Homescreen ziehen.</li>
+                </ol>
+                <p>Alle Werte bleiben auf deinem Handy und landen nur in deiner eigenen Android-Sicherung. Die Tagesform ist eine eigene Einschätzung der App und kein medizinischer Rat.</p>
+                <p class="sha">SHA-256: <code id="sp-sha">folgt mit dem ersten Build</code></p>
+              </details>
+            </div>
+          </article>
+          <article class="side-card reveal">
+            <div class="side-ic" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h7.5a3.5 3.5 0 0 0 0-7h-7a3.5 3.5 0 0 1 0-7H16"/></svg>
             </div>
             <div class="side-body">
@@ -1751,6 +1775,14 @@
   fetch('data/pflanzen.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (a) {
     if (!a || !a.url) return;
     var dl = document.getElementById('pf-dl'), meta = document.getElementById('pf-meta'), sha = document.getElementById('pf-sha');
+    if (dl) { dl.href = a.url; dl.dataset.version = a.version; }
+    if (meta) meta.textContent = 'Version ' + a.version + ' · ' + a.size + ' · ab Android 9';
+    if (sha && a.sha256) sha.textContent = a.sha256;
+  }).catch(function () {});
+  // Sport: data/sport.json wird bei jedem Build automatisch aktualisiert
+  fetch('data/sport.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (a) {
+    if (!a || !a.url) return;
+    var dl = document.getElementById('sp-dl'), meta = document.getElementById('sp-meta'), sha = document.getElementById('sp-sha');
     if (dl) { dl.href = a.url; dl.dataset.version = a.version; }
     if (meta) meta.textContent = 'Version ' + a.version + ' · ' + a.size + ' · ab Android 9';
     if (sha && a.sha256) sha.textContent = a.sha256;

@@ -1,7 +1,7 @@
 {
-  "version": "0.2.12",
-  "code": 12,
-  "url": "https://mau-e.com/apps/Reisespar.apk",
-  "size": "2,6 MB",
-  "sha256": "d67d206235631a5ad8000bec952132bc50810ef8e3cf0045049118c5809eb222"
+  "version": "0.2.17",
+  "code": 17,
+  "url": "https://github.com/mauetobias/mau-e/releases/download/reisespar-v0.2.17/Reisespar.apk",
+  "size": "2,9 MB",
+  "sha256": "66f38fac36ebbb240ed61e5e673f95c4767eec0dc3495581aecc5200b5b35489"
 }

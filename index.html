@@ -1270,6 +1270,30 @@
           </article>
           <article class="side-card reveal">
             <div class="side-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M12 11.5c-1.6 2-2.5 3.3-2.5 4.4a2.5 2.5 0 0 0 5 0c0-1.1-.9-2.4-2.5-4.4z"/></svg>
+            </div>
+            <div class="side-body">
+              <div class="side-tags"><span class="chip">Android</span><span class="chip">Widget</span><span class="chip">Smart Home</span></div>
+              <h4>Raumklima</h4>
+              <p>Ein kleiner Bote, der alle fünf Minuten im Netz nach meiner Wohnung schaut. Er liest den Netatmo Home Coach, schaltet den Luftentfeuchter nach echter Raumfeuchte statt nach seinem eigenen Sensor, hält nachts Ruhe und schickt den Saugroboter einmal am Tag los, aber nur, wenn im Kalender gerade nichts ansteht. Das Widget zeigt Luftfeuchte, CO₂, Temperatur und Entfeuchter auf einen Blick, von breit bis eine Kachel schmal. Und morgens startet die App beim Ausschalten des Weckers oder beim ersten Entsperren Licht und Musik. Alle Messwerte werden verschlüsselt mitgeschrieben und lassen sich als CSV exportieren.</p>
+              <div class="dl-row">
+                <a class="btn side-btn" id="rk-dl" onclick="window.mauTrack('APK heruntergeladen', { app: 'raumklima', version: this.dataset.version || '1' })" href="https://github.com/mauetobias/raumklima/releases/latest" download type="application/vnd.android.package-archive"><span aria-hidden="true">⬇</span> <span>APK herunterladen</span></a>
+                <span class="dl-meta" id="rk-meta">ab Android 9 · frühe Version</span>
+              </div>
+              <details class="dl-help">
+                <summary>So installierst du die App</summary>
+                <ol>
+                  <li>APK auf dem Android-Handy herunterladen und antippen, Installation aus dieser Quelle einmal erlauben.</li>
+                  <li>Den Schlüssel deines eigenen Raumklima-Boten eintragen (der Bote läuft als GitHub-Workflow, Code im <a href="https://github.com/mauetobias/raumklima">Repo raumklima</a>).</li>
+                  <li>Das Widget „Raumklima“ auf den Homescreen ziehen und beliebig groß oder schmal machen.</li>
+                </ol>
+                <p>Messwerte liegen nur verschlüsselt im Repo, Zugangsdaten ausschließlich in den GitHub-Secrets. Die App meldet sich selbst, sobald eine neue Version da ist.</p>
+                <p class="sha">SHA-256: <code id="rk-sha">wird beim Laden ermittelt</code></p>
+              </details>
+            </div>
+          </article>
+          <article class="side-card reveal">
+            <div class="side-ic" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 1-8.2 5.3"/><path d="M13 7l-4 5.5h3L11 17l4-5.5h-3z"/></svg>
             </div>
             <div class="side-body">
@@ -1794,6 +1818,17 @@
     if (dl) { dl.href = a.url; dl.dataset.version = a.version; }
     if (meta) meta.textContent = 'Version ' + a.version + ' · ' + a.size + ' · ab Android 9';
     if (sha && a.sha256) sha.textContent = a.sha256;
+  }).catch(function () {});
+  // Raumklima: neueste Version direkt aus den GitHub-Releases (wird bei jedem Build automatisch neu)
+  fetch('https://api.github.com/repos/mauetobias/raumklima/releases/latest', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (a) {
+    if (!a || !a.assets) return;
+    var apk = a.assets.filter(function (x) { return /\.apk$/.test(x.name); })[0];
+    if (!apk) return;
+    var v = '1.' + String(a.tag_name).split('-').pop();
+    var dl = document.getElementById('rk-dl'), meta = document.getElementById('rk-meta'), sha = document.getElementById('rk-sha');
+    if (dl) { dl.href = apk.browser_download_url; dl.dataset.version = v; }
+    if (meta) meta.textContent = 'Version ' + v + ' · ' + (apk.size / 1048576).toFixed(1).replace('.', ',') + ' MB · ab Android 9';
+    if (sha) sha.textContent = apk.digest ? apk.digest.replace('sha256:', '') : 'siehe GitHub-Release';
   }).catch(function () {});
 </script>
 </body>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <script>
+    (function () {
+      var t = null; try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (!t) t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Datenschutz Raumklima-App | Tobias Maue</title>
+  <meta name="description" content="Datenschutzerklärung der Android-App Raumklima: kein Tracking, keine Werbung, Daten bleiben auf dem Handy.">
+  <link rel="canonical" href="https://mau-e.com/raumklima/datenschutz.html">
+  <meta name="robots" content="noindex, follow">
+  <link rel="icon" href="../favicon.svg?v=2" type="image/svg+xml">
+  <link rel="icon" href="../favicon-32.png?v=2" sizes="32x32" type="image/png">
+  <link rel="icon" href="../favicon-48.png?v=2" sizes="48x48" type="image/png">
+  <link rel="icon" href="../favicon-96.png?v=2" sizes="96x96" type="image/png">
+  <link rel="icon" href="../favicon-192.png?v=2" sizes="192x192" type="image/png">
+  <link rel="shortcut icon" href="../favicon.ico?v=2">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png?v=2">
+  <meta name="theme-color" content="#5F6F63">
+  <style>
+    :root { --offwhite:#F3EEE6; --light-sage:#B7C0B1; --sage:#7F8F7A; --deep-sage:#5F6F63; --clay:#D4913F; --clay-deep:#9A6119; --graphite:#5E6260; --charcoal:#3E4341;
+      --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+      --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,"Helvetica Neue",Arial,sans-serif; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:var(--offwhite); color:var(--charcoal); font-family:var(--sans); font-size:16px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+    header { background:linear-gradient(180deg,var(--graphite),var(--deep-sage)); color:var(--offwhite); padding:24px 0 56px; }
+    .wrap { max-width:760px; margin:0 auto; padding:0 24px; }
+    header a { color:var(--offwhite); text-decoration:none; opacity:.85; font-size:.95rem; }
+    header a:hover { opacity:1; }
+    .top { display:flex; justify-content:space-between; align-items:center; }
+    .lang-switch { font:inherit; font-size:.8rem; font-weight:700; letter-spacing:.08em; color:var(--offwhite); background:rgba(243,238,230,.14); border:1.5px solid rgba(243,238,230,.45); border-radius:999px; padding:5px 12px; cursor:pointer; }
+    h1 { font-family:var(--serif); font-size:clamp(2.2rem,6vw,3.2rem); letter-spacing:-.02em; margin-top:40px; line-height:1.1; }
+    main { padding:56px 0 80px; }
+    h2 { font-family:var(--serif); font-size:1.35rem; margin:36px 0 8px; color:var(--deep-sage); }
+    h2:first-child { margin-top:0; }
+    p, li { color:var(--graphite); }
+    p + p { margin-top:12px; }
+    ul { margin:8px 0 0 20px; }
+    a { color:var(--deep-sage); }
+    .ph { background:rgba(127,143,122,.22); border-bottom:2px dashed var(--sage); padding:0 4px; border-radius:4px; }
+    footer { background:var(--charcoal); color:var(--light-sage); padding:24px 0; font-size:.88rem; }
+    footer .wrap { display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+    footer a { color:inherit; text-decoration:none; }
+    footer a:hover { color:var(--offwhite); }
+    .tools { display:flex; gap:8px; }
+    [data-theme="dark"] body { background:#1F2321; color:#ECE7DE; }
+    [data-theme="dark"] header { background:linear-gradient(180deg,#252A28,#2A3330); }
+    [data-theme="dark"] h2 { color:#E2A65A; }
+    [data-theme="dark"] p, [data-theme="dark"] li { color:#B6BEB2; }
+    [data-theme="dark"] a { color:#E2A65A; }
+    [data-theme="dark"] header a { color:#F3EEE6; }
+    [data-theme="dark"] footer { background:#141716; }
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><div class="top"><a href="../">← Zur Startseite</a><span class="tools"><button type="button" class="lang-switch" id="theme-switch" aria-label="Hell oder dunkel">◐</button></span></div><h1>Datenschutz der App Raumklima</h1></div></header>
+  <main><div class="wrap">
+    <h2>1. Verantwortlicher</h2>
+    <p>Die Android-App „Raumklima“ (Paket cc.maue.aufwachen) wird von Tobias Maue privat entwickelt. Verantwortlich ist:</p>
+    <p>Tobias Maue<br>Slabystraße 19, 12459 Berlin<br>E-Mail: <span class="mail" data-u="maue.tobias" data-d="gmail.com">maue.tobias [at] gmail [punkt] com</span></p>
+
+    <h2>2. Das Wichtigste in Kürze</h2>
+    <p>Die App hat kein Benutzerkonto, zeigt keine Werbung, enthält keine Analyse- oder Tracking-Werkzeuge und verkauft oder teilt keine Daten. Einstellungen, Standort von Zuhause und das Protokoll bleiben auf Ihrem Handy. Die App spricht nur mit den Adressen, die unten genannt sind, und nur für den beschriebenen Zweck.</p>
+
+    <h2>3. Messwerte</h2>
+    <p>Die App zeigt Raumklima-Messwerte (Luftfeuchte, CO₂, Temperatur, Lautstärke, Zustand des Luftentfeuchters). Diese liegen verschlüsselt bei GitHub (raw.githubusercontent.com, GitHub, Inc., USA) und werden dort abgerufen. Entschlüsselt werden sie nur auf Ihrem Handy mit dem Schlüssel, den Sie in der App eintragen. Der Schlüssel verlässt das Gerät nicht. Beim Abruf erhält GitHub technisch notwendige Daten wie Ihre IP-Adresse und den Zeitpunkt. Mit dem Schlüssel „demo“ zeigt die App Beispielwerte, dann findet kein Abruf statt.</p>
+
+    <h2>4. Routinen auslösen (Alexa)</h2>
+    <p>Für die Morgen-Routine und die Begrüßung tragen Sie selbst einen Link ein, zum Beispiel von „URL Routine Trigger“ (virtualsmarthome.xyz). Wenn die Routine starten soll, ruft die App genau diesen Link auf. Der Anbieter des Links erhält dabei Ihre IP-Adresse und den Zeitpunkt. Weitere Daten werden nicht mitgeschickt.</p>
+
+    <h2>5. Standort</h2>
+    <p>Nur wenn Sie die Begrüßung einschalten, speichert die App einmalig die Koordinaten Ihres Zuhauses auf dem Handy und legt mit den Google Play-Diensten einen Bereich (Geofence) darum. So merkt die App auch im Hintergrund, wenn Sie nach Hause kommen. Dafür ist die Berechtigung „Immer zulassen“ nötig. Ihr Standort wird von der App nicht gespeichert, nicht protokolliert und nicht an mich oder Dritte übertragen. Die Ortung selbst übernehmen die Google Play-Dienste nach den Bedingungen von Google.</p>
+
+    <h2>6. Benachrichtigungszugriff</h2>
+    <p>Mit Ihrer Erlaubnis liest die App eingehende Benachrichtigungen, aber nur, um zwei Dinge zu erkennen: ob Ihr Wecker gerade klingelt oder schlummert (damit die Morgen-Routine erst nach dem Ausschalten startet) und den stillen Hinweis „Willkommen-Ausloeser“ aus Ihrer Google-Home-App (damit die Kamera an der Haustür die Begrüßung starten kann). Alle anderen Benachrichtigungen werden ignoriert. Inhalte von Benachrichtigungen werden weder gespeichert noch übertragen.</p>
+
+    <h2>7. Morgen-Wächter</h2>
+    <p>Im eingestellten Zeitfenster am Morgen läuft ein kleiner Dienst im Vordergrund, der nur erkennt, wann Sie das Handy zum ersten Mal entsperren. Er liest dabei keine Inhalte und überträgt nichts.</p>
+
+    <h2>8. Updates</h2>
+    <p>Die Version aus dem Google Play Store wird ausschließlich über Google Play aktualisiert. Nur die Version von mau-e.com fragt einmal täglich bei GitHub (api.github.com) nach, ob es eine neue Version gibt.</p>
+
+    <h2>9. Speicherdauer und Löschung</h2>
+    <p>Alle Daten der App liegen nur auf Ihrem Handy und werden gelöscht, wenn Sie die App deinstallieren oder ihre Daten in den Android-Einstellungen löschen. Das Protokoll umfasst höchstens die letzten 15 Einträge.</p>
+
+    <h2>10. Rechtsgrundlage und Ihre Rechte</h2>
+    <p>Die beschriebenen Abrufe sind nötig, damit die App die von Ihnen gewünschten Funktionen erbringt (Art. 6 Abs. 1 lit. b und f DSGVO). Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit und Widerspruch (Art. 15 bis 21 DSGVO) sowie das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren. Da ich selbst keine Daten aus der App erhalte, liegen bei mir in der Regel keine Daten über Sie vor.</p>
+    <p style="margin-top:36px;font-size:.9rem;">Stand: November 2026</p>
+  </div></main>
+  <footer><div class="wrap"><span>© 2026 Tobias Maue</span><span><a href="../impressum.html">Impressum</a> · <a href="../datenschutz.html">Datenschutz der Website</a></span></div></footer>
+  <script>
+    document.querySelectorAll('.mail').forEach(function (el) {
+      var a = el.dataset.u + '@' + el.dataset.d;
+      var link = document.createElement('a');
+      link.href = 'mailto:' + a; link.textContent = a;
+      el.replaceWith(link);
+    });
+    document.getElementById('theme-switch').addEventListener('click', function () {
+      var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+    });
+  </script>
+</body>
+</html>

@@ -1,6 +1,12 @@
 /* Sprachumschaltung Deutsch / Englisch. Deutsch steht im HTML, hier die englischen Texte. */
 (function () {
   var EN = {
+    "Ein kleiner Bote, der alle fünf Minuten im Netz nach meiner Wohnung schaut. Er liest den Netatmo Home Coach, schaltet den Luftentfeuchter nach echter Raumfeuchte statt nach seinem eigenen Sensor, hält nachts Ruhe und schickt den Saugroboter einmal am Tag los, aber nur, wenn im Kalender gerade nichts ansteht. Das Widget zeigt Luftfeuchte, CO₂, Temperatur und Entfeuchter auf einen Blick, von breit bis eine Kachel schmal. Und morgens startet die App beim Ausschalten des Weckers oder beim ersten Entsperren Licht und Musik. Alle Messwerte werden verschlüsselt mitgeschrieben und lassen sich als CSV exportieren.": "A small messenger that checks on my flat online every five minutes. It reads the Netatmo Home Coach, switches the dehumidifier by the real room humidity instead of its own sensor, stays quiet at night and sends the robot vacuum out once a day, but only when nothing is on in my calendar. The widget shows humidity, CO₂, temperature and the dehumidifier at a glance, from wide down to a single tile. And in the morning the app starts lights and music when I turn off the alarm or first unlock the phone. All readings are logged encrypted and can be exported as CSV.",
+    "Den Schlüssel deines eigenen Raumklima-Boten eintragen (der Bote läuft als GitHub-Workflow, Code im <a href=\"https://github.com/mauetobias/raumklima\">Repo raumklima</a>).": "Enter the key of your own Raumklima messenger (the messenger runs as a GitHub workflow, code in the <a href=\"https://github.com/mauetobias/raumklima\">raumklima repo</a>).",
+    "Das Widget „Raumklima“ auf den Homescreen ziehen und beliebig groß oder schmal machen.": "Drag the “Raumklima” widget onto your home screen and make it as big or narrow as you like.",
+    "Messwerte liegen nur verschlüsselt im Repo, Zugangsdaten ausschließlich in den GitHub-Secrets. Die App meldet sich selbst, sobald eine neue Version da ist.": "Readings are stored only encrypted in the repo, credentials only in GitHub secrets. The app tells you itself when a new version is out.",
+    "ab Android 9 · frühe Version": "Android 9 and up · early version",
+    "wird beim Laden ermittelt": "determined on load",
  "<a href=\"#about\">Über mich</a>": "<a href=\"#about\">About</a>",
  "Über mich": "About",
  "<a href=\"#work\">Schwerpunkte</a>": "<a href=\"#work\">Focus</a>",
@@ -245,7 +251,9 @@
   }
   var saved = null;
   try { saved = localStorage.getItem('lang'); } catch (e) {}
-  var initial = saved || ((navigator.language || 'de').toLowerCase().indexOf('de') === 0 ? 'de' : 'en');
+  // Suchmaschinen und Link-Vorschauen (Googlebot meldet sich als en-US) bekommen das deutsche Original (24.11., Reel-Check)
+  var isBot = /bot|crawl|spider|slurp|lighthouse|google-inspectiontool|bingpreview|facebookexternalhit|whatsapp|telegram|discord/i.test(navigator.userAgent || '');
+  var initial = isBot ? 'de' : saved || ((navigator.language || 'de').toLowerCase().indexOf('de') === 0 ? 'de' : 'en');
   window.LANG = 'de';
   if (initial === 'en') apply('en');
   var btn = document.getElementById('lang-switch');

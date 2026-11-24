@@ -1743,7 +1743,7 @@
       els.forEach(function (e, i) { e.style.transitionDelay = (e.classList.contains('card') || e.classList.contains('stat') ? (i % 4) * 90 : 0) + 'ms'; io.observe(e); });
     })();
   </script>
-  <script src="i18n.js?v=20"></script>
+  <script src="i18n.js?v=21"></script>
   <script>
     (function () {
       var el = document.getElementById('last-grown'); if (!el) return;
@@ -1771,12 +1771,22 @@
   </script>
 
 <script>
+  // Versionszeile der Apps: wird aus den Build-Daten gesetzt und folgt dem Sprachwechsel (vorher kam nach EN → DE der alte Stand zurück)
+  var mauMetas = [];
+  function mauMeta(el, v, size, minA) {
+    if (!el) return;
+    el._m = { v: v, size: size, a: minA }; delete el.dataset.de;
+    if (mauMetas.indexOf(el) < 0) mauMetas.push(el);
+    var en = window.LANG === 'en', sz = en ? String(size).replace(',', '.') : size;
+    el.textContent = 'Version ' + v + ' · ' + sz + ' · ' + (en ? 'Android ' + minA + ' and up' : 'ab Android ' + minA);
+  }
+  document.addEventListener('langchange', function () { mauMetas.forEach(function (el) { mauMeta(el, el._m.v, el._m.size, el._m.a); }); });
   // Immer die neueste Version der App: data/app.json wird bei jedem neuen Build automatisch aktualisiert
   fetch('data/app.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (a) {
     if (!a || !a.url) return;
     var dl = document.getElementById('app-dl'), meta = document.getElementById('app-meta'), sha = document.getElementById('app-sha');
     if (dl) { dl.href = a.url; dl.dataset.version = a.version; }
-    if (meta) meta.textContent = 'Version ' + a.version + ' · ' + a.size + ' · ab Android 14';
+    mauMeta(meta, a.version, a.size, 14);
     if (sha && a.sha256) sha.textContent = a.sha256;
   }).catch(function () {});
   // Essensplan: data/essensplan.json wird bei jedem Build automatisch aktualisiert
@@ -1784,7 +1794,7 @@
     if (!a || !a.url) return;
     var dl = document.getElementById('ep-dl'), meta = document.getElementById('ep-meta'), sha = document.getElementById('ep-sha');
     if (dl) { dl.href = a.url; dl.dataset.version = a.version; }
-    if (meta) meta.textContent = 'Version ' + a.version + ' · ' + a.size + ' · ab Android 9';
+    mauMeta(meta, a.version, a.size, 9);
     if (sha && a.sha256) sha.textContent = a.sha256;
   }).catch(function () {});
   // Zentrale: data/zentrale.json wird bei jedem Build automatisch aktualisiert
@@ -1792,7 +1802,7 @@
     if (!a || !a.url) return;
     var dl = document.getElementById('zt-dl'), meta = document.getElementById('zt-meta'), sha = document.getElementById('zt-sha');
     if (dl) { dl.href = a.url; dl.dataset.version = a.version; }
-    if (meta) meta.textContent = 'Version ' + a.version + ' · ' + a.size + ' · ab Android 9';
+    mauMeta(meta, a.version, a.size, 9);
     if (sha && a.sha256) sha.textContent = a.sha256;
   }).catch(function () {});
   // Pflanzen: data/pflanzen.json wird bei jedem Build automatisch aktualisiert
@@ -1800,7 +1810,7 @@
     if (!a || !a.url) return;
     var dl = document.getElementById('pf-dl'), meta = document.getElementById('pf-meta'), sha = document.getElementById('pf-sha');
     if (dl) { dl.href = a.url; dl.dataset.version = a.version; }
-    if (meta) meta.textContent = 'Version ' + a.version + ' · ' + a.size + ' · ab Android 9';
+    mauMeta(meta, a.version, a.size, 9);
     if (sha && a.sha256) sha.textContent = a.sha256;
   }).catch(function () {});
   // Sport: data/sport.json wird bei jedem Build automatisch aktualisiert
@@ -1808,7 +1818,7 @@
     if (!a || !a.url) return;
     var dl = document.getElementById('sp-dl'), meta = document.getElementById('sp-meta'), sha = document.getElementById('sp-sha');
     if (dl) { dl.href = a.url; dl.dataset.version = a.version; }
-    if (meta) meta.textContent = 'Version ' + a.version + ' · ' + a.size + ' · ab Android 9';
+    mauMeta(meta, a.version, a.size, 9);
     if (sha && a.sha256) sha.textContent = a.sha256;
   }).catch(function () {});
   // Reisespar: data/reisespar.json wird bei jedem Build automatisch aktualisiert
@@ -1816,7 +1826,7 @@
     if (!a || !a.url) return;
     var dl = document.getElementById('rs-dl'), meta = document.getElementById('rs-meta'), sha = document.getElementById('rs-sha');
     if (dl) { dl.href = a.url; dl.dataset.version = a.version; }
-    if (meta) meta.textContent = 'Version ' + a.version + ' · ' + a.size + ' · ab Android 9';
+    mauMeta(meta, a.version, a.size, 9);
     if (sha && a.sha256) sha.textContent = a.sha256;
   }).catch(function () {});
   // Raumklima: neueste Version direkt aus den GitHub-Releases (wird bei jedem Build automatisch neu)
@@ -1827,7 +1837,7 @@
     var v = '1.' + String(a.tag_name).split('-').pop();
     var dl = document.getElementById('rk-dl'), meta = document.getElementById('rk-meta'), sha = document.getElementById('rk-sha');
     if (dl) { dl.href = apk.browser_download_url; dl.dataset.version = v; }
-    if (meta) meta.textContent = 'Version ' + v + ' · ' + (apk.size / 1048576).toFixed(1).replace('.', ',') + ' MB · ab Android 9';
+    mauMeta(meta, v, (apk.size / 1048576).toFixed(1).replace('.', ',') + ' MB', 9);
     if (sha) sha.textContent = apk.digest ? apk.digest.replace('sha256:', '') : 'siehe GitHub-Release';
   }).catch(function () {});
 </script>
